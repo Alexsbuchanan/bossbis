@@ -43,6 +43,28 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/types/Spell.java | src/types/Spell.ts | 5e313c1 | ported | Spell @Value (max_hit) + Spellbook + Spellement |
 | calc/types/Player model | src/types/Player.ts | 5e313c1 | ported | PlayerSkills(+mining/herblore)/PlayerBonuses(ranged_str,magic_str)/PlayerOffensive/PlayerDefensive/EquipmentStats/ItemVars/EquipmentPiece(inlined stats)/PlayerEquipment/Buffs(no potions)/Player |
 | calc/types/Monster model | src/types/Monster.ts + src/lib/Monsters.ts:32-58 | 5e313c1 | ported | Monster(is_slayer_monster, maxHit UI-only)/MonsterSkills/MonsterOffensive(magic_str,ranged_str)/MonsterDefensive(flat_armour,light/standard/heavy)/MonsterInputs.initial()=INITIAL_MONSTER_INPUTS/DefenceReductions/MonsterPrayers/Weakness/Immunities |
+| (test) parity harness | src/tests/calc/* (transcribed) | 5e313c1 | ported | CorpusRow/PortState + ParityCorpusTest (skips un-ported rows) + PortStatusTest gate; corpus seeded with 9 rows; runner asserts nothing until a calc path is ported |
+
+## Parity corpus harness (v0.1.0)
+
+The parity-corpus harness is in place and seeded with **9 rows transcribed from
+upstream's Jest tests** (`tools/upstream/src/tests/calc/`):
+
+- 6 `maxHit` rows from `GeneratedTests.test.ts` (Osmumten's fang =50, Dragon
+  hunter lance =58, Blisterwood flail =55, Obsidian sword =46, Tumeken's shadow
+  =65, Fire bolt =20).
+- 3 `maxAttackRoll` (accuracy) rows from `BasicRolls.test.ts` (Abyssal whip
+  =16060, Bow of faerdhinen =21120, Trident of the seas =8690).
+
+`tools/gen-reference-corpus.ts` validates `tools/scenarios/*.json` and writes
+them (sorted by name) to `src/test/resources/parity/parity-corpus.json`.
+`src/test/resources/parity/port-state.json` is the machine-readable companion to
+this file. At v0.1.0 **no `PlayerVsNpcCalc.*` calc path is ported**, so every row
+is SKIPPED by `ParityCorpusTest` (9 skipped) and `PortStatusTest` confirms the
+skip count equals the row count (no row runs un-gated). The `*Calc` / `HitDist` /
+`scaling/*` / `dists/*` rows above remain `not-ported`. Automated generation from
+the live upstream calc is deferred to v0.1.1 (requires stubbing weirdgloop's
+PNG/asset imports, per `tools/README.md`).
 
 ## Status values
 - `not-ported` — no Java equivalent yet.
