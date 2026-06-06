@@ -7,7 +7,7 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | Java class | TypeScript source | Synced @ | Status | Notes |
 |---|---|---|---|---|
 | calc/BaseCalc.java | src/lib/BaseCalc.ts | 5e313c1 | partial | accuracy machinery: constructor/init (canonicalize + allEquippedItems + sanitizeInputs), all 48 isWearingX/isUsingX predicates + wearing/wearingAll, pure track* helpers (CalcDetails dropped), and the 4 strictfp accuracy-roll statics (getNormalAccuracyRoll/getFangAccuracyRoll/getConflictionGauntletsAccuracyRoll/getMaxAccuracyHitChance, verbatim); max-hit/distribution pending (v0.1.2+). Reads pre-aggregated Player offensive/bonuses/defensive (no re-aggregation — matches upstream). scaleMonster deferred to M5 (identity placeholder, TODO(M5)). leagues disjuncts dropped (spec §4.2); spec-attack stance reset throws TODO(M3) (needs getCombatStylesForCategory; usingSpecialAttack defaults false) |
-| calc/PlayerVsNpcCalc.java | src/lib/PlayerVsNPCCalc.ts | — | not-ported | incl. getSpecCalc (ported, not optimizer-used) |
+| calc/PlayerVsNpcCalc.java | src/lib/PlayerVsNPCCalc.ts | 5e313c1 | partial: attack rolls + accuracy | getMaxAttackRoll dispatch + getPlayerMaxMeleeAttackRoll/getPlayerMaxRangedAttackRoll/getPlayerMaxMagicAttackRoll (with ordered accuracy-only special cases) + helpers (getCombatPrayers, demonbaneFactor via applyDemonbane, tbowScaling, isBindSpell, getSpellement, getMonsterWeakness). All max-hit/distribution/DPS/TTK/spec methods stubbed -> UnsupportedOperationException("not ported until v0.1.2+"). getNPCDefenceRoll/getHitChance also stubbed (M5/M6). leagues disjuncts dropped (spec §4.2). The 3 maxAttackRoll corpus rows (whip 16060 / bofa 21120 / trident 8690) assert exactly. |
 | calc/NpcVsPlayerCalc.java | src/lib/NPCVsPlayerCalc.ts | — | not-ported | |
 | calc/HitDist.java | src/lib/HitDist.ts | — | not-ported | getHash via BigInteger; verbatim 0x8F000000 mask |
 | calc/Equipment.java | src/lib/Equipment.ts | 5e313c1 | ported | calculateEquipmentBonusesFromGear + calculateAttackSpeed + ammoApplicability/ammoForRangedWeapons + getCanonicalItem/Equipment (via injected EquipmentRepository); ordered special cases (blowpipe dart, Crystal blessing, Tumeken's ×3/×4 cap 1000, Keris penalty, Dinh's bulwark, Virtus, Void mage, Dizana's quiver); all leagues-talent branches dropped (model has no leagues, spec §4.2) |
@@ -15,7 +15,7 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/MonsterScaling.java | src/lib/MonsterScaling.ts | — | not-ported | |
 | calc/CalcDetails.java | src/lib/CalcDetails.ts | — | not-ported | |
 | calc/CalcMath.java | src/lib/Math.ts | 5e313c1 | ported | iSqrt, iLerp, MinMax, Factor |
-| calc/Constants.java | src/lib/constants.ts | 5e313c1 | partial | scalars + BLOWPIPE_IDS, AUTOCAST/CAST_STANCES, TOMBS_OF_AMASCUT_(PATH_)MONSTER_IDS (ported with the Equipment consumer), YAMA_IDS/YAMA_VOID_FLARE_IDS + IMMUNE_TO_BURN_DAMAGE_NPC_IDS (ported with the BaseCalc consumer); remaining ID arrays deferred to later v0.1.1 milestones |
+| calc/Constants.java | src/lib/constants.ts | 5e313c1 | partial | scalars + BLOWPIPE_IDS, AUTOCAST/CAST_STANCES, TOMBS_OF_AMASCUT_(PATH_)MONSTER_IDS (ported with the Equipment consumer), YAMA_IDS/YAMA_VOID_FLARE_IDS + IMMUNE_TO_BURN_DAMAGE_NPC_IDS (ported with the BaseCalc consumer), P2_WARDEN_IDS_SET + KEPHRI_OVERLORD_IDS_SET + TITAN_BOSS_IDS (ported with the PlayerVsNpcCalc attack-roll consumer); remaining ID arrays deferred to later v0.1.1 milestones |
 | calc/data/EquipmentAliases.java | src/lib/EquipmentAliases.ts | 5e313c1 | ported | flat {variant:base} map; canonical(id)=getOrDefault(id,id) (O(1) equiv of getCanonicalItemId) |
 | calc/data/EquipmentRepository.java | src/lib/Equipment.ts:202-226 | 5e313c1 | ported | fromBundled(Gson) indexes equipment.json by id (putIfAbsent guards dup id 32640); canonicalId + resolve (canonical→literal→empty); loads all 5306 rows |
 | calc/data/SlotMapping.java | §6.4 (slot strings + 2H rule) | 5e313c1 | ported | Slot enum {HEAD,CAPE,NECK,AMMO,WEAPON,BODY,SHIELD,LEGS,HANDS,FEET,RING}; fromWeirdgloop(String); occupies(slot,2H)→{WEAPON,SHIELD} for 2H weapon else slot |
@@ -36,14 +36,14 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/types/Prayer.java | src/enums/Prayer.ts | 5e313c1 | ported | numeric enum 0..30; ordinal == upstream value; PrayerData + PrayerMap factors |
 | calc/types/Potion.java | src/enums/Potion.ts | 5e313c1 | ported | plain ordinal enum (22 members); no JSON |
 | calc/types/EquipmentCategory.java | src/enums/EquipmentCategory.ts | 5e313c1 | ported | string-valued (32 members) + fromValue |
-| calc/types/MonsterAttribute.java | src/enums/MonsterAttribute.ts | 5e313c1 | ported | string-valued (16 members incl. vampyre1/2/3) + fromValue + isVampyre |
+| calc/types/MonsterAttribute.java | src/enums/MonsterAttribute.ts | 5e313c1 | ported | string-valued (16 members incl. vampyre1/2/3) + fromValue + isVampyre (instance + static isVampyre(Iterable) overload, ported with the PlayerVsNpcCalc consumer) |
 | calc/types/BurnImmunity.java | src/types/Monster.ts:9-13 | 5e313c1 | ported | string-valued (Weak/Normal/Strong) + fromValue |
 | calc/types/UserIssueType.java | src/enums/UserIssueType.ts | 5e313c1 | ported | string-valued (12 members) + fromValue |
 | calc/types/CombatStyle.java | src/types/PlayerCombatStyle.ts | 5e313c1 | ported | PlayerCombatStyle + CombatStyleType/Stance (nullable strings) + getRangedDamageType |
 | calc/types/Spell.java | src/types/Spell.ts | 5e313c1 | ported | Spell @Value (max_hit) + Spellbook + Spellement |
 | calc/types/Player model | src/types/Player.ts | 5e313c1 | ported | PlayerSkills(+mining/herblore)/PlayerBonuses(ranged_str,magic_str)/PlayerOffensive/PlayerDefensive/EquipmentStats/ItemVars/EquipmentPiece(inlined stats)/PlayerEquipment/Buffs(no potions)/Player |
 | calc/types/Monster model | src/types/Monster.ts + src/lib/Monsters.ts:32-58 | 5e313c1 | ported | Monster(is_slayer_monster, maxHit UI-only)/MonsterSkills/MonsterOffensive(magic_str,ranged_str)/MonsterDefensive(flat_armour,light/standard/heavy)/MonsterInputs.initial()=INITIAL_MONSTER_INPUTS/DefenceReductions/MonsterPrayers/Weakness/Immunities |
-| (test) parity harness | src/tests/calc/* (transcribed) | 5e313c1 | ported | CorpusRow/PortState + ParityCorpusTest (skips un-ported rows) + PortStatusTest gate; corpus seeded with 9 rows; runner asserts nothing until a calc path is ported |
+| (test) parity harness | src/tests/calc/* (transcribed) | 5e313c1 | ported | CorpusRow/PortState + ScenarioPlayer (corpus row -> calc Player+Monster, mirrors getTestPlayer) + ParityCorpusTest (computes+asserts ported rows at §5.3 tolerance, skips un-ported) + PortStatusTest gate; corpus seeded with 9 rows; at v0.1.1 the PlayerVsNpcCalc.accuracy path is ported so the 3 maxAttackRoll rows assert exactly, the 6 maxHit rows skip |
 
 ## Parity corpus harness (v0.1.0)
 
@@ -59,12 +59,15 @@ upstream's Jest tests** (`tools/upstream/src/tests/calc/`):
 `tools/gen-reference-corpus.ts` validates `tools/scenarios/*.json` and writes
 them (sorted by name) to `src/test/resources/parity/parity-corpus.json`.
 `src/test/resources/parity/port-state.json` is the machine-readable companion to
-this file. At v0.1.0 **no `PlayerVsNpcCalc.*` calc path is ported**, so every row
-is SKIPPED by `ParityCorpusTest` (9 skipped) and `PortStatusTest` confirms the
-skip count equals the row count (no row runs un-gated). The `*Calc` / `HitDist` /
-`scaling/*` / `dists/*` rows above remain `not-ported`. Automated generation from
-the live upstream calc is deferred to v0.1.1 (requires stubbing weirdgloop's
-PNG/asset imports, per `tools/README.md`).
+this file. At **v0.1.1** the `PlayerVsNpcCalc.accuracy` path (player attack rolls)
+is ported, so `ScenarioPlayer` builds each `accuracy` row into a calc-ready
+Player+Monster and `ParityCorpusTest` asserts its `maxAttackRoll` exactly: the 3
+attack-roll rows RUN and PASS (whip 16060, BOFA 21120, trident 8690); the 6
+`maxHit` rows still SKIP (their `maxMeleeHit`/`maxMagicHit` paths are
+`not-ported`). `PortStatusTest` locks that exactly 3 rows run and 6 skip. The
+remaining `*Calc` / `HitDist` / `scaling/*` / `dists/*` paths are still
+`not-ported`. Automated generation from the live upstream calc remains deferred
+(requires stubbing weirdgloop's PNG/asset imports, per `tools/README.md`).
 
 ## Status values
 - `not-ported` — no Java equivalent yet.

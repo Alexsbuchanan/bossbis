@@ -5,19 +5,22 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Meta-gate over the parity corpus: proves no row silently runs un-gated.
+ * Meta-gate over the parity corpus: proves no row silently runs un-gated and that the expected set
+ * of rows is live.
  *
- * <p>It computes how many rows WOULD skip in {@link ParityCorpusTest} (i.e.
- * exercise at least one un-ported calc path) and asserts that equals the total
- * row count. At v0.1.0 every row exercises an un-ported {@code PlayerVsNpcCalc.*}
- * path, so skip-count == total. The moment a calc path is ported in v0.1.1+ and
- * its rows start asserting, this count drops below the total — flagging that
- * {@link ParityCorpusTest} now has live assertions to maintain.
+ * <p>It computes how many rows WOULD skip in {@link ParityCorpusTest} (i.e. exercise at least one
+ * un-ported calc path). At v0.1.1 the {@code PlayerVsNpcCalc.accuracy} path is ported, so the 3
+ * {@code maxAttackRoll} rows RUN (assert) and the 6 {@code maxHit} rows still SKIP — skip-count is
+ * exactly {@code total - 3}. This locks both that the attack-roll rows now have live assertions and
+ * that no other row leaked into the asserting set prematurely.
  */
 class PortStatusTest
 {
+	/** Number of corpus rows whose calc path is ported at v0.1.1 (the 3 maxAttackRoll rows). */
+	private static final long PORTED_ROWS = 3;
+
 	@Test
-	void everyRowExercisesAnUnportedPathSoAllSkip()
+	void onlyTheAttackRollRowsRunTheRestSkip()
 	{
 		List<CorpusRow> rows = CorpusRow.loadAll();
 		assertThat(rows).as("parity corpus must be seeded with real rows").isNotEmpty();
@@ -27,9 +30,13 @@ class PortStatusTest
 			.count();
 
 		assertThat(wouldSkip)
-			.as("every corpus row must be gated on an un-ported calc path at v0.1.0 "
-				+ "(no row may run an assertion before its calc path is ported)")
-			.isEqualTo(rows.size());
+			.as("at v0.1.1 exactly the 3 maxAttackRoll (accuracy) rows run; the 6 maxHit rows still skip")
+			.isEqualTo(rows.size() - PORTED_ROWS);
+
+		long wouldRun = rows.size() - wouldSkip;
+		assertThat(wouldRun)
+			.as("exactly the 3 ported attack-roll rows assert at v0.1.1")
+			.isEqualTo(PORTED_ROWS);
 	}
 
 	@Test
