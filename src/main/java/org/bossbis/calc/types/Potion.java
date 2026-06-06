@@ -1,0 +1,31 @@
+package org.bossbis.calc.types;
+
+/**
+ * Port of src/enums/Potion.ts — plain ordinal enum (no JSON).
+ * Used only by BoostsCalculator. Declaration order == upstream order.
+ */
+public enum Potion
+{
+	ANCIENT,
+	ATTACK,
+	FORGOTTEN_BREW,
+	IMBUED_HEART,
+	MAGIC,
+	OVERLOAD,
+	OVERLOAD_PLUS,
+	RANGING,
+	SATURATED_HEART,
+	SMELLING_SALTS,
+	STRENGTH,
+	SUPER_ATTACK,
+	SUPER_STRENGTH,
+	SUPER_RANGING,
+	SUPER_COMBAT,
+	SUPER_MAGIC,
+	DEFENCE,
+	SUPER_DEFENCE,
+	MOONLIGHT,
+	RUBY_HARVEST,
+	BLACK_WARLOCK,
+	SAPPHIRE_GLACIALIS,
+}
