@@ -64,6 +64,20 @@ public final class Constants
 		TOMBS_OF_AMASCUT_PATH_MONSTER_IDS, TOA_OBELISK_IDS, P2_WARDEN_IDS, TOA_WARDEN_CORE_EJECTED_IDS,
 		P3_WARDEN_IDS);
 
+	/** Port of P2_WARDEN_IDS (constants.ts) — used by the ranged attack roll (tbow double-scaling). */
+	public static final Set<Integer> P2_WARDEN_IDS_SET = setOf(P2_WARDEN_IDS);
+
+	/** Port of KEPHRI_OVERLORD_IDS (constants.ts) — used by getNPCDefenceRoll's ToA invocation guard. */
+	public static final Set<Integer> KEPHRI_OVERLORD_IDS_SET = setOf(KEPHRI_OVERLORD_IDS);
+
+	// --- Royal Titans boss ids (constants.ts:422-425) — used by the ranged attack roll ----------------
+
+	/** Port of TITAN_BOSS_IDS (constants.ts:422-425). */
+	public static final Set<Integer> TITAN_BOSS_IDS = setOf(
+		12596,  // Fire elemental (Royal Titans)
+		14147   // Ice elemental (Royal Titans)
+	);
+
 	// --- Yama ids (constants.ts:436,539) — used by BaseCalc.demonbaneVulnerability -----------------
 
 	/** Port of YAMA_IDS (constants.ts:539). */
