@@ -9,32 +9,28 @@ import static org.assertj.core.api.Assertions.assertThat;
  * of rows is live.
  *
  * <p>It computes how many rows WOULD skip in {@link ParityCorpusTest} (i.e. exercise at least one
- * un-ported calc path). At v0.1.3 (Milestone 2) the {@code PlayerVsNpcCalc.accuracy},
- * {@code PlayerVsNpcCalc.defenceRoll}, {@code PlayerVsNpcCalc.maxMeleeHit},
- * {@code PlayerVsNpcCalc.maxRangedHit}, and {@code PlayerVsNpcCalc.maxMagicHit} paths are ported, so the
- * 3 {@code maxAttackRoll} rows, the 3 {@code npcDefRoll} rows, the 2 {@code accuracy} (hit-chance) rows,
- * the 6 plain melee {@code maxHit} rows (3 seeded + 3 v0.1.2 coverage), the 3 ranged {@code maxHit} rows
- * (bofa L99 = 29, bofa L1 = 3, comp-ogre-bow + brutal vs Zogre = 19), and the 4 magic {@code maxHit} rows
- * (tumeken's shadow = 65, fire-bolt + chaos gauntlets = 20, tumeken's-shadow + slayer helm = 70,
- * fire-bolt + chaos gauntlets + tome of fire = 22) RUN (assert). The {@code blisterwood-flail-max-melee}
- * row still SKIPs: its asserted {@code maxHit} (55) is a distribution output (the vampyre
- * {@code scaleDamage(5,4)} bonus is applied in {@code getDistribution}, NOT {@code getPlayerMaxMeleeHit};
- * {@code getMinAndMax().max()} is 44), so it exercises the un-ported {@code PlayerVsNpcCalc.distribution}
- * path (v0.1.4). Skip-count is exactly {@code total - PORTED_ROWS}. This locks both that the attack-roll
- * + defence-roll + accuracy + melee/ranged/magic-max-hit rows now have live assertions and that no other
- * row leaked into the asserting set prematurely.
+ * un-ported calc path). At v0.1.4 (Milestone 2) the {@code PlayerVsNpcCalc.distribution} path
+ * (getAttackerDist + applyNpcTransforms + getDistribution + getMax) joins the already-ported
+ * {@code accuracy}, {@code defenceRoll}, {@code maxMeleeHit}, {@code maxRangedHit}, and
+ * {@code maxMagicHit} paths, so EVERY corpus row now RUNs (asserts): the 3 {@code maxAttackRoll} rows,
+ * the 3 {@code npcDefRoll} rows, the 2 {@code accuracy} (hit-chance) rows, the 6 plain melee
+ * {@code maxHit} rows, the 3 ranged {@code maxHit} rows (bofa L99 = 29, bofa L1 = 3, comp-ogre-bow +
+ * brutal vs Zogre = 19), the 4 magic {@code maxHit} rows (tumeken's shadow = 65, fire-bolt + chaos
+ * gauntlets = 20, tumeken's-shadow + salve = 67, fire-bolt + chaos gauntlets + tome of fire = 22), AND
+ * the {@code blisterwood-flail-max-melee} row, which now asserts {@code maxHit} = 55 via {@code getMax()}
+ * (the vampyrebane {@code scaleDamage(5,4)} bonus is applied in {@code getDistribution}; the base
+ * {@code getMinAndMax().max()} is 44, and 44*5/4 = 55). Skip-count is exactly {@code total - PORTED_ROWS}
+ * (zero). This locks both that every row now has a live assertion and that no row runs un-gated.
  */
 class PortStatusTest
 {
 	/**
-	 * Number of corpus rows whose calc path is ported at v0.1.3 (Milestone 2): the 3 {@code maxAttackRoll}
-	 * (accuracy) rows + the 3 {@code npcDefRoll} (defenceRoll) rows + the 2 {@code accuracy} (hit-chance)
-	 * rows + the 6 plain melee {@code maxHit} (maxMeleeHit) rows (3 seeded + 3 v0.1.2 coverage) + the 3
-	 * ranged {@code maxHit} (maxRangedHit) rows (bofa L99/L1, comp ogre bow) + the 4 magic {@code maxHit}
-	 * (maxMagicHit) rows (2 seeded + 2 Milestone-2 coverage). The blisterwood row needs the distribution
-	 * pipeline for its vampyre bonus and so skips until v0.1.4.
+	 * Number of corpus rows whose calc path is ported at v0.1.4 (Milestone 2): every row. The 3
+	 * {@code maxAttackRoll} + 3 {@code npcDefRoll} + 2 {@code accuracy} + 6 melee {@code maxHit} + 3
+	 * ranged {@code maxHit} + 4 magic {@code maxHit} rows (21) plus the blisterwood-flail row, whose
+	 * distribution-pipeline vampyrebane bonus is now ported (22 total). No row skips.
 	 */
-	private static final long PORTED_ROWS = 21;
+	private static final long PORTED_ROWS = 22;
 
 	@Test
 	void onlyThePortedRowsRunTheRestSkip()
@@ -47,12 +43,12 @@ class PortStatusTest
 			.count();
 
 		assertThat(wouldSkip)
-			.as("at v0.1.3 the 3 maxAttackRoll + 3 npcDefRoll + 2 accuracy + 6 melee maxHit + 3 ranged maxHit + 4 magic maxHit rows run; the blisterwood (distribution) row skips")
+			.as("at v0.1.4 the distribution path is ported, so every corpus row runs (zero skip)")
 			.isEqualTo(rows.size() - PORTED_ROWS);
 
 		long wouldRun = rows.size() - wouldSkip;
 		assertThat(wouldRun)
-			.as("exactly the 3 attack-roll + 3 defence-roll + 2 accuracy + 6 melee + 3 ranged + 4 magic max-hit rows assert at v0.1.3")
+			.as("every corpus row asserts at v0.1.4 (maxHit via getMax incl. blisterwood = 55)")
 			.isEqualTo(PORTED_ROWS);
 	}
 

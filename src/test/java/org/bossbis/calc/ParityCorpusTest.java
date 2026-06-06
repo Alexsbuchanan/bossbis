@@ -92,7 +92,7 @@ class ParityCorpusTest
 			case "npcDefRoll":
 				return calc.getNPCDefenceRoll();
 			case "maxHit":
-				return calc.getMaxHit();
+				return calc.getMax();
 			case "accuracy":
 			case "hitChance":
 				return calc.getHitChance();
