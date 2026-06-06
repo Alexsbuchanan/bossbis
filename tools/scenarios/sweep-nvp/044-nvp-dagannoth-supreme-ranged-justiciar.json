@@ -1,0 +1,47 @@
+{
+  "name": "nvp-dagannoth-supreme-ranged-justiciar",
+  "source": "gen-nvp-sweep.ts: Justiciar set defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 22326,
+        "body": 22327,
+        "legs": 22328
+      }
+    },
+    "monster": {
+      "id": 2265,
+      "version": ""
+    }
+  },
+  "expected": {
+    "playerDefRoll": 40125,
+    "npcMaxHit": 26,
+    "npcMaxAttackRoll": 16896,
+    "npcAccuracy": 0.2105368090514878,
+    "npcDps": 0.9779564741434851,
+    "avgDmgTaken": 185.60313673842012
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

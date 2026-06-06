@@ -1,0 +1,43 @@
+{
+  "name": "nvp-dagannoth-prime-magic-lowdef",
+  "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 40,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {}
+    },
+    "monster": {
+      "id": 2266,
+      "version": ""
+    }
+  },
+  "expected": {
+    "playerDefRoll": 5696,
+    "npcMaxHit": 50,
+    "npcMaxAttackRoll": 16896,
+    "npcAccuracy": 0.8313901876072676,
+    "npcDps": 8.660314454242371,
+    "avgDmgTaken": 13652.245544093308
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

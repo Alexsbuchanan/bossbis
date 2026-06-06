@@ -1,0 +1,47 @@
+{
+  "name": "nvp-dagannoth-prime-magic-justiciar",
+  "source": "gen-nvp-sweep.ts: Justiciar set defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 22326,
+        "body": 22327,
+        "legs": 22328
+      }
+    },
+    "monster": {
+      "id": 2266,
+      "version": ""
+    }
+  },
+  "expected": {
+    "playerDefRoll": 2968,
+    "npcMaxHit": 50,
+    "npcMaxAttackRoll": 16896,
+    "npcAccuracy": 0.9121145765520506,
+    "npcDps": 9.501193505750527,
+    "avgDmgTaken": 14977.819499257263
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

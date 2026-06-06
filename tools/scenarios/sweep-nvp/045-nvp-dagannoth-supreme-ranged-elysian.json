@@ -1,0 +1,48 @@
+{
+  "name": "nvp-dagannoth-supreme-ranged-elysian",
+  "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 26382,
+        "body": 26384,
+        "legs": 26386,
+        "shield": 12817
+      }
+    },
+    "monster": {
+      "id": 2265,
+      "version": ""
+    }
+  },
+  "expected": {
+    "playerDefRoll": 45154,
+    "npcMaxHit": 26,
+    "npcMaxAttackRoll": 16896,
+    "npcAccuracy": 0.18708891595615104,
+    "npcDps": 0.8496954933008527,
+    "avgDmgTaken": 128.24991710707036
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

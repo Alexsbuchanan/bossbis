@@ -1,0 +1,43 @@
+{
+  "name": "nvp-abyssal-demon-cok-stab-empty-block",
+  "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Block",
+        "type": "crush",
+        "stance": "Defensive"
+      },
+      "equipment": {}
+    },
+    "monster": {
+      "id": 7241,
+      "version": "Catacombs of Kourend"
+    }
+  },
+  "expected": {
+    "playerDefRoll": 7040,
+    "npcMaxHit": 8,
+    "npcMaxAttackRoll": 6784,
+    "npcAccuracy": 0.4817497514557591,
+    "npcDps": 0.8029162524262653,
+    "avgDmgTaken": 186.90783177459127
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

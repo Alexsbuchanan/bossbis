@@ -1,0 +1,42 @@
+{
+  "name": "nvp-zulrah-serpentine-ranged-empty-block",
+  "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Block",
+        "type": "crush",
+        "stance": "Defensive"
+      },
+      "equipment": {}
+    },
+    "monster": {
+      "id": 2042,
+      "version": "Serpentine"
+    }
+  },
+  "expected": {
+    "playerDefRoll": 7040,
+    "npcMaxHit": 41,
+    "npcMaxAttackRoll": 35226,
+    "npcAccuracy": 0.9000482584381299,
+    "npcDps": 10.250549609989813
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

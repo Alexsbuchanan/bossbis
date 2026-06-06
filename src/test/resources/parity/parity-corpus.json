@@ -799,6 +799,4036 @@
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
   {
+    "name": "nvp-aberrant-spectre-magic-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3392,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.7674386734274359,
+      "npcDps": 0.8882392053558286
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-aberrant-spectre-magic-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 4664,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.68027956694532,
+      "npcDps": 0.935384404549815,
+      "avgDmgTaken": 70.77628359592646
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-aberrant-spectre-magic-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6784,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.5350143894751267,
+      "npcDps": 0.8916906491252112,
+      "avgDmgTaken": 84.4814093984999
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-aberrant-spectre-magic-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6976,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.5218582979306564,
+      "npcDps": 0.8697638298844274,
+      "avgDmgTaken": 84.71439015063295
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-aberrant-spectre-magic-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 2968,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.7964917089214746,
+      "npcDps": 1.327486181535791,
+      "avgDmgTaken": 125.76996706559464
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-aberrant-spectre-magic-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5696,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.609565574893792,
+      "npcDps": 1.0159426248229866,
+      "avgDmgTaken": 96.25340906878269
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-aberrant-spectre-magic-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5194,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.6439632725777718,
+      "npcDps": 1.073272120962953,
+      "avgDmgTaken": 46.85953159596495
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-aberrant-spectre-magic-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3922,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 7296,
+      "npcAccuracy": 0.7311223790598876,
+      "npcDps": 1.2185372984331462,
+      "avgDmgTaken": 62.120679108172496
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 46331,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.07321073987740655,
+      "npcDps": 0.0847346526358872
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 41730,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.08128249982027749,
+      "npcDps": 0.11176343725288154,
+      "avgDmgTaken": 20.126862784335128
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6848,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.4952547817199591,
+      "npcDps": 0.8254246361999319,
+      "avgDmgTaken": 186.9070875073532
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 7040,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.4817497514557591,
+      "npcDps": 0.8029162524262653,
+      "avgDmgTaken": 186.90783177459127
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 37557,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.09031364822408008,
+      "npcDps": 0.1170732476978816,
+      "avgDmgTaken": 26.509773021770872
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3072,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.7734708916728077,
+      "npcDps": 1.289118152788013,
+      "avgDmgTaken": 291.9046861742876
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 35096,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.0966464370174089,
+      "npcDps": 0.16107739502901483,
+      "avgDmgTaken": 15.233809410140722
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-cok-stab-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs abyssal-demon-cok-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 38199,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.08879581151832461,
+      "npcDps": 0.1479930191972077,
+      "avgDmgTaken": 17.36211647299917
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 46331,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.07321073987740655,
+      "npcDps": 0.0847346526358872
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 41730,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.08128249982027749,
+      "npcDps": 0.11176343725288154,
+      "avgDmgTaken": 20.126862784335128
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6848,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.4952547817199591,
+      "npcDps": 0.8254246361999319,
+      "avgDmgTaken": 186.9070875073532
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 7040,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.4817497514557591,
+      "npcDps": 0.8029162524262653,
+      "avgDmgTaken": 186.90783177459127
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 37557,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.09031364822408008,
+      "npcDps": 0.1170732476978816,
+      "avgDmgTaken": 26.509773021770872
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3072,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.7734708916728077,
+      "npcDps": 1.289118152788013,
+      "avgDmgTaken": 291.9046861742876
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 35096,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.0966464370174089,
+      "npcDps": 0.16107739502901483,
+      "avgDmgTaken": 15.233809410140722
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-demon-stab-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 38199,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 6784,
+      "npcAccuracy": 0.08879581151832461,
+      "npcDps": 0.1479930191972077,
+      "avgDmgTaken": 17.36211647299917
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 46117,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.010473134134177544,
+      "npcDps": 0.016707142547378467
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 42479,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.011370056497175141,
+      "npcDps": 0.020655602636534837,
+      "avgDmgTaken": 1.523104001284242
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6848,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.07052124397722295,
+      "npcDps": 0.1527960286173164,
+      "avgDmgTaken": 14.115281738163391
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 7040,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.06859821048146571,
+      "npcDps": 0.1486294560431757,
+      "avgDmgTaken": 14.115337945458188
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 35631,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.013555231252806466,
+      "npcDps": 0.024528513695554557,
+      "avgDmgTaken": 2.265941625343487
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3072,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.1571753986332574,
+      "npcDps": 0.34054669703872437,
+      "avgDmgTaken": 31.459669581738062
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 33705,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.014329792915207975,
+      "npcDps": 0.031047884649617274,
+      "avgDmgTaken": 1.6895157983390792
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-abyssal-walker-crush-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2586,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 37450,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 966,
+      "npcAccuracy": 0.01289685188646498,
+      "npcDps": 0.027943179087340793,
+      "avgDmgTaken": 1.4256762403003
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3392,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.794477413104033,
+      "npcDps": 1.056150529324806
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 4664,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.7174518590287029,
+      "npcDps": 1.0861423976962308,
+      "avgDmgTaken": 137.89029095659936
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6784,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.5890759355698195,
+      "npcDps": 1.0636093281121741,
+      "avgDmgTaken": 169.56960634774313
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6976,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.5774494368414678,
+      "npcDps": 1.0426170387415392,
+      "avgDmgTaken": 170.8832911977076
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 2968,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.8201525977958096,
+      "npcDps": 1.4808310793535449,
+      "avgDmgTaken": 236.08663120619167
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5696,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.6549594283638125,
+      "npcDps": 1.1825656345457727,
+      "avgDmgTaken": 188.5346281103197
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5194,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.6853578781639821,
+      "npcDps": 1.2374517244627457,
+      "avgDmgTaken": 84.17610671295762
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-cave-kraken-magic-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs cave-kraken-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 492,
+        "version": "Cave kraken"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3922,
+      "npcMaxHit": 13,
+      "npcMaxAttackRoll": 8256,
+      "npcAccuracy": 0.7623834322393122,
+      "npcDps": 1.3765256415432023,
+      "avgDmgTaken": 113.89340323921608
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3392,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.8995679706456767,
+      "npcDps": 7.34941152488298
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 4664,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.861928152926555,
+      "npcDps": 7.4848319750460375,
+      "avgDmgTaken": 9383.837477740044
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6784,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.7991951233946855,
+      "npcDps": 8.324949202027975,
+      "avgDmgTaken": 13123.57088748833
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6976,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.7935136414748181,
+      "npcDps": 8.265767098696022,
+      "avgDmgTaken": 13395.610183026038
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 2968,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.9121145765520506,
+      "npcDps": 9.501193505750527,
+      "avgDmgTaken": 14977.819499257263
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5696,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.8313901876072676,
+      "npcDps": 8.660314454242371,
+      "avgDmgTaken": 13652.245544093308
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5194,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.8462448955435876,
+      "npcDps": 8.815050995245704,
+      "avgDmgTaken": 5803.912221547478
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-prime-magic-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs dagannoth-prime-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2266,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3922,
+      "npcMaxHit": 50,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.8838847132627093,
+      "npcDps": 9.207132429819891,
+      "avgDmgTaken": 7519.828067349403
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 45154,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.18708891595615104,
+      "npcDps": 0.7795371498172958
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 40446,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.2088659233070438,
+      "npcDps": 0.9485994016861573,
+      "avgDmgTaken": 1189.272203648846
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6848,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.797301296088063,
+      "npcDps": 4.318715353810342,
+      "avgDmgTaken": 6808.085636703661
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 7040,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.7916198141681956,
+      "npcDps": 4.287940660077727,
+      "avgDmgTaken": 6949.092671557374
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 37343,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.2262210796915167,
+      "npcDps": 1.0612840775651402,
+      "avgDmgTaken": 1673.0236408284545
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3072,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.9090371071787892,
+      "npcDps": 4.923950997218442,
+      "avgDmgTaken": 7762.1878993295895
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 33598,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.2514360546444835,
+      "npcDps": 1.3619452959909526,
+      "avgDmgTaken": 896.7175519170846
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-rex-slash-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs dagannoth-rex-slash (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2267,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 36594,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.2308512091815822,
+      "npcDps": 1.25044404973357,
+      "avgDmgTaken": 1021.2869569880287
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 54891,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.15390220797201778,
+      "npcDps": 0.6412591998834076
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 45154,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.18708891595615104,
+      "npcDps": 0.8496954933008527,
+      "avgDmgTaken": 128.24991710707036
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6848,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.797301296088063,
+      "npcDps": 4.318715353810342,
+      "avgDmgTaken": 819.6347562907691
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 7040,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.7916198141681956,
+      "npcDps": 4.287940660077727,
+      "avgDmgTaken": 836.6107863842093
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 40125,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.2105368090514878,
+      "npcDps": 0.9779564741434851,
+      "avgDmgTaken": 185.60313673842012
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3072,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.9090371071787892,
+      "npcDps": 4.923950997218442,
+      "avgDmgTaken": 934.5004347258175
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 35738,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.2363804247460757,
+      "npcDps": 1.2803939673745768,
+      "avgDmgTaken": 103.5584777846766
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-dagannoth-supreme-ranged-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs dagannoth-supreme-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2265,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 38627,
+      "npcMaxHit": 26,
+      "npcMaxAttackRoll": 16896,
+      "npcAccuracy": 0.21870146008077043,
+      "npcDps": 1.1846329087708403,
+      "avgDmgTaken": 116.48303304782317
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3392,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.6843965036265576,
+      "npcDps": 0.7921255829011083
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 4664,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.5661149339780547,
+      "npcDps": 0.7784080342198251,
+      "avgDmgTaken": 24.76675013906217
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6784,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.39616801768607224,
+      "npcDps": 0.660280029476787,
+      "avgDmgTaken": 26.172451310970324
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6976,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.3852658735846352,
+      "npcDps": 0.6421097893077254,
+      "avgDmgTaken": 25.78263476784865
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 2968,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.7238236935093918,
+      "npcDps": 1.2063728225156531,
+      "avgDmgTaken": 47.81870199101455
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5696,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.4718272775144813,
+      "npcDps": 0.7863787958574687,
+      "avgDmgTaken": 31.1708060637061
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 5194,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.5168309466245118,
+      "npcDps": 0.861384911040853,
+      "avgDmgTaken": 20.50088510371908
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-infernal-mage-magic-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 443,
+        "version": ""
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3922,
+      "npcMaxHit": 8,
+      "npcMaxAttackRoll": 5376,
+      "npcAccuracy": 0.6351125162730147,
+      "npcDps": 1.0585208604550242,
+      "avgDmgTaken": 27.771805690701203
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 46117,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.15898347716726657,
+      "npcDps": 0.7418086811791642
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 42479,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.17259887005649718,
+      "npcDps": 0.8533848585947137,
+      "avgDmgTaken": 79.27045595287356
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6848,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.7664507330378452,
+      "npcDps": 4.550801227412206,
+      "avgDmgTaken": 531.5281831368846
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 7040,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.7599045346062052,
+      "npcDps": 4.511933174224344,
+      "avgDmgTaken": 538.6558131074289
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 35631,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.2057700942972609,
+      "npcDps": 1.0909362758001333,
+      "avgDmgTaken": 127.42006244994819
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3072,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.8951926355267644,
+      "npcDps": 5.315206273440163,
+      "avgDmgTaken": 620.8097854289165
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 33705,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.21752803655135583,
+      "npcDps": 1.2915727170236753,
+      "avgDmgTaken": 80.54070155688284
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-nmz-dad-crush-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 6330,
+        "version": "Hard Mode"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 37450,
+      "npcMaxHit": 57,
+      "npcMaxAttackRoll": 14664,
+      "npcAccuracy": 0.19577581372994046,
+      "npcDps": 1.1624188940215217,
+      "avgDmgTaken": 81.8668448263281
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-dinhs-block",
+    "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": null,
+          "stance": null
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "weapon": 21015
+        }
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 54891,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.3208664286234788,
+      "npcDps": 2.8521460322086996
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-elysian",
+    "source": "gen-nvp-sweep.ts: Torva + Elysian spirit shield defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 12817
+        }
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 45154,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.39005647215147826,
+      "npcDps": 3.709148119440445
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-empty",
+    "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 6848,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.9027734408266387,
+      "npcDps": 10.281586409414498
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-empty-block",
+    "source": "gen-nvp-sweep.ts: Empty player (Block / Defensive) defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Block",
+          "type": "crush",
+          "stance": "Defensive"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 7040,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.9000482584381299,
+      "npcDps": 10.250549609989813
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-justiciar",
+    "source": "gen-nvp-sweep.ts: Justiciar set defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 22326,
+          "body": 22327,
+          "legs": 22328
+        }
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 40125,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.43894233165528584,
+      "npcDps": 4.354586623564344
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-lowdef",
+    "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 40,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 3072,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.956368694467312,
+      "npcDps": 10.891976798099943
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-slayer-helm",
+    "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26674,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 35738,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.49282296650717705,
+      "npcDps": 5.612706007442849
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "nvp-zulrah-serpentine-ranged-torva-tank",
+    "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+    "kind": "nvp",
+    "exercises": [
+      "NpcVsPlayerCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "body": 26384,
+          "legs": 26386,
+          "shield": 22322
+        }
+      },
+      "monster": {
+        "id": 2042,
+        "version": "Serpentine"
+      }
+    },
+    "expected": {
+      "playerDefRoll": 38627,
+      "npcMaxHit": 41,
+      "npcMaxAttackRoll": 35226,
+      "npcAccuracy": 0.4559645852749301,
+      "npcDps": 5.192929998964481
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
     "name": "obsidian-avarice-max-melee",
     "source": "GeneratedTests.test.ts: \"Obsidian sword with avarice in obsidian armour\"",
     "exercises": [

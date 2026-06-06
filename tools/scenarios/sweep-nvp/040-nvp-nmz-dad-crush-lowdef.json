@@ -1,0 +1,43 @@
+{
+  "name": "nvp-nmz-dad-crush-lowdef",
+  "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs nmz-dad-crush (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 40,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {}
+    },
+    "monster": {
+      "id": 6330,
+      "version": "Hard Mode"
+    }
+  },
+  "expected": {
+    "playerDefRoll": 3072,
+    "npcMaxHit": 57,
+    "npcMaxAttackRoll": 14664,
+    "npcAccuracy": 0.8951926355267644,
+    "npcDps": 5.315206273440163,
+    "avgDmgTaken": 620.8097854289165
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

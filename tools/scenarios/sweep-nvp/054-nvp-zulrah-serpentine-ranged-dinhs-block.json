@@ -1,0 +1,47 @@
+{
+  "name": "nvp-zulrah-serpentine-ranged-dinhs-block",
+  "source": "gen-nvp-sweep.ts: Dinh's bulwark (Block) defending vs zulrah-serpentine-ranged (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Block",
+        "type": null,
+        "stance": null
+      },
+      "equipment": {
+        "head": 26382,
+        "body": 26384,
+        "legs": 26386,
+        "weapon": 21015
+      }
+    },
+    "monster": {
+      "id": 2042,
+      "version": "Serpentine"
+    }
+  },
+  "expected": {
+    "playerDefRoll": 54891,
+    "npcMaxHit": 41,
+    "npcMaxAttackRoll": 35226,
+    "npcAccuracy": 0.3208664286234788,
+    "npcDps": 2.8521460322086996
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

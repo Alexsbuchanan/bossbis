@@ -6,7 +6,8 @@
   "description": "Dev tooling: generates the parity reference corpus from weirdgloop's TS calc.",
   "scripts": {
     "gen-corpus": "tsx gen-reference-corpus.ts",
-    "gen-sweep": "node run-with-upstream.mjs gen-parity-sweep.ts"
+    "gen-sweep": "node run-with-upstream.mjs gen-parity-sweep.ts",
+    "gen-nvp-sweep": "node run-with-upstream.mjs gen-nvp-sweep.ts"
   },
   "devDependencies": {
     "@types/d3-array": "^3.2.2",

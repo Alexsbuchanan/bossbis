@@ -23,6 +23,9 @@ const outPath = resolve(here, "..", "src", "test", "resources", "parity", "parit
 interface CorpusRow {
   name: string;
   source?: string;
+  // Discriminator: "pvn" (player-vs-npc, default) or "nvp" (npc-vs-player / damage taken).
+  // Selects which calc ParityCorpusTest builds and which expected fields are valid.
+  kind?: 'pvn' | 'nvp';
   exercises: string[];
   inputs: {
     player: {
@@ -77,12 +80,25 @@ function validate(file: string, row: unknown): CorpusRow {
   if (typeof r.weirdgloopCommit !== "string" || r.weirdgloopCommit.length !== 40) {
     fail(file, "'weirdgloopCommit' must be a 40-char commit hash");
   }
+  // Optional kind discriminator: "pvn" (default) or "nvp".
+  if (r.kind !== undefined && r.kind !== "pvn" && r.kind !== "nvp") {
+    fail(file, `'kind' must be "pvn" or "nvp" when present (got ${JSON.stringify(r.kind)})`);
+  }
+  const kind = (r.kind as string | undefined) ?? "pvn";
+
   if (typeof r.expected !== "object" || r.expected === null || Object.keys(r.expected as object).length === 0) {
     fail(file, "'expected' must be a non-empty object");
   }
+  // Valid expected field names per kind (catches typos / unmapped fields early).
+  const PVN_FIELDS = new Set(["maxAttackRoll", "npcDefRoll", "accuracy", "hitChance", "maxHit", "dps", "ttk"]);
+  const NVP_FIELDS = new Set(["playerDefRoll", "npcMaxHit", "npcMaxAttackRoll", "npcAccuracy", "npcDps", "avgDmgTaken"]);
+  const validFields = kind === "nvp" ? NVP_FIELDS : PVN_FIELDS;
   for (const [k, v] of Object.entries(r.expected as object)) {
     if (typeof v !== "number" || !Number.isFinite(v)) {
       fail(file, `expected.${k} must be a finite number`);
+    }
+    if (!validFields.has(k)) {
+      fail(file, `expected.${k} is not a valid '${kind}' field (allowed: ${[...validFields].join(", ")})`);
     }
   }
 
