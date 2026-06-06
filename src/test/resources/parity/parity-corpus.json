@@ -119,8 +119,10 @@
   {
     "name": "blisterwood-flail-max-melee",
     "source": "GeneratedTests.test.ts: \"Blisterwood flail in max melee\"",
+    "_note": "Upstream maxHit comes from getDistribution().getMax(): the Blisterwood-flail vampyre damage bonus (scaleDamage(5,4), PlayerVsNPCCalc.ts:1798-1800) is applied in the distribution pipeline, NOT in getPlayerMaxMeleeHit/getMinAndMax. getMinAndMax().max() is 44; 44*5/4 = 55. So this row also exercises the (un-ported until v0.1.4) distribution path and SKIPs at v0.1.2. Expected value left verbatim.",
     "exercises": [
-      "PlayerVsNpcCalc.maxMeleeHit"
+      "PlayerVsNpcCalc.maxMeleeHit",
+      "PlayerVsNpcCalc.distribution"
     ],
     "inputs": {
       "player": {
