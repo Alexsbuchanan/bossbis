@@ -34,5 +34,7 @@ class PlayerModelTest
 		assertThat(p.getId()).isEqualTo(20997);
 		assertThat(p.isTwoHanded()).isTrue();
 		assertThat(p.getBonuses().getRangedStr()).isEqualTo(70);   // proves @SerializedName("ranged_str")
+		// "category":"Bow" → BOW proves @SerializedName on the string-valued EquipmentCategory enum.
+		assertThat(p.getCategory()).isEqualTo(EquipmentCategory.BOW);
 	}
 }

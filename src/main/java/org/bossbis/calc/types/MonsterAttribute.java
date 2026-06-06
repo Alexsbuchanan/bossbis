@@ -1,27 +1,31 @@
 package org.bossbis.calc.types;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Port of src/enums/MonsterAttribute.ts — string-valued monster attributes.
  * Each member carries the weirdgloop {@code value} that Gson reads from monsters.json.
+ * Gson matches enum constants by NAME or {@link SerializedName} (not by {@link #value()}),
+ * so every constant is annotated with its lowercase upstream string.
  */
 public enum MonsterAttribute
 {
-	DEMON("demon"),
-	DRAGON("dragon"),
-	FIERY("fiery"),
-	FLYING("flying"),
-	GOLEM("golem"),
-	KALPHITE("kalphite"),
-	LEAFY("leafy"),
-	PENANCE("penance"),
-	RAT("rat"),
-	SHADE("shade"),
-	SPECTRAL("spectral"),
-	UNDEAD("undead"),
-	VAMPYRE1("vampyre1"),
-	VAMPYRE2("vampyre2"),
-	VAMPYRE3("vampyre3"),
-	XERICIAN("xerician"),
+	@SerializedName("demon") DEMON("demon"),
+	@SerializedName("dragon") DRAGON("dragon"),
+	@SerializedName("fiery") FIERY("fiery"),
+	@SerializedName("flying") FLYING("flying"),
+	@SerializedName("golem") GOLEM("golem"),
+	@SerializedName("kalphite") KALPHITE("kalphite"),
+	@SerializedName("leafy") LEAFY("leafy"),
+	@SerializedName("penance") PENANCE("penance"),
+	@SerializedName("rat") RAT("rat"),
+	@SerializedName("shade") SHADE("shade"),
+	@SerializedName("spectral") SPECTRAL("spectral"),
+	@SerializedName("undead") UNDEAD("undead"),
+	@SerializedName("vampyre1") VAMPYRE1("vampyre1"),
+	@SerializedName("vampyre2") VAMPYRE2("vampyre2"),
+	@SerializedName("vampyre3") VAMPYRE3("vampyre3"),
+	@SerializedName("xerician") XERICIAN("xerician"),
 	;
 
 	private final String value;
