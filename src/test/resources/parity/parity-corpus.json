@@ -119,8 +119,10 @@
   {
     "name": "blisterwood-flail-max-melee",
     "source": "GeneratedTests.test.ts: \"Blisterwood flail in max melee\"",
+    "_note": "Upstream maxHit comes from getDistribution().getMax(): the Blisterwood-flail vampyre damage bonus (scaleDamage(5,4), PlayerVsNPCCalc.ts:1798-1800) is applied in the distribution pipeline, NOT in getPlayerMaxMeleeHit/getMinAndMax. getMinAndMax().max() is 44; 44*5/4 = 55. So this row also exercises the (un-ported until v0.1.4) distribution path and SKIPs at v0.1.2. Expected value left verbatim.",
     "exercises": [
-      "PlayerVsNpcCalc.maxMeleeHit"
+      "PlayerVsNpcCalc.maxMeleeHit",
+      "PlayerVsNpcCalc.distribution"
     ],
     "inputs": {
       "player": {
@@ -213,6 +215,57 @@
     },
     "expected": {
       "maxHit": 58
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "duke-demonbane-max-melee",
+    "source": "DukeDemonbane.test.ts: \"max melee bellator\"",
+    "exercises": [
+      "PlayerVsNpcCalc.maxMeleeHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 118,
+          "str": 118,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 28254,
+          "cape": 21295,
+          "neck": 24780,
+          "ammo": 22947,
+          "weapon": 19675,
+          "body": 28256,
+          "shield": 27550,
+          "legs": 28258,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28316
+        }
+      },
+      "monster": {
+        "id": 12191,
+        "version": "Awakened, Awake"
+      }
+    },
+    "expected": {
+      "maxHit": 50
     },
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
@@ -421,6 +474,106 @@
     },
     "expected": {
       "npcDefRoll": 8736
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "obsidian-avarice-max-melee",
+    "source": "GeneratedTests.test.ts: \"Obsidian sword with avarice in obsidian armour\"",
+    "exercises": [
+      "PlayerVsNpcCalc.maxMeleeHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 118,
+          "str": 118,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 21298,
+          "cape": 21285,
+          "neck": 22557,
+          "weapon": 6523,
+          "body": 21301,
+          "shield": 22322,
+          "legs": 21304,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 11773
+        }
+      },
+      "monster": {
+        "id": 7939,
+        "version": ""
+      }
+    },
+    "expected": {
+      "maxHit": 53
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "obsidian-salve-max-melee",
+    "source": "GeneratedTests.test.ts: \"Obsidian sword with salve in obsidian armour\"",
+    "exercises": [
+      "PlayerVsNpcCalc.maxMeleeHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 118,
+          "str": 118,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 21298,
+          "cape": 21285,
+          "neck": 12018,
+          "weapon": 6523,
+          "body": 21301,
+          "shield": 22322,
+          "legs": 21304,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 11773
+        }
+      },
+      "monster": {
+        "id": 8059,
+        "version": "Post-quest"
+      }
+    },
+    "expected": {
+      "maxHit": 52
     },
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },

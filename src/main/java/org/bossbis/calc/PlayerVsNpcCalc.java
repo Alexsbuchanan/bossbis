@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bossbis.calc.CalcMath.MinMax;
 import org.bossbis.calc.data.EquipmentRepository;
+import org.bossbis.calc.types.Buffs;
 import org.bossbis.calc.types.CombatStyle;
 import org.bossbis.calc.types.EquipmentCategory;
 import org.bossbis.calc.types.EquipmentPiece;
@@ -73,6 +74,36 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		private DetailKey() {}
 
 		static final String DAMAGE_LEVEL = "Level";
+
+		// Melee max hit (getPlayerMaxMeleeHit)
+		static final String DAMAGE_LEVEL_PRAYER = "Damage level (prayer)";
+		static final String DAMAGE_LEVEL_SOULREAPER_BONUS = "Damage level (soulreaper bonus)";
+		static final String DAMAGE_LEVEL_SOULREAPER = "Damage level (soulreaper)";
+		static final String DAMAGE_EFFECTIVE_LEVEL = "Effective damage level";
+		static final String DAMAGE_EFFECTIVE_LEVEL_VOID = "Effective damage level (void)";
+		static final String DAMAGE_GEAR_BONUS = "Damage gear bonus";
+		static final String MAX_HIT_BASE = "Base max hit";
+		static final String MAX_HIT_FORINTHRY_SURGE = "Max hit (forinthry surge)";
+		static final String MAX_HIT_SALVE = "Max hit (salve)";
+		static final String MAX_HIT_BLACK_MASK = "Max hit (black mask)";
+		static final String MAX_HIT_DEMONBANE = "Max hit (demonbane)";
+		static final String MAX_HIT_OBSIDIAN = "Max hit (obsidian)";
+		static final String MAX_HIT_KERIS = "Max hit (keris)";
+		static final String MAX_HIT_GOLEMBANE = "Max hit (golembane)";
+		static final String MAX_HIT_REV_WEAPON = "Max hit (rev weapon)";
+		static final String MAX_HIT_LEAFY = "Max hit (leafy)";
+		static final String MAX_HIT_COLOSSALBLADE = "Max hit (colossal blade)";
+		static final String MAX_HIT_RATBANE = "Max hit (ratbane)";
+		static final String MAX_HIT_INQ = "Max hit (inquisitor)";
+		static final String MIN_HIT_FANG = "Min hit (fang)";
+		static final String MAX_HIT_FANG = "Max hit (fang)";
+		static final String MAX_HIT_SPEC = "Max hit (spec)";
+		static final String MIN_HIT_SPEC = "Min hit (spec)";
+		static final String MAX_HIT_GODSWORD_SPEC = "Max hit (godsword spec)";
+		static final String REPIRATORY_SYSTEM_MIN_HIT = "Min hit (respiratory system)";
+		static final String MIN_HIT_FINAL = "Min hit";
+		static final String MAX_HIT_FINAL = "Max hit";
+
 		static final String PLAYER_ACCURACY_LEVEL = "Effective accuracy level";
 		static final String PLAYER_ACCURACY_LEVEL_PRAYER = "Effective accuracy level (prayer)";
 		static final String PLAYER_ACCURACY_EFFECTIVE_LEVEL = "Effective accuracy level";
@@ -844,10 +875,16 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 	 */
 	private int applyDemonbane(int attackRoll, int weaponDemonbane)
 	{
+		return applyDemonbane(DetailKey.PLAYER_ACCURACY_DEMONBANE, attackRoll, weaponDemonbane);
+	}
+
+	/** As {@link #applyDemonbane(int, int)} but with an explicit label (the melee max hit uses {@code MAX_HIT_DEMONBANE}). */
+	private int applyDemonbane(String label, int value, int weaponDemonbane)
+	{
 		Integer vulnObj = monster.getInputs() == null ? null : monster.getInputs().getDemonbaneVulnerability();
 		int vulnerability = vulnObj == null ? 100 : vulnObj;
 		int percent = trackFactor(DetailKey.PLAYER_DEMONBANE_FACTOR, weaponDemonbane, vulnerability, 100);
-		return trackAddFactor(DetailKey.PLAYER_ACCURACY_DEMONBANE, attackRoll, percent, 100);
+		return trackAddFactor(label, value, percent, 100);
 	}
 
 	/** Port of the static {@code tbowScaling} (PlayerVsNPCCalc.ts:2639-2648). */
@@ -1133,9 +1170,332 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		return track(DetailKey.PLAYER_ACCURACY_FINAL, hitChance);
 	}
 
+	/**
+	 * Port of {@code getPlayerMaxMeleeHit} (PlayerVsNPCCalc.ts:342-543). Computes the player's melee
+	 * {@code [min, max]} hit, applying — in upstream order — the strength prayers, Soulreaper-axe stacks,
+	 * stance bonus, melee void, the base max from effective strength, then the ordered damage
+	 * multipliers and additive bonuses (Crystal blessing, the don't-stack avarice/salve/black-mask
+	 * group, demonbane weapons, Obsidian, dragonbane, keris, golembane, rev weapon, silverlight/infernal
+	 * demonbane, leaf-bladed, colossal blade, ratbane, Inquisitor crush, Fang shrink, the spec
+	 * multipliers, and the Respiratory-system min hit). Returns {@link MinMax}.
+	 *
+	 * <p>Deviations: the leagues talent branches (min-hit distance, percentage-max-hit distance, melee
+	 * damage %, blindbag) are dropped per the class-level leagues deviation.
+	 */
+	private MinMax getPlayerMaxMeleeHit()
+	{
+		String stanceType = styleType();
+		String stance = styleStance();
+		Buffs buffs = player.getBuffs();
+
+		int baseLevel = trackAdd(DetailKey.DAMAGE_LEVEL,
+			player.getSkills().getStr(), player.getBoosts().getStr());
+		int effectiveLevel = baseLevel;
+
+		for (PrayerData p : getCombatPrayers(PrayerFilter.STRENGTH))
+		{
+			if ("Burst of Strength".equals(p.name()) && effectiveLevel <= 20)
+			{
+				effectiveLevel = trackAdd(DetailKey.DAMAGE_LEVEL_PRAYER, effectiveLevel, 1);
+			}
+			else
+			{
+				effectiveLevel = trackFactor(DetailKey.DAMAGE_LEVEL_PRAYER, effectiveLevel,
+					p.factorStrength().numerator(), p.factorStrength().divisor());
+			}
+		}
+
+		if (wearing("Soulreaper axe") && !opts.usingSpecialAttack)
+		{
+			// does not stack multiplicatively with prayers
+			int stacks = Math.max(0, Math.min(5, buffs.getSoulreaperStacks()));
+			int bonus = trackFactor(DetailKey.DAMAGE_LEVEL_SOULREAPER_BONUS, baseLevel, stacks * 6, 100);
+			effectiveLevel = trackAdd(DetailKey.DAMAGE_LEVEL_SOULREAPER, effectiveLevel, bonus);
+		}
+
+		int stanceBonus = 8;
+		if (CombatStyle.AGGRESSIVE.equals(stance))
+		{
+			stanceBonus += 3;
+		}
+		else if (CombatStyle.CONTROLLED.equals(stance))
+		{
+			stanceBonus += 1;
+		}
+
+		effectiveLevel = trackAdd(DetailKey.DAMAGE_EFFECTIVE_LEVEL, effectiveLevel, stanceBonus);
+
+		if (isWearingMeleeVoid())
+		{
+			effectiveLevel = trackFactor(DetailKey.DAMAGE_EFFECTIVE_LEVEL_VOID, effectiveLevel, 11, 10);
+		}
+
+		int gearBonus = trackAdd(DetailKey.DAMAGE_GEAR_BONUS, player.getBonuses().getStr(), 64);
+		int baseMax = trackMaxHitFromEffective(DetailKey.MAX_HIT_BASE, effectiveLevel, gearBonus);
+		int minHit = 0;
+		int maxHit = baseMax;
+
+		if (wearing("Crystal blessing"))
+		{
+			int crystalPieces = (wearing("Crystal helm") ? 1 : 0)
+				+ (wearing("Crystal legs") ? 2 : 0)
+				+ (wearing("Crystal body") ? 3 : 0);
+			maxHit = (int) ((long) maxHit * (40 + crystalPieces) / 40);
+		}
+
+		// Specific bonuses that are applied from equipment
+		List<MonsterAttribute> mattrs = attributes();
+
+		// These bonuses do not stack with each other
+		if (wearing("Amulet of avarice") && monster.getName() != null && monster.getName().startsWith("Revenant"))
+		{
+			int num = buffs.isForinthrySurge() ? 27 : 24;
+			maxHit = trackFactor(DetailKey.MAX_HIT_FORINTHRY_SURGE, maxHit, num, 20);
+		}
+		else if (wearing("Salve amulet (e)", "Salve amulet(ei)") && mattrs.contains(MonsterAttribute.UNDEAD))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_SALVE, maxHit, 6, 5);
+		}
+		else if (wearing("Salve amulet", "Salve amulet(i)") && mattrs.contains(MonsterAttribute.UNDEAD))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_SALVE, maxHit, 7, 6);
+		}
+		else if (isWearingBlackMask() && isSlayerMonster() && buffs.isOnSlayerTask())
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_BLACK_MASK, maxHit, 7, 6);
+		}
+
+		if (wearing("Arclight", "Emberlight") && mattrs.contains(MonsterAttribute.DEMON))
+		{
+			maxHit = applyDemonbane(DetailKey.MAX_HIT_DEMONBANE, maxHit, 70);
+		}
+		if (wearing("Bone claws", "Burning claws") && mattrs.contains(MonsterAttribute.DEMON))
+		{
+			maxHit = applyDemonbane(DetailKey.MAX_HIT_DEMONBANE, maxHit, 5);
+		}
+		if (isWearingTzhaarWeapon() && isWearingObsidian())
+		{
+			int obsidianBonus = trackFactor(DetailKey.MAX_HIT_OBSIDIAN, baseMax, 1, 10);
+			maxHit = trackAdd(DetailKey.MAX_HIT_OBSIDIAN, maxHit, obsidianBonus);
+		}
+		if (wearing("Dragon hunter lance") && mattrs.contains(MonsterAttribute.DRAGON))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_DRAGONHUNTER, maxHit, 6, 5);
+		}
+		if (wearing("Dragon hunter wand") && mattrs.contains(MonsterAttribute.DRAGON))
+		{
+			// still applies to dhw when wand bashing
+			maxHit = trackFactor(DetailKey.MAX_HIT_DRAGONHUNTER, maxHit, 7, 5);
+		}
+		if (isWearingKeris() && mattrs.contains(MonsterAttribute.KALPHITE))
+		{
+			if (wearing("Keris partisan of amascut"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_KERIS, maxHit, 115, 100);
+			}
+			else
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_KERIS, maxHit, 133, 100);
+			}
+		}
+		if (wearing("Barronite mace") && mattrs.contains(MonsterAttribute.GOLEM))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_GOLEMBANE, maxHit, 23, 20);
+		}
+		if (wearing("Granite hammer") && mattrs.contains(MonsterAttribute.GOLEM))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_GOLEMBANE, maxHit, 13, 10);
+		}
+		if (isRevWeaponBuffApplicable())
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_REV_WEAPON, maxHit, 3, 2);
+		}
+		if (wearing("Silverlight", "Darklight", "Silverlight (dyed)") && mattrs.contains(MonsterAttribute.DEMON))
+		{
+			maxHit = applyDemonbane(DetailKey.MAX_HIT_DEMONBANE, maxHit, 60);
+		}
+		if (wearing("Infernal tecpatl") && mattrs.contains(MonsterAttribute.DEMON))
+		{
+			maxHit = applyDemonbane(DetailKey.MAX_HIT_DEMONBANE, maxHit, 10);
+		}
+
+		if (wearing("Leaf-bladed battleaxe") && mattrs.contains(MonsterAttribute.LEAFY))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_LEAFY, maxHit, 47, 40);
+		}
+		if (wearing("Colossal blade"))
+		{
+			maxHit = trackAdd(DetailKey.MAX_HIT_COLOSSALBLADE, maxHit, Math.min(monster.getSize() * 2, 10));
+		}
+
+		if (isWearingRatBoneWeapon() && mattrs.contains(MonsterAttribute.RAT))
+		{
+			// applies before inq, tested 2024-01-25, str level 99 str gear 112
+			maxHit = trackAdd(DetailKey.MAX_HIT_RATBANE, maxHit, 10);
+		}
+		// Inquisitor's armour set gives bonuses when using the crush attack style
+		if (CombatStyle.CRUSH.equals(stanceType))
+		{
+			int inqPieces = 0;
+			for (String v : allEquippedItems)
+			{
+				if ("Inquisitor's great helm".equals(v)
+					|| "Inquisitor's hauberk".equals(v)
+					|| "Inquisitor's plateskirt".equals(v))
+				{
+					inqPieces++;
+				}
+			}
+
+			if (inqPieces > 0)
+			{
+				if (wearing("Inquisitor's mace"))
+				{
+					// 2.5% per piece, no full-set bonus
+					inqPieces *= 5;
+				}
+				else if (inqPieces == 3)
+				{
+					// 1.0% extra for full set when not using inq mace
+					inqPieces = 5;
+				}
+				maxHit = trackFactor(DetailKey.MAX_HIT_INQ, maxHit, 200 + inqPieces, 200);
+			}
+		}
+
+		if (isWearingFang())
+		{
+			int shrink = (int) ((long) maxHit * 3 / 20);
+			minHit = track(DetailKey.MIN_HIT_FANG, shrink);
+			if (opts.usingSpecialAttack)
+			{
+				// not reduced during spec, but min hit is changed as usual
+				track(DetailKey.MAX_HIT_SPEC, maxHit);
+			}
+			else
+			{
+				maxHit = trackAdd(DetailKey.MAX_HIT_FANG, maxHit, -shrink);
+			}
+		}
+
+		if (opts.usingSpecialAttack)
+		{
+			if (isWearingGodsword())
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_GODSWORD_SPEC, maxHit, 11, 10);
+			}
+
+			if (wearing("Bandos godsword", "Saradomin sword"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 11, 10);
+			}
+			else if (wearing("Armadyl godsword", "Dragon sword", "Dragon longsword", "Saradomin's blessed sword"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 5, 4);
+			}
+			else if (wearing("Dragon mace", "Dragon warhammer", "Arkan blade"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 3, 2);
+			}
+			else if (wearing("Voidwaker"))
+			{
+				minHit = trackFactor(DetailKey.MIN_HIT_SPEC, maxHit, 1, 2);
+				maxHit = trackAdd(DetailKey.MAX_HIT_SPEC, maxHit, minHit);
+			}
+			else if (wearing("Dragon halberd", "Crystal halberd"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 11, 10);
+			}
+			else if (wearing("Dragon dagger"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 23, 20);
+			}
+			else if (wearing("Abyssal dagger"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 17, 20);
+			}
+			else if (wearing("Abyssal bludgeon"))
+			{
+				int prayerMissing = Math.max(-player.getBoosts().getPrayer(), 0);
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 100 + (prayerMissing / 2), 100);
+			}
+			else if (wearing("Barrelchest anchor"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 110, 100);
+			}
+			else if (isWearingBloodMoonSet())
+			{
+				minHit = trackFactor(DetailKey.MIN_HIT_SPEC, maxHit, 1, 4);
+				maxHit = trackAdd(DetailKey.MAX_HIT_SPEC, maxHit, minHit);
+			}
+			else if (wearing("Soulreaper axe"))
+			{
+				int stacks = Math.max(0, Math.min(5, player.getBuffs().getSoulreaperStacks()));
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 100 + 6 * stacks, 100);
+			}
+		}
+
+		if ("Respiratory system".equals(monster.getName()))
+		{
+			minHit = trackAdd(DetailKey.REPIRATORY_SYSTEM_MIN_HIT, minHit, (int) ((long) maxHit / 2));
+		}
+
+		return new MinMax(minHit, maxHit);
+	}
+
+	/**
+	 * Port of {@code getMinAndMax} (PlayerVsNPCCalc.ts:1163-1200). Dispatches by combat-style type;
+	 * melee is ported (the ranged/magic branches still throw {@link UnsupportedOperationException} until
+	 * v0.1.3). The {@code overrides.maxHit} short-circuit is dropped (no overrides in this model).
+	 */
 	public MinMax getMinAndMax()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		if (!CombatStyle.MANUAL_CAST.equals(styleStance()) && isAmmoInvalid())
+		{
+			return new MinMax(0, 0);
+		}
+
+		String style = styleType();
+
+		int min = 0;
+		int max = 0;
+		if (isUsingMeleeStyle())
+		{
+			MinMax mm = getPlayerMaxMeleeHit();
+			min = mm.min();
+			max = mm.max();
+		}
+		if (CombatStyle.RANGED.equals(style))
+		{
+			MinMax mm = getPlayerMaxRangedHit();
+			min = mm.min();
+			max = mm.max();
+		}
+		if (CombatStyle.MAGIC.equals(style))
+		{
+			MinMax mm = getPlayerMaxMagicHit();
+			min = mm.min();
+			max = mm.max();
+		}
+
+		if (min > max)
+		{
+			max = min;
+		}
+
+		// some cursed (literally, cursed amulet of magic) stuff throws this off
+		if (min <= 0)
+		{
+			min = 0;
+		}
+		if (max <= 0)
+		{
+			max = 0;
+		}
+
+		track(DetailKey.MIN_HIT_FINAL, min);
+		track(DetailKey.MAX_HIT_FINAL, max);
+		return new MinMax(min, max);
 	}
 
 	public int getMax()
@@ -1144,6 +1504,16 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 	}
 
 	public int getMaxHit()
+	{
+		return getMinAndMax().max();
+	}
+
+	private MinMax getPlayerMaxRangedHit()
+	{
+		throw new UnsupportedOperationException(NOT_PORTED);
+	}
+
+	private MinMax getPlayerMaxMagicHit()
 	{
 		throw new UnsupportedOperationException(NOT_PORTED);
 	}
