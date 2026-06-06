@@ -91,4 +91,22 @@ public final strictfp class D3
 		}
 		return out;
 	}
+
+	/**
+	 * Index-pair form of {@code cross} for the distribution {@code zip}: the a-major (left-to-right)
+	 * cartesian product of {@code [0, aSize)} × {@code [0, bSize)}. Each {@code int[]} is
+	 * {@code {aIndex, bIndex}}, matching d3-array's iteration order.
+	 */
+	public static List<int[]> cross(int aSize, int bSize)
+	{
+		List<int[]> out = new ArrayList<>(aSize * bSize);
+		for (int i = 0; i < aSize; i++)
+		{
+			for (int j = 0; j < bSize; j++)
+			{
+				out.add(new int[]{i, j});
+			}
+		}
+		return out;
+	}
 }

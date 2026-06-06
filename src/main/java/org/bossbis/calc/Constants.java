@@ -161,6 +161,11 @@ public final class Constants
 	/** Port of ECLIPSE_MOON_IDS (constants.ts:547). */
 	public static final Set<Integer> ECLIPSE_MOON_IDS = setOf(13012);
 
+	/** Port of INFINITE_HEALTH_MONSTERS (constants.ts:543-545) — monsters with infinite HP (ruby-bolt cap). */
+	public static final Set<Integer> INFINITE_HEALTH_MONSTERS = setOf(
+		14779 // gemstone crab
+	);
+
 	/** Port of DOOM_OF_MOKHAIOTL_IDS (constants.ts:531). */
 	public static final Set<Integer> DOOM_OF_MOKHAIOTL_IDS = setOf(14707);
 
