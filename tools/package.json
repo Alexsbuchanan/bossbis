@@ -1,0 +1,15 @@
+{
+  "name": "bossbis-tools",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dev tooling: generates the parity reference corpus from weirdgloop's TS calc.",
+  "scripts": {
+    "gen-corpus": "tsx gen-reference-corpus.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "@types/node": "^20.11.0"
+  }
+}
