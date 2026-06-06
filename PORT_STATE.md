@@ -26,8 +26,8 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/scaling/Phases.java | src/lib/scaling/Phases.ts | — | not-ported | |
 | calc/scaling/VardorvisScaling.java | src/lib/scaling/Vardorvis.ts | — | not-ported | |
 | calc/support/D3.java | (d3-array sum/max/min/some/range/cross) | 5e313c1 | ported | match left-to-right summation order |
-| calc/support/MergeWith.java | (lodash.mergewith default semantics) | — | not-ported | no custom customizer |
-| calc/support/Utils.java | src/utils.ts | — | not-ported | keys, isDefined, typedMerge, FeatureStatus |
+| calc/support/MergeWith.java | (lodash.mergewith default semantics) | 5e313c1 | ported | no custom customizer |
+| calc/support/Utils.java | src/utils.ts | 5e313c1 | partial | isDefined + FeatureStatus; getCombatStylesForCategory deferred to M3 |
 | calc/state/BoostsCalculator.java | src/utils.ts PotionMap + src/state.tsx recomputeBoosts | — | not-ported | per-skill boost deltas; max-combine |
 
 ## Status values
