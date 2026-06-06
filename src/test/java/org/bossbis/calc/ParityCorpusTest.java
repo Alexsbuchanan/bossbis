@@ -54,7 +54,8 @@ class ParityCorpusTest
 
 		Monster monster = BUILDER.monster(row);
 		Player player = BUILDER.player(row, monster);
-		PlayerVsNpcCalc calc = new PlayerVsNpcCalc(player, monster, BUILDER.equipmentRepository());
+		PlayerVsNpcCalc calc = new PlayerVsNpcCalc(player, monster,
+			BUILDER.equipmentRepository(), BUILDER.spellRepository());
 
 		assertThat(row.expected())
 			.as("row '%s' must carry at least one expected field", row.name())

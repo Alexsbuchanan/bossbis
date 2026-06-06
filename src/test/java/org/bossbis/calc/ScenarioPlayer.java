@@ -71,6 +71,11 @@ final class ScenarioPlayer
 		return equipment;
 	}
 
+	SpellRepository spellRepository()
+	{
+		return spells;
+	}
+
 	/**
 	 * Resolves the row's monster with {@code INITIAL_MONSTER_INPUTS} attached. If the row carries a
 	 * {@code monster.inputs} block, its defence reductions / ToA invocation level override the initial

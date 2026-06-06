@@ -169,6 +169,124 @@
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
   {
+    "name": "bofa-max-ranged-l1",
+    "source": "BasicRolls.test.ts: ranged \"L1 max hit\" (Bow of faerdhinen, maxHit)",
+    "exercises": [
+      "PlayerVsNpcCalc.maxRangedHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 1,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Accurate",
+          "type": "ranged",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "weapon": 25865
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "maxHit": 3
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "bofa-max-ranged-l99",
+    "source": "BasicRolls.test.ts: ranged \"L99 max hit\" (Bow of faerdhinen, maxHit)",
+    "exercises": [
+      "PlayerVsNpcCalc.maxRangedHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Accurate",
+          "type": "ranged",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "weapon": 25865
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "maxHit": 29
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "comp-ogre-bow-brutal-zogre",
+    "source": "Zogres.test.ts: \"Brutal arrows apply full damage\" (Comp ogre bow + Adamant brutal, maxHit)",
+    "exercises": [
+      "PlayerVsNpcCalc.maxRangedHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Rapid",
+          "type": "ranged",
+          "stance": "Rapid"
+        },
+        "equipment": {
+          "weapon": 4827,
+          "ammo": 4798
+        }
+      },
+      "monster": {
+        "id": 866,
+        "version": ""
+      }
+    },
+    "expected": {
+      "maxHit": 19
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
     "name": "dragon-hunter-lance-max-melee",
     "source": "GeneratedTests.test.ts: \"Dragon hunter lance in max melee\"",
     "exercises": [
@@ -353,6 +471,55 @@
     },
     "expected": {
       "maxHit": 20
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "fire-bolt-chaos-gauntlets-tome-of-fire",
+    "source": "GeneratedTests.test.ts: \"Fire bolt with chaos gauntlets and tome of fire\"",
+    "exercises": [
+      "PlayerVsNpcCalc.maxMagicHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 112,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "spell": "Fire Bolt",
+        "style": {
+          "name": "Spell",
+          "type": "magic",
+          "stance": "Autocast"
+        },
+        "equipment": {
+          "head": 21018,
+          "cape": 21780,
+          "neck": 12002,
+          "weapon": 11791,
+          "body": 21021,
+          "shield": 20714,
+          "legs": 21024,
+          "hands": 777,
+          "feet": 13235,
+          "ring": 28313
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "maxHit": 22
     },
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
@@ -772,6 +939,53 @@
     },
     "expected": {
       "maxHit": 65
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "tumekens-shadow-salve-max-mage",
+    "source": "GeneratedTests.test.ts: \"Tumeken's shadow with salve in max mage\"",
+    "exercises": [
+      "PlayerVsNpcCalc.maxMagicHit"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 112,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Accurate",
+          "type": "magic",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 21018,
+          "cape": 21780,
+          "neck": 12018,
+          "weapon": 27275,
+          "body": 21021,
+          "legs": 21024,
+          "hands": 19544,
+          "feet": 13235,
+          "ring": 28313
+        }
+      },
+      "monster": {
+        "id": 8059,
+        "version": "Post-quest"
+      }
+    },
+    "expected": {
+      "maxHit": 67
     },
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   }
