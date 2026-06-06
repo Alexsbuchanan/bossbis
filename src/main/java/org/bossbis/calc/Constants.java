@@ -147,6 +147,54 @@ public final class Constants
 	/** Port of YAMA_VOID_FLARE_IDS (constants.ts:436). */
 	public static final Set<Integer> YAMA_VOID_FLARE_IDS = setOf(14179);
 
+	// --- Hit-chance guard id sets (constants.ts) — used by getHitChance ----------------------------
+
+	/** Port of VERZIK_P1_IDS (constants.ts:84-89) — used by getHitChance (Dawnbringer guaranteed accuracy). */
+	public static final Set<Integer> VERZIK_P1_IDS_SET = setOf(VERZIK_P1_IDS);
+
+	/** Port of TITAN_ELEMENTAL_IDS (constants.ts:427-430) — Royal Titans elementals (magic accuracy override). */
+	public static final Set<Integer> TITAN_ELEMENTAL_IDS = setOf(
+		14150,  // Fire elemental (Royal Titans)
+		14151   // Ice elemental (Royal Titans)
+	);
+
+	/** Port of ECLIPSE_MOON_IDS (constants.ts:547). */
+	public static final Set<Integer> ECLIPSE_MOON_IDS = setOf(13012);
+
+	/** Port of DOOM_OF_MOKHAIOTL_IDS (constants.ts:531). */
+	public static final Set<Integer> DOOM_OF_MOKHAIOTL_IDS = setOf(14707);
+
+	/**
+	 * Port of GUARANTEED_ACCURACY_MONSTERS (constants.ts:482-484) — NPCs the player has 100% accuracy
+	 * against. Used by getHitChance.
+	 */
+	public static final Set<Integer> GUARANTEED_ACCURACY_MONSTERS = setOf(
+		5916  // Spawn (abyssal sire)
+	);
+
+	/**
+	 * Port of ALWAYS_MAX_HIT_MONSTERS (constants.ts:457-477) — NPCs the player always max-hits with the
+	 * matching combat style (100% accuracy via that style). Used by getHitChance.
+	 */
+	public static final Set<Integer> ALWAYS_MAX_HIT_MONSTERS_MELEE = setOf(
+		idList(11710, 11713),   // baboon thrower
+		idList(12814),          // frem warband archer
+		TOA_WARDEN_CORE_EJECTED_IDS,
+		new java.util.ArrayList<>(YAMA_VOID_FLARE_IDS));
+
+	public static final Set<Integer> ALWAYS_MAX_HIT_MONSTERS_RANGED = setOf(
+		idList(11711, 11714),   // baboon mage
+		idList(12815),          // frem warband seer
+		idList(11717),          // cursed baboon
+		idList(11715),          // baboon shaman
+		new java.util.ArrayList<>(YAMA_VOID_FLARE_IDS));
+
+	public static final Set<Integer> ALWAYS_MAX_HIT_MONSTERS_MAGIC = setOf(
+		idList(11709, 11712),   // baboon brawler
+		idList(12816),          // frem warband berserker
+		idList(14151, 14150),   // Royal titans elementals
+		new java.util.ArrayList<>(YAMA_VOID_FLARE_IDS));
+
 	// --- Burn-immune NPC ids (constants.ts:373-378) — used by BaseCalc.isImmuneToStrongBurns -------
 
 	private static final List<Integer> TEKTON_IDS = idList(7540, 7543, 7544, 7545);

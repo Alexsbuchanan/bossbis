@@ -10,18 +10,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * <p>It computes how many rows WOULD skip in {@link ParityCorpusTest} (i.e. exercise at least one
  * un-ported calc path). At v0.1.1 the {@code PlayerVsNpcCalc.accuracy} and
- * {@code PlayerVsNpcCalc.defenceRoll} paths are ported, so the 3 {@code maxAttackRoll} rows and the 3
- * {@code npcDefRoll} rows RUN (assert) and the 6 {@code maxHit} rows still SKIP — skip-count is exactly
- * {@code total - 6}. This locks both that the attack-roll + defence-roll rows now have live assertions
- * and that no other row leaked into the asserting set prematurely.
+ * {@code PlayerVsNpcCalc.defenceRoll} paths are ported, so the 3 {@code maxAttackRoll} rows, the 3
+ * {@code npcDefRoll} rows, and the 2 {@code accuracy} (hit-chance) rows RUN (assert) and the 6
+ * {@code maxHit} rows still SKIP — skip-count is exactly {@code total - 8}. This locks both that the
+ * attack-roll + defence-roll + accuracy rows now have live assertions and that no other row leaked into
+ * the asserting set prematurely.
  */
 class PortStatusTest
 {
 	/**
 	 * Number of corpus rows whose calc path is ported at v0.1.1: the 3 {@code maxAttackRoll} (accuracy)
-	 * rows + the 3 {@code npcDefRoll} (defenceRoll) rows.
+	 * rows + the 3 {@code npcDefRoll} (defenceRoll) rows + the 2 {@code accuracy} (hit-chance) rows.
 	 */
-	private static final long PORTED_ROWS = 6;
+	private static final long PORTED_ROWS = 8;
 
 	@Test
 	void onlyTheAttackAndDefenceRollRowsRunTheRestSkip()
@@ -34,12 +35,12 @@ class PortStatusTest
 			.count();
 
 		assertThat(wouldSkip)
-			.as("at v0.1.1 the 3 maxAttackRoll + 3 npcDefRoll rows run; the 6 maxHit rows still skip")
+			.as("at v0.1.1 the 3 maxAttackRoll + 3 npcDefRoll + 2 accuracy rows run; the 6 maxHit rows still skip")
 			.isEqualTo(rows.size() - PORTED_ROWS);
 
 		long wouldRun = rows.size() - wouldSkip;
 		assertThat(wouldRun)
-			.as("exactly the 3 attack-roll + 3 defence-roll rows assert at v0.1.1")
+			.as("exactly the 3 attack-roll + 3 defence-roll + 2 accuracy rows assert at v0.1.1")
 			.isEqualTo(PORTED_ROWS);
 	}
 

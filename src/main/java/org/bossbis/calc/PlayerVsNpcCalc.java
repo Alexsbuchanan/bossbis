@@ -109,6 +109,18 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		static final String NPC_DEFENCE_ROLL_BASE = "NPC defence roll (base)";
 		static final String NPC_DEFENCE_ROLL_TOA = "NPC defence roll (toa)";
 		static final String NPC_DEFENCE_ROLL_FINAL = "NPC defence roll";
+
+		// Hit chance (getHitChance / getDisplayHitChance)
+		static final String PLAYER_ACCURACY_BASE = "Base hit chance";
+		static final String PLAYER_ACCURACY_DAWNBRINGER = "Hit chance (dawnbringer)";
+		static final String PLAYER_ACCURACY_SCURRIUS_RAT = "Hit chance (scurrius rat)";
+		static final String PLAYER_ACCURACY_TD = "Hit chance (tormented demon)";
+		static final String PLAYER_ACCURACY_ROYAL_TITAN_ELEMENTAL = "Hit chance (royal titan elemental)";
+		static final String PLAYER_ACCURACY_FANG_TOA = "Hit chance (fang toa)";
+		static final String PLAYER_ACCURACY_FANG = "Hit chance (fang)";
+		static final String PLAYER_ACCURACY_CONFLICTION_GAUNTLETS = "Hit chance (confliction gauntlets)";
+		static final String PLAYER_ACCURACY_BRIMSTONE = "Hit chance (brimstone)";
+		static final String PLAYER_ACCURACY_FINAL = "Hit chance";
 	}
 
 	// =================================================================================================
@@ -961,14 +973,164 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 
 	private static final String NOT_PORTED = "not ported until v0.1.2+";
 
-	public double getHitChance()
-	{
-		throw new UnsupportedOperationException(NOT_PORTED);
-	}
+	// =================================================================================================
+	// Hit chance
+	// =================================================================================================
 
+	/**
+	 * Port of {@code getDisplayHitChance} (PlayerVsNPCCalc.ts:1239-1260). Equals {@link #getHitChance()}
+	 * except for the Brimstone-ring magic 0.75/0.25 blend (the displayed accuracy averages the normal
+	 * and the 10%-reduced-defence rolls).
+	 */
 	public double getDisplayHitChance()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		double hitChance = getHitChance();
+
+		if (hitChance == 1.0 || hitChance == 0.0)
+		{
+			// probably a special effect
+			return hitChance;
+		}
+
+		int atk = getMaxAttackRoll();
+		long def = getNPCDefenceRoll();
+
+		if (CombatStyle.MAGIC.equals(styleType()) && wearing("Brimstone ring"))
+		{
+			double effectHitChance = track(DetailKey.PLAYER_ACCURACY_BRIMSTONE,
+				BaseCalc.getNormalAccuracyRoll(atk, def * 9 / 10));
+
+			hitChance = 0.75 * hitChance + 0.25 * effectHitChance;
+		}
+
+		return hitChance;
+	}
+
+	/**
+	 * Port of {@code getHitChance} (PlayerVsNPCCalc.ts:1262-1373). Combines {@link #getMaxAttackRoll()}
+	 * against {@link #getNPCDefenceRoll()} via {@link BaseCalc#getNormalAccuracyRoll(double, double)},
+	 * with the ordered special accuracy paths (guaranteed-accuracy monsters, Royal-Titan elementals,
+	 * always-max-hit monsters, spec overrides, Fang, Confliction gauntlets).
+	 *
+	 * <p>Deviations: the {@code opts.overrides.accuracy} short-circuit is dropped (no overrides in this
+	 * model), and the leagues talent branches (crossbow double-accuracy, max-accuracy-from-range) are
+	 * dropped per the class-level leagues deviation.
+	 */
+	public double getHitChance()
+	{
+		int monsterId = monster.getId();
+
+		if (Constants.GUARANTEED_ACCURACY_MONSTERS.contains(monsterId))
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		if (Constants.DOOM_OF_MOKHAIOTL_IDS.contains(monsterId) && !"Normal".equals(phase()))
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		if (Constants.VERZIK_P1_IDS_SET.contains(monsterId) && wearing("Dawnbringer"))
+		{
+			track(DetailKey.PLAYER_ACCURACY_DAWNBRINGER, 1.0);
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		if (Constants.P2_WARDEN_IDS_SET.contains(monsterId))
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		// Giant rat (Scurrius)
+		if (monsterId == 7223 && !CombatStyle.MANUAL_CAST.equals(styleStance()))
+		{
+			track(DetailKey.PLAYER_ACCURACY_SCURRIUS_RAT, 1.0);
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		if ("Tormented Demon".equals(monster.getName()) && !"Shielded".equals(phase()))
+		{
+			track(DetailKey.PLAYER_ACCURACY_TD, 1.0);
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		// Ice elemental (Royal Titans) Fire elemental (Royal Titans)
+		if (Constants.TITAN_ELEMENTAL_IDS.contains(monsterId) && CombatStyle.MAGIC.equals(styleType()))
+		{
+			double accuracy = Math.min(1.0, Math.max(0, player.getOffensive().getMagic()) / 100.0 + 0.3);
+			if (isWearingEliteMagicVoid() || isWearingMagicVoid())
+			{
+				accuracy = Math.min(1.0, accuracy * 1.45);
+			}
+			track(DetailKey.PLAYER_ACCURACY_ROYAL_TITAN_ELEMENTAL, accuracy);
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, accuracy);
+		}
+
+		// Eclipse Moon clone phase
+		if (Constants.ECLIPSE_MOON_IDS.contains(monsterId) && "Clone".equals(monster.getVersion())
+			&& isUsingMeleeStyle())
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		if (CombatStyle.MAGIC.equals(styleType()) && Constants.ALWAYS_MAX_HIT_MONSTERS_MAGIC.contains(monsterId))
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+		if (CombatStyle.RANGED.equals(styleType()) && Constants.ALWAYS_MAX_HIT_MONSTERS_RANGED.contains(monsterId))
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+		if (isUsingMeleeStyle() && Constants.ALWAYS_MAX_HIT_MONSTERS_MELEE.contains(monsterId))
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		if (opts.usingSpecialAttack && wearing("Voidwaker", "Dawnbringer"))
+		{
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		if (opts.usingSpecialAttack && (wearing("Seercull") || isWearingMlb()))
+		{
+			if (isAmmoInvalid())
+			{
+				return track(DetailKey.PLAYER_ACCURACY_FINAL, 0.0);
+			}
+			return track(DetailKey.PLAYER_ACCURACY_FINAL, 1.0);
+		}
+
+		int atk = getMaxAttackRoll();
+		long def = getNPCDefenceRoll();
+
+		double hitChance = track(DetailKey.PLAYER_ACCURACY_BASE,
+			BaseCalc.getNormalAccuracyRoll(atk, def));
+
+		boolean fangAccuracy = isWearingFang() && CombatStyle.STAB.equals(styleType());
+		boolean drygoreAccuracy = wearing("Drygore blowpipe") && !CombatStyle.MANUAL_CAST.equals(styleStance());
+		if (fangAccuracy || drygoreAccuracy)
+		{
+			if (fangAccuracy && Constants.TOMBS_OF_AMASCUT_MONSTER_IDS.contains(monsterId))
+			{
+				hitChance = track(DetailKey.PLAYER_ACCURACY_FANG_TOA,
+					1 - Math.pow(1 - hitChance, 2));
+			}
+			else
+			{
+				hitChance = track(DetailKey.PLAYER_ACCURACY_FANG,
+					BaseCalc.getFangAccuracyRoll(atk, def));
+			}
+		}
+
+		EquipmentPiece weapon = player.getEquipment().getWeapon();
+		boolean twoHanded = weapon != null && weapon.isTwoHanded();
+		if (wearing("Confliction gauntlets") && CombatStyle.MAGIC.equals(styleType()) && !twoHanded)
+		{
+			hitChance = track(DetailKey.PLAYER_ACCURACY_CONFLICTION_GAUNTLETS,
+				BaseCalc.getConflictionGauntletsAccuracyRoll(atk, def));
+		}
+
+		return track(DetailKey.PLAYER_ACCURACY_FINAL, hitChance);
 	}
 
 	public MinMax getMinAndMax()

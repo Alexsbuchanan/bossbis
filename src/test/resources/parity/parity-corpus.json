@@ -217,6 +217,44 @@
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
   {
+    "name": "empty-player-abyssal-demon-accuracy",
+    "source": "CombatCalc.test.ts: 'Empty player against abyssal demon' (maxAttackRoll=7040, npcDefRoll=12096, accuracy*100~29.10)",
+    "exercises": [
+      "PlayerVsNpcCalc.accuracy",
+      "PlayerVsNpcCalc.defenceRoll"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "accuracy": 0.29098123501694634
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
     "name": "fire-bolt-chaos-gauntlets",
     "source": "GeneratedTests.test.ts: \"Fire bolt with chaos gauntlets\"",
     "exercises": [
@@ -433,6 +471,57 @@
     },
     "expected": {
       "maxHit": 46
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "osmumtens-fang-accuracy-abyssal-demon",
+    "source": "GeneratedTests.test.ts: \"Osmumten's fang in max melee\" loadout (vs Abyssal demon, non-ToA); accuracy via upstream getFangAccuracyRoll",
+    "exercises": [
+      "PlayerVsNpcCalc.accuracy",
+      "PlayerVsNpcCalc.defenceRoll"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 118,
+          "str": 118,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21285,
+          "neck": 19553,
+          "weapon": 26219,
+          "body": 26384,
+          "shield": 22322,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 11773
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "accuracy": 0.9605482099995817
     },
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
