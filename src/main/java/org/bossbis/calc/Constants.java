@@ -64,6 +64,30 @@ public final class Constants
 		TOMBS_OF_AMASCUT_PATH_MONSTER_IDS, TOA_OBELISK_IDS, P2_WARDEN_IDS, TOA_WARDEN_CORE_EJECTED_IDS,
 		P3_WARDEN_IDS);
 
+	// --- Yama ids (constants.ts:436,539) — used by BaseCalc.demonbaneVulnerability -----------------
+
+	/** Port of YAMA_IDS (constants.ts:539). */
+	public static final Set<Integer> YAMA_IDS = setOf(14176);
+
+	/** Port of YAMA_VOID_FLARE_IDS (constants.ts:436). */
+	public static final Set<Integer> YAMA_VOID_FLARE_IDS = setOf(14179);
+
+	// --- Burn-immune NPC ids (constants.ts:373-378) — used by BaseCalc.isImmuneToStrongBurns -------
+
+	private static final List<Integer> TEKTON_IDS = idList(7540, 7543, 7544, 7545);
+	private static final List<Integer> GLOWING_CRYSTAL_IDS = idList(7568);
+	private static final List<Integer> DUSK_IDS = idList(
+		7851, 7854, 7855, 7882, 7883, 7886,   // dusk first form
+		7887, 7888, 7889);                     // dusk second form
+	private static final List<Integer> WARRIORS_GUILD_CYCLOPES = idList(
+		2463, 2465, 2467,                      // L56
+		2464, 2466, 2468,                      // L76
+		2137, 2138, 2139, 2140, 2141, 2142);   // L106
+
+	/** Port of IMMUNE_TO_BURN_DAMAGE_NPC_IDS (constants.ts:373-378). */
+	public static final Set<Integer> IMMUNE_TO_BURN_DAMAGE_NPC_IDS = setOf(
+		TEKTON_IDS, GLOWING_CRYSTAL_IDS, DUSK_IDS, WARRIORS_GUILD_CYCLOPES);
+
 	private static List<Integer> idList(int... ids)
 	{
 		List<Integer> out = new java.util.ArrayList<>(ids.length);
