@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bossbis.calc.CalcMath.MinMax;
 import org.bossbis.calc.data.EquipmentRepository;
+import org.bossbis.calc.data.SpellRepository;
 import org.bossbis.calc.types.Buffs;
 import org.bossbis.calc.types.CombatStyle;
 import org.bossbis.calc.types.EquipmentCategory;
@@ -48,6 +49,14 @@ import org.bossbis.calc.types.Weakness;
 public strictfp class PlayerVsNpcCalc extends BaseCalc
 {
 	/**
+	 * Repository over the bundled spells, used by {@link #getSpellMaxHit(Spell, int)} to resolve the
+	 * elemental strike/bolt/blast/wave/surge tiers by magic level. May be {@code null} for loadouts that
+	 * never need a tier lookup (no spell, or a non-elemental spell); the magic max-hit path requires it
+	 * for elemental spells.
+	 */
+	private final SpellRepository spellRepository;
+
+	/**
 	 * Constructs a calc with default options.
 	 *
 	 * <p>The {@link EquipmentRepository} is injected (mirroring {@link BaseCalc}) so canonicalization
@@ -55,12 +64,29 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 	 */
 	public PlayerVsNpcCalc(Player player, Monster monster, EquipmentRepository equipmentRepository)
 	{
-		this(player, monster, new CalcOpts(), equipmentRepository);
+		this(player, monster, new CalcOpts(), equipmentRepository, null);
 	}
 
 	public PlayerVsNpcCalc(Player player, Monster monster, CalcOpts opts, EquipmentRepository equipmentRepository)
 	{
+		this(player, monster, opts, equipmentRepository, null);
+	}
+
+	/**
+	 * Constructs a calc with the {@link SpellRepository} needed for the magic max-hit elemental-tier
+	 * lookups (see {@link #getSpellMaxHit(Spell, int)}).
+	 */
+	public PlayerVsNpcCalc(Player player, Monster monster, EquipmentRepository equipmentRepository,
+		SpellRepository spellRepository)
+	{
+		this(player, monster, new CalcOpts(), equipmentRepository, spellRepository);
+	}
+
+	public PlayerVsNpcCalc(Player player, Monster monster, CalcOpts opts,
+		EquipmentRepository equipmentRepository, SpellRepository spellRepository)
+	{
 		super(player, monster, opts, equipmentRepository);
+		this.spellRepository = spellRepository;
 	}
 
 	/**
@@ -140,6 +166,13 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		static final String PLAYER_ACCURACY_SPELLEMENT_BONUS = "Attack roll (spellement bonus)";
 		static final String PLAYER_DEMONBANE_FACTOR = "Demonbane factor";
 		static final String MAX_HIT_DRAGONHUNTER = "Max hit (dragon hunter)";
+
+		// Magic max hit (getPlayerMaxMagicHit)
+		static final String MAX_HIT_MAGIC_DMG = "Max hit (magic damage bonus)";
+		static final String MAX_HIT_SPELLEMENT_BONUS = "Max hit (spellement bonus)";
+		static final String MAX_HIT_SPELLEMENT = "Max hit (spellement)";
+		static final String MIN_HIT_SUNFIRE = "Min hit (sunfire)";
+		static final String MAX_HIT_TOME = "Max hit (tome)";
 
 		static final String NPC_DEFENCE_ROLL_LEVEL = "NPC defence roll (level)";
 		static final String NPC_DEFENCE_ROLL_EFFECTIVE_LEVEL = "NPC defence roll (effective level)";
@@ -831,7 +864,7 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 	/** Selector for {@link #getCombatPrayers(PrayerFilter)} (mirrors the {@code keyof PrayerData} filter). */
 	private enum PrayerFilter
 	{
-		ACCURACY, STRENGTH
+		ACCURACY, STRENGTH, MAGIC_DAMAGE_BONUS
 	}
 
 	/** Port of {@code getCombatPrayers} (PlayerVsNPCCalc.ts:1144-1157). */
@@ -865,7 +898,21 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 			{
 				continue;
 			}
-			boolean has = filter == PrayerFilter.ACCURACY ? d.factorAccuracy() != null : d.factorStrength() != null;
+			boolean has;
+			switch (filter)
+			{
+				case ACCURACY:
+					has = d.factorAccuracy() != null;
+					break;
+				case STRENGTH:
+					has = d.factorStrength() != null;
+					break;
+				case MAGIC_DAMAGE_BONUS:
+					has = d.magicDamageBonus() != null;
+					break;
+				default:
+					has = false;
+			}
 			if (has)
 			{
 				out.add(d);
@@ -1781,9 +1828,404 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 			track(DetailKey.MAX_HIT_WARDENS, (int) ((long) max * (modifier + maxPctRange) / 100)));
 	}
 
+	/**
+	 * Port of {@code getPlayerMaxMagicHit} (PlayerVsNPCCalc.ts:960-1139). Computes the player's magic
+	 * {@code [min, max]} hit: the base max from {@link #getSpellMaxHit(Spell, int)} (with the Magic Dart
+	 * special), or the powered-staff if/else chain (Starter staff, the tridents, Thammaron's, Accursed,
+	 * Sanguinesti, Dawnbringer, Tumeken's shadow, Eye of ayak, Lithic, Warped, Bone staff, the nightmare
+	 * spec staves, crystal/corrupted staves, salamanders), then — in upstream order — the chaos/god
+	 * gauntlets flat bolt bonus, the charge-spell bonus, the magic-damage-bonus {@code %} from gear/buffs
+	 * ({@code bonuses.magic_str} + smoke staff + salve/avarice + the magic-damage prayers, applied at
+	 * {@code /1000}), the powered-staff Crystal-blessing, imbued-black-mask, dragonbane, rev weapon, the
+	 * spec multipliers, the spellement weakness bonus, sunfire min hit, the tomes, and the P2-Warden /
+	 * Respiratory-system transforms. Returns {@link MinMax}.
+	 *
+	 * <p>Deviations: the leagues magic-attack-speed-powered branch (a {@code -8} max-hit adjustment) is
+	 * dropped per the class-level leagues deviation.
+	 */
 	private MinMax getPlayerMaxMagicHit()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		int minHit = 0;
+		int maxHit = 0;
+		int magicLevel = player.getSkills().getMagic() + player.getBoosts().getMagic();
+		Spell spell = player.getSpell();
+
+		// Specific bonuses that are applied from equipment
+		List<MonsterAttribute> mattrs = attributes();
+		Buffs buffs = player.getBuffs();
+
+		if (spell != null)
+		{
+			maxHit = getSpellMaxHit(spell, magicLevel);
+			if ("Magic Dart".equals(spell.getName()))
+			{
+				if (wearing("Slayer's staff (e)") && isSlayerMonster() && buffs.isOnSlayerTask())
+				{
+					maxHit = (int) (13 + (long) magicLevel / 6);
+				}
+				else
+				{
+					maxHit = (int) (10 + (long) magicLevel / 10);
+				}
+			}
+		}
+		else if (wearing("Starter staff"))
+		{
+			maxHit = 8;
+		}
+		else if (wearing("Trident of the seas", "Trident of the seas (e)"))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3 - 5));
+		}
+		else if (wearing("Thammaron's sceptre"))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3 - 8));
+		}
+		else if (wearing("Accursed sceptre") || (wearing("Accursed sceptre (a)") && opts.usingSpecialAttack))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3 - 6));
+		}
+		else if (wearing("Trident of the swamp", "Trident of the swamp (e)"))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3 - 2));
+		}
+		else if (wearing("Sanguinesti staff", "Holy sanguinesti staff"))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3 - 1));
+		}
+		else if (wearing("Dawnbringer"))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 6 - 1));
+			if (opts.usingSpecialAttack)
+			{
+				// guaranteed hit between 75-150, ignores bonuses
+				return new MinMax(75, 150);
+			}
+		}
+		else if (wearing("Tumeken's shadow"))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3) + 1);
+		}
+		else if (wearing("Eye of ayak"))
+		{
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3) - 6);
+		}
+		else if (wearing("Lithic sceptre"))
+		{
+			maxHit = Math.max(10, (int) ((long) magicLevel / 3) - 10);
+		}
+		else if (wearing("Warped sceptre"))
+		{
+			maxHit = Math.max(1, (int) ((8L * magicLevel + 96) / 37));
+		}
+		else if (wearing("Bone staff"))
+		{
+			// although the +10 is technically a ratbane bonus, the weapon can't be used against non-rats
+			// and shows this max hit against the combat dummy as well
+			maxHit = Math.max(1, (int) ((long) magicLevel / 3) - 5) + 10;
+		}
+		else if (wearing("Eldritch nightmare staff") && opts.usingSpecialAttack)
+		{
+			maxHit = Math.max(1, Math.min(44, (int) ((99L + 44 * magicLevel) / 99)));
+		}
+		else if (wearing("Volatile nightmare staff") && opts.usingSpecialAttack)
+		{
+			maxHit = Math.max(1, Math.min(58, (int) ((99L + 58 * magicLevel) / 99)));
+		}
+		else if (wearing("Crystal staff (basic)", "Corrupted staff (basic)"))
+		{
+			maxHit = 23;
+		}
+		else if (wearing("Crystal staff (attuned)", "Corrupted staff (attuned)"))
+		{
+			maxHit = 31;
+		}
+		else if (wearing("Crystal staff (perfected)", "Corrupted staff (perfected)"))
+		{
+			maxHit = 39;
+		}
+		else if (wearing("Swamp lizard"))
+		{
+			maxHit = (int) (((long) magicLevel * (56 + 64) + 320) / 640);
+		}
+		else if (wearing("Orange salamander"))
+		{
+			maxHit = (int) (((long) magicLevel * (59 + 64) + 320) / 640);
+		}
+		else if (wearing("Red salamander"))
+		{
+			maxHit = (int) (((long) magicLevel * (77 + 64) + 320) / 640);
+		}
+		else if (wearing("Black salamander"))
+		{
+			maxHit = (int) (((long) magicLevel * (92 + 64) + 320) / 640);
+		}
+		else if (wearing("Tecu salamander"))
+		{
+			maxHit = (int) (((long) magicLevel * (104 + 64) + 320) / 640);
+		}
+
+		if (maxHit == 0)
+		{
+			// at this point either they've selected a 0-dmg spell
+			// or they picked a staff-casting option without choosing a spell
+			return new MinMax(0, 0);
+		}
+		track(DetailKey.MAX_HIT_BASE, maxHit);
+
+		if (opts.usingSpecialAttack && wearing("Eye of ayak"))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 13, 10);
+		}
+
+		if (wearing("Chaos gauntlets") && spell != null && spell.getName() != null
+			&& spell.getName().toLowerCase().contains("bolt"))
+		{
+			maxHit += 3;
+		}
+		if (isChargeSpellApplicable())
+		{
+			maxHit += 10;
+		}
+
+		// We need the basehit value for the elemental bonus later.
+		int baseMax = maxHit;
+		int magicDmgBonus = player.getBonuses().getMagicStr();
+
+		if (isWearingSmokeStaff() && spell != null && spell.getSpellbook() == Spell.Spellbook.STANDARD)
+		{
+			magicDmgBonus += 100;
+		}
+
+		boolean blackMaskBonus = false;
+		if (wearing("Salve amulet(ei)") && mattrs.contains(MonsterAttribute.UNDEAD))
+		{
+			magicDmgBonus += 200;
+		}
+		else if (wearing("Salve amulet(i)") && mattrs.contains(MonsterAttribute.UNDEAD))
+		{
+			magicDmgBonus += 150;
+		}
+		else if (wearing("Amulet of avarice") && monster.getName() != null
+			&& monster.getName().startsWith("Revenant"))
+		{
+			magicDmgBonus += buffs.isForinthrySurge() ? 350 : 200;
+		}
+		else if (isWearingImbuedBlackMask() && isSlayerMonster() && buffs.isOnSlayerTask())
+		{
+			blackMaskBonus = true;
+		}
+
+		for (PrayerData p : getCombatPrayers(PrayerFilter.MAGIC_DAMAGE_BONUS))
+		{
+			magicDmgBonus += p.magicDamageBonus().intValue();
+		}
+
+		maxHit = trackAddFactor(DetailKey.MAX_HIT_MAGIC_DMG, maxHit, magicDmgBonus, 1000);
+
+		EquipmentPiece weapon = player.getEquipment().getWeapon();
+		boolean usingPoweredStaff = weapon != null
+			&& weapon.getCategory() == EquipmentCategory.POWERED_STAFF
+			&& !CombatStyle.MANUAL_CAST.equals(styleStance());
+		if (usingPoweredStaff && wearing("Crystal blessing"))
+		{
+			int crystalPieces = (wearing("Crystal helm") ? 1 : 0)
+				+ (wearing("Crystal legs") ? 2 : 0)
+				+ (wearing("Crystal body") ? 3 : 0);
+			maxHit = (int) ((long) maxHit * (40 + crystalPieces) / 40);
+		}
+
+		if (blackMaskBonus)
+		{
+			maxHit = (int) ((long) maxHit * 23 / 20);
+		}
+
+		if (mattrs.contains(MonsterAttribute.DRAGON))
+		{
+			// this still applies to dhl and dhcb when autocasting
+			if (wearing("Dragon hunter lance"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_DRAGONHUNTER, maxHit, 6, 5);
+			}
+			else if (wearing("Dragon hunter wand"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_DRAGONHUNTER, maxHit, 7, 5);
+			}
+			else if (wearing("Dragon hunter crossbow"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_DRAGONHUNTER, maxHit, 5, 4);
+			}
+		}
+
+		if (isRevWeaponBuffApplicable())
+		{
+			maxHit = (int) ((long) maxHit * 3 / 2);
+		}
+
+		if (opts.usingSpecialAttack)
+		{
+			if (isWearingAccursedSceptre())
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 3, 2);
+			}
+		}
+
+		Spellement spellement = getSpellement();
+		Weakness weakness = getMonsterWeakness();
+		if (spellement != null && weakness != null && spellement == weakness.getElement())
+		{
+			int bonus = trackFactor(DetailKey.MAX_HIT_SPELLEMENT_BONUS, baseMax,
+				weakness.getSeverity(), 100);
+			maxHit = trackAdd(DetailKey.MAX_HIT_SPELLEMENT, maxHit, bonus);
+		}
+
+		if (buffs.isUsingSunfireRunes() && canUseSunfireRunes(spell))
+		{
+			// sunfire runes are applied pre-tome
+			minHit = trackFactor(DetailKey.MIN_HIT_SUNFIRE, maxHit, 1, 10);
+		}
+
+		EquipmentPiece shield = player.getEquipment().getShield();
+		boolean shieldCharged = shield != null && "Charged".equals(shield.getVersion());
+		if ((wearing("Tome of fire") && shieldCharged && getSpellement() == Spellement.FIRE)
+			|| (wearing("Tome of water") && shieldCharged && getSpellement() == Spellement.WATER)
+			|| (wearing("Tome of earth") && shieldCharged && getSpellement() == Spellement.EARTH))
+		{
+			maxHit = trackFactor(DetailKey.MAX_HIT_TOME, maxHit, 11, 10);
+		}
+
+		if (Constants.P2_WARDEN_IDS_SET.contains(monster.getId()))
+		{
+			MinMax warded = applyP2WardensDamageModifier(maxHit);
+			minHit = warded.min();
+			maxHit = warded.max();
+		}
+
+		if ("Respiratory system".equals(monster.getName()))
+		{
+			minHit = trackAdd(DetailKey.REPIRATORY_SYSTEM_MIN_HIT, minHit, (int) ((long) maxHit / 2));
+		}
+
+		return new MinMax(minHit, maxHit);
+	}
+
+	/**
+	 * Port of {@code getSpellMaxHit} (src/types/Spell.ts:26-66). Returns {@code spell.max_hit}, except for
+	 * the elemental strike/bolt/blast/wave/surge spells whose damage tier is resolved by the player's magic
+	 * level via {@link SpellRepository#byName}. The tier thresholds are ported verbatim.
+	 */
+	private int getSpellMaxHit(Spell spell, int magicLevel)
+	{
+		if (spell.getElement() == null || "Flames of Cerberus".equals(spell.getName()))
+		{
+			return spell.getMaxHit();
+		}
+
+		String name = spell.getName() == null ? "" : spell.getName();
+		String[] parts = name.split(" ");
+		String spellClass = parts.length > 1 ? parts[1] : "";
+		switch (spellClass)
+		{
+			case "Strike":
+				if (magicLevel >= 13)
+				{
+					return spellMaxHitByName("Fire " + spellClass);
+				}
+				if (magicLevel >= 9)
+				{
+					return spellMaxHitByName("Earth " + spellClass);
+				}
+				if (magicLevel >= 5)
+				{
+					return spellMaxHitByName("Water " + spellClass);
+				}
+				return spellMaxHitByName("Wind " + spellClass);
+
+			case "Bolt":
+				if (magicLevel >= 35)
+				{
+					return spellMaxHitByName("Fire " + spellClass);
+				}
+				if (magicLevel >= 29)
+				{
+					return spellMaxHitByName("Earth " + spellClass);
+				}
+				if (magicLevel >= 23)
+				{
+					return spellMaxHitByName("Water " + spellClass);
+				}
+				return spellMaxHitByName("Wind " + spellClass);
+
+			case "Blast":
+				if (magicLevel >= 59)
+				{
+					return spellMaxHitByName("Fire " + spellClass);
+				}
+				if (magicLevel >= 53)
+				{
+					return spellMaxHitByName("Earth " + spellClass);
+				}
+				if (magicLevel >= 47)
+				{
+					return spellMaxHitByName("Water " + spellClass);
+				}
+				return spellMaxHitByName("Wind " + spellClass);
+
+			case "Wave":
+				if (magicLevel >= 75)
+				{
+					return spellMaxHitByName("Fire " + spellClass);
+				}
+				if (magicLevel >= 70)
+				{
+					return spellMaxHitByName("Earth " + spellClass);
+				}
+				if (magicLevel >= 65)
+				{
+					return spellMaxHitByName("Water " + spellClass);
+				}
+				return spellMaxHitByName("Wind " + spellClass);
+
+			case "Surge":
+				if (magicLevel >= 95)
+				{
+					return spellMaxHitByName("Fire " + spellClass);
+				}
+				if (magicLevel >= 90)
+				{
+					return spellMaxHitByName("Earth " + spellClass);
+				}
+				if (magicLevel >= 85)
+				{
+					return spellMaxHitByName("Water " + spellClass);
+				}
+				return spellMaxHitByName("Wind " + spellClass);
+
+			default:
+				throw new IllegalStateException("No dynamic max hit available for " + name);
+		}
+	}
+
+	/** Looks up the {@code max_hit} of a named elemental spell via the injected {@link SpellRepository}. */
+	private int spellMaxHitByName(String name)
+	{
+		if (spellRepository == null)
+		{
+			throw new IllegalStateException(
+				"SpellRepository required for elemental spell tier lookup: " + name);
+		}
+		Spell s = spellRepository.byName(name);
+		if (s == null)
+		{
+			throw new IllegalStateException("No spell named " + name);
+		}
+		return s.getMaxHit();
+	}
+
+	/** Port of {@code canUseSunfireRunes} (src/types/Spell.ts:68-70). */
+	private static boolean canUseSunfireRunes(Spell spell)
+	{
+		return spell != null && spell.getElement() == Spellement.FIRE;
 	}
 
 	public Object getDistribution()
