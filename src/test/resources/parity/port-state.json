@@ -1,5 +1,5 @@
 {
-  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.3 (Milestone 2) the PlayerVsNpcCalc.accuracy (player attack rolls), PlayerVsNpcCalc.defenceRoll (getNPCDefenceRoll + defence reductions), PlayerVsNpcCalc.maxMeleeHit (getPlayerMaxMeleeHit), PlayerVsNpcCalc.maxRangedHit (getPlayerMaxRangedHit + getMinAndMax ranged dispatch), and PlayerVsNpcCalc.maxMagicHit (getPlayerMaxMagicHit + getSpellMaxHit + getMinAndMax magic dispatch) paths are ported, so the 3 maxAttackRoll rows, the 3 npcDefRoll rows, the 2 accuracy rows, the 6 plain melee maxHit rows, the 3 ranged maxHit rows (bofa L99/L1, comp ogre bow), and the magic maxHit rows (tumeken's shadow, fire-bolt + chaos gauntlets, + coverage) run; the blisterwood row (distribution) still skips.",
+  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.4 (Milestone 3) the PlayerVsNpcCalc.dps (getExpectedAttackSpeed + getDpt + getDps) and PlayerVsNpcCalc.ttk (getHtk + getTtk) paths are now ported in addition to distribution/accuracy/defenceRoll/maxMeleeHit/maxRangedHit/maxMagicHit. Every maxHit row asserts via getMax() (the distribution top = upstream's maxHit) — including the blisterwood row (55 via the vampyrebane scaleDamage(5,4)); the dps rows assert getDps() and the ttk row asserts getTtk() at relative <= 1e-9.",
   "ported": [],
   "paths": {
     "PlayerVsNpcCalc.maxMeleeHit": "ported",
@@ -7,7 +7,8 @@
     "PlayerVsNpcCalc.maxMagicHit": "ported",
     "PlayerVsNpcCalc.accuracy": "ported",
     "PlayerVsNpcCalc.defenceRoll": "ported",
-    "PlayerVsNpcCalc.distribution": "not-ported",
-    "PlayerVsNpcCalc.dps": "not-ported"
+    "PlayerVsNpcCalc.distribution": "ported",
+    "PlayerVsNpcCalc.dps": "ported",
+    "PlayerVsNpcCalc.ttk": "ported"
   }
 }

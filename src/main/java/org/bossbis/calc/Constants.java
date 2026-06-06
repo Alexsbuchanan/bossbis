@@ -161,6 +161,11 @@ public final class Constants
 	/** Port of ECLIPSE_MOON_IDS (constants.ts:547). */
 	public static final Set<Integer> ECLIPSE_MOON_IDS = setOf(13012);
 
+	/** Port of INFINITE_HEALTH_MONSTERS (constants.ts:543-545) — monsters with infinite HP (ruby-bolt cap). */
+	public static final Set<Integer> INFINITE_HEALTH_MONSTERS = setOf(
+		14779 // gemstone crab
+	);
+
 	/** Port of DOOM_OF_MOKHAIOTL_IDS (constants.ts:531). */
 	public static final Set<Integer> DOOM_OF_MOKHAIOTL_IDS = setOf(14707);
 
@@ -210,6 +215,92 @@ public final class Constants
 	/** Port of IMMUNE_TO_BURN_DAMAGE_NPC_IDS (constants.ts:373-378). */
 	public static final Set<Integer> IMMUNE_TO_BURN_DAMAGE_NPC_IDS = setOf(
 		TEKTON_IDS, GLOWING_CRYSTAL_IDS, DUSK_IDS, WARRIORS_GUILD_CYCLOPES);
+
+	// --- Distribution / applyNpcTransforms / isImmune id sets (constants.ts) -------------------------
+
+	private static final List<Integer> ABYSSAL_PORTAL_IDS = idList(7533);
+	private static final List<Integer> OLM_HEAD_IDS_LIST = idList(7551, 7554);
+	private static final List<Integer> OLM_MELEE_HAND_IDS_LIST = idList(7552, 7555);
+	private static final List<Integer> OLM_MAGE_HAND_IDS_LIST = idList(7550, 7553);
+	private static final List<Integer> ZULRAH_IDS_LIST = idList(2042, 2043, 2044);
+
+	/** Port of ONE_HIT_MONSTERS (constants.ts:448-452) — NPCs that always die in one player hit. */
+	public static final Set<Integer> ONE_HIT_MONSTERS = setOf(
+		7223,   // Giant rat (Scurrius)
+		8584,   // Flower
+		11193); // Flower (A Night at the Theatre)
+
+	/** Port of TEKTON_IDS (constants.ts:180-183). */
+	public static final Set<Integer> TEKTON_IDS_SET = setOf(TEKTON_IDS);
+
+	/** Port of GUARDIAN_IDS (constants.ts:189-192) — CoX Guardians (pickaxe-only). */
+	public static final Set<Integer> GUARDIAN_IDS = setOf(7569, 7571, 7570, 7572);
+
+	/** Port of GLOWING_CRYSTAL_IDS (constants.ts:249-251). */
+	public static final Set<Integer> GLOWING_CRYSTAL_IDS_SET = setOf(GLOWING_CRYSTAL_IDS);
+
+	/** Port of ICE_DEMON_IDS (constants.ts:256-259). */
+	public static final Set<Integer> ICE_DEMON_IDS_SET = setOf(ICE_DEMON_IDS);
+
+	/** Port of OLM_HEAD_IDS (constants.ts:198-201). */
+	public static final Set<Integer> OLM_HEAD_IDS = setOf(OLM_HEAD_IDS_LIST);
+
+	/** Port of OLM_MELEE_HAND_IDS (constants.ts:206-209). */
+	public static final Set<Integer> OLM_MELEE_HAND_IDS = setOf(OLM_MELEE_HAND_IDS_LIST);
+
+	/** Port of OLM_MAGE_HAND_IDS (constants.ts:214-217). */
+	public static final Set<Integer> OLM_MAGE_HAND_IDS = setOf(OLM_MAGE_HAND_IDS_LIST);
+
+	/** Port of NIGHTMARE_TOTEM_IDS (constants.ts:306-309) — take double magic damage. */
+	public static final Set<Integer> NIGHTMARE_TOTEM_IDS = setOf(
+		9434, 9437, 9440, 9443,
+		9435, 9438, 9441, 9444);
+
+	/** Port of ZULRAH_IDS (constants.ts:341-343). */
+	public static final Set<Integer> ZULRAH_IDS = setOf(ZULRAH_IDS_LIST);
+
+	/** Port of VESPULA_IDS (constants.ts:269-271). */
+	public static final Set<Integer> VESPULA_IDS = setOf(7530, 7531, 7532);
+
+	/** Port of IMMUNE_TO_MELEE_DAMAGE_NPC_IDS (constants.ts:348-355). */
+	public static final Set<Integer> IMMUNE_TO_MELEE_DAMAGE_NPC_IDS = setOf(
+		idList(494),                       // kraken
+		ABYSSAL_PORTAL_IDS,
+		idList(7706),                      // zuk
+		idList(7708),                      // Jal-MejJak
+		idList(12214, 12215, 12219),       // leviathan
+		ZULRAH_IDS_LIST);
+
+	/** Port of IMMUNE_TO_NON_SALAMANDER_MELEE_DAMAGE_NPC_IDS (constants.ts:357-360) — aviansie. */
+	public static final Set<Integer> IMMUNE_TO_NON_SALAMANDER_MELEE_DAMAGE_NPC_IDS = setOf(
+		3169, 3170, 3171, 3172, 3173, 3174, 3175, 3176, 3177, 3178, 3179, 3180, 3181, 3182, 3183,
+		7037);
+
+	/** Port of IMMUNE_TO_RANGED_DAMAGE_NPC_IDS (constants.ts:365-370). */
+	public static final Set<Integer> IMMUNE_TO_RANGED_DAMAGE_NPC_IDS = setOf(
+		TEKTON_IDS, DUSK_IDS, GLOWING_CRYSTAL_IDS, WARRIORS_GUILD_CYCLOPES);
+
+	/** Port of IMMUNE_TO_MAGIC_DAMAGE_NPC_IDS (constants.ts:383-386). */
+	public static final Set<Integer> IMMUNE_TO_MAGIC_DAMAGE_NPC_IDS = setOf(
+		DUSK_IDS, WARRIORS_GUILD_CYCLOPES);
+
+	/** Port of BA_ATTACKER_MONSTERS (constants.ts:394-418) — Barbarian Assault attacker-level targets. */
+	public static final Set<Integer> BA_ATTACKER_MONSTERS = setOf(
+		// fighters
+		1667, 5739, 5740, 5741, 5742, 5743, 5744, 5745, 5746, 5747,
+		// rangers
+		1668, 5757, 5758, 5759, 5760, 5761, 5762, 5763, 5764, 5765);
+
+	/** Port of HUEYCOATL_TAIL_IDS (constants.ts:518). */
+	public static final Set<Integer> HUEYCOATL_TAIL_IDS = setOf(14014);
+
+	/** Port of HUEYCOATL_PHASE_IDS (constants.ts:525) — head + tail (body can't receive pillar buff). */
+	public static final Set<Integer> HUEYCOATL_PHASE_IDS = setOf(
+		idList(14009, 14010, 14013),  // head
+		idList(14014));               // tail
+
+	/** Port of ABYSSAL_SIRE_TRANSITION_IDS (constants.ts:536). */
+	public static final Set<Integer> ABYSSAL_SIRE_TRANSITION_IDS = setOf(5886, 5889, 5891);
 
 	private static List<Integer> idList(int... ids)
 	{

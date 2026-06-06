@@ -3,6 +3,15 @@ package org.bossbis.calc;
 import java.util.ArrayList;
 import java.util.List;
 import org.bossbis.calc.CalcMath.MinMax;
+import org.bossbis.calc.HitDist.AttackDistribution;
+import org.bossbis.calc.HitDist.HitDistribution;
+import org.bossbis.calc.HitDist.HitTransformer;
+import org.bossbis.calc.HitDist.Hitsplat;
+import org.bossbis.calc.HitDist.TransformOpts;
+import org.bossbis.calc.HitDist.WeightedHit;
+import org.bossbis.calc.dists.BoltsDist;
+import org.bossbis.calc.dists.BoltsDist.BoltContext;
+import org.bossbis.calc.dists.ClawsDist;
 import org.bossbis.calc.data.EquipmentRepository;
 import org.bossbis.calc.data.SpellRepository;
 import org.bossbis.calc.types.Buffs;
@@ -11,6 +20,7 @@ import org.bossbis.calc.types.EquipmentCategory;
 import org.bossbis.calc.types.EquipmentPiece;
 import org.bossbis.calc.types.Monster;
 import org.bossbis.calc.types.MonsterAttribute;
+import org.bossbis.calc.types.MonsterPrayers;
 import org.bossbis.calc.types.Player;
 import org.bossbis.calc.types.Prayer;
 import org.bossbis.calc.types.Prayer.PrayerData;
@@ -1552,14 +1562,955 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		return new MinMax(min, max);
 	}
 
+	// =================================================================================================
+	// Hit distribution (getAttackerDist + applyNpcTransforms + getDistribution + getMax)
+	// =================================================================================================
+
+	/** Memoized result of {@link #getDistributionImpl()} (mirrors upstream {@code memoizedDist}). */
+	private AttackDistribution memoizedDist;
+
+	/** Per-style cache for {@link #applyNpcTransforms(String)} (mirrors {@code npcTransformCache}). */
+	private final java.util.Map<String, HitTransformer> npcTransformCache = new java.util.HashMap<>();
+
+	/** {@code TransformOpts{transformInaccurate: true}}. */
+	private static final TransformOpts TI_TRUE = new TransformOpts(true);
+	/** {@code TransformOpts{transformInaccurate: false}}. */
+	private static final TransformOpts TI_FALSE = new TransformOpts(false);
+
+	/**
+	 * Port of {@code getMax} (PlayerVsNPCCalc.ts:1411-1413): the distribution top plus DoT. This is
+	 * upstream's {@code maxHit} source (the corpus {@code maxHit} field asserts against this).
+	 */
 	public int getMax()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		return getDistribution().getMax() + getDoTMax();
 	}
 
+	/** Port of {@code getExpectedDamage} (PlayerVsNPCCalc.ts:1415-1417). */
+	public double getExpectedDamage()
+	{
+		return getDistribution().getExpectedDamage() + getDoTExpected();
+	}
+
+	/**
+	 * Base max hit (the {@code [min, max]} top before the distribution-pipeline transforms). Kept for
+	 * the v0.1.3 callers; {@link #getMax()} is the distribution top (upstream's {@code maxHit}).
+	 */
 	public int getMaxHit()
 	{
 		return getMinAndMax().max();
+	}
+
+	/**
+	 * Port of {@code getDoTMax} (PlayerVsNPCCalc.ts:1393-1409). Damage-over-time only fires under a
+	 * special attack (Burning claws, Scorching bow, Arkan blade), and {@code opts.usingSpecialAttack}
+	 * defaults to {@code false} in this model, so it is 0 for every normal loadout (and every corpus
+	 * row). The spec branches are ported verbatim for faithfulness.
+	 */
+	public int getDoTMax()
+	{
+		int ret = 0;
+		if (opts.usingSpecialAttack)
+		{
+			if (wearing("Bone claws", "Burning claws") && !isImmuneToNormalBurns())
+			{
+				ret = 29;
+			}
+			else if (wearing("Scorching bow") && !isImmuneToNormalBurns())
+			{
+				ret = attributes().contains(MonsterAttribute.DEMON) ? 5 : 1;
+			}
+			else if (wearing("Arkan blade") && !isImmuneToNormalBurns())
+			{
+				ret = 10;
+			}
+		}
+		return ret;
+	}
+
+	/** Port of {@code getDoTExpected} (PlayerVsNPCCalc.ts:1375-1391); see {@link #getDoTMax()} (spec-only). */
+	public double getDoTExpected()
+	{
+		double ret = 0;
+		if (opts.usingSpecialAttack)
+		{
+			if (wearing("Bone claws", "Burning claws") && !isImmuneToNormalBurns())
+			{
+				ret = ClawsDist.burningClawDoT(getHitChance());
+			}
+			else if (wearing("Scorching bow") && !isImmuneToNormalBurns())
+			{
+				ret = attributes().contains(MonsterAttribute.DEMON) ? 5 : 1;
+			}
+			else if (wearing("Arkan blade") && !isImmuneToNormalBurns())
+			{
+				ret = 10 * getHitChance();
+			}
+		}
+		return ret;
+	}
+
+	/** Port of {@code getDistribution} (PlayerVsNPCCalc.ts:1419-1426), memoized. */
+	public AttackDistribution getDistribution()
+	{
+		if (memoizedDist == null)
+		{
+			memoizedDist = getDistributionImpl();
+		}
+		return memoizedDist;
+	}
+
+	/**
+	 * Port of {@code getDistributionImpl} (PlayerVsNPCCalc.ts:1428-1471). Builds the attacker
+	 * distribution then applies the NPC-side transforms for the effective style.
+	 *
+	 * <p>Deviations: the leagues {@code King's barrage} ice/ranged-split branch, the
+	 * {@code applyLeaguesPostProcessing} step, and the {@code NEXT_PUBLIC_HIT_DIST_SANITY_CHECK}
+	 * debug block are dropped (no leagues state in this model; the sanity check is a dev-only warning).
+	 */
+	private AttackDistribution getDistributionImpl()
+	{
+		AttackDistribution attackerDist = getAttackerDist();
+
+		String styleType = styleType();
+		if (opts.usingSpecialAttack && wearing("Voidwaker"))
+		{
+			styleType = CombatStyle.MAGIC;
+		}
+
+		return attackerDist.transform(applyNpcTransforms(styleType));
+	}
+
+	/**
+	 * Port of {@code getAttackerDist} (PlayerVsNPCCalc.ts:1473-1973). Builds the base attacker
+	 * {@link AttackDistribution} from {@link #getHitChance()} + {@link #getMinAndMax()} + style: the
+	 * plain single-hit linear case, plus every multi-hit / special-weapon branch (scythe, two-hit,
+	 * dual macuahuitl, claws/burning-claws spec, dragon/abyssal/saradomin/granite specs, blowpipe,
+	 * Tonalztics, Dark bow, Gadderhammer, Verac's, Karil's, Ahrim's, Dharok, berserker-obby, keris
+	 * proc, guardian pickaxe scaling, mark-of-darkness demonbane, vampyre bonuses, enchanted bolts,
+	 * twinflame/shadowflame, Corp halving, ruby bolts, brimstone, the accurate-0→1 raise, and the
+	 * always-max-hit collapse).
+	 *
+	 * <p>Deviations: every {@code leagues.six.*} branch (echo, crossbow/air/water/earth/fire-rune
+	 * talents, light-weapon double-hit), the {@code isEcho} echo branch, the
+	 * {@code noInitSubCalc}-based branches (Tonalztics-spec lowered-defence second hit, dragon/crystal
+	 * halberd second-hit accuracy, the {@code Brimstone ring} magic effect-dist), and the
+	 * sanity-check block are dropped (no leagues / sub-calc / spec construction in v0.1.4 Milestone 2).
+	 */
+	private AttackDistribution getAttackerDist()
+	{
+		List<MonsterAttribute> mattrs = attributes();
+		double acc = getHitChance();
+		MinMax mm = getMinAndMax();
+		int min = mm.min();
+		int max = mm.max();
+		String style = styleType();
+
+		if (max == 0)
+		{
+			return new AttackDistribution(listOf(
+				new HitDistribution(weightedList(new WeightedHit(1.0, splats(Hitsplat.INACCURATE))))));
+		}
+
+		// standard linear
+		HitDistribution standardHitDist = HitDistribution.linear(acc, min, max);
+		AttackDistribution dist = new AttackDistribution(listOf(standardHitDist));
+
+		// Monsters that always die in one hit no matter what
+		if (Constants.ONE_HIT_MONSTERS.contains(monster.getId()))
+		{
+			return new AttackDistribution(listOf(
+				HitDistribution.single(1.0, splats(new Hitsplat(monster.getSkills().getHp())))));
+		}
+
+		if ("Respiratory system".equals(monster.getName()) && isUsingDemonbane())
+		{
+			return new AttackDistribution(listOf(
+				HitDistribution.single(acc, splats(new Hitsplat(monster.getSkills().getHp())))));
+		}
+
+		EquipmentPiece weapon = player.getEquipment().getWeapon();
+		EquipmentCategory weaponCategory = weapon == null ? null : weapon.getCategory();
+		String weaponVersion = weapon == null ? null : weapon.getVersion();
+
+		if (CombatStyle.RANGED.equals(style) && wearing("Tonalztics of ralos") && "Charged".equals(weaponVersion))
+		{
+			// roll two independent hits (the spec lowered-defence second hit needs a sub-calc — dropped)
+			if (!opts.usingSpecialAttack)
+			{
+				dist = new AttackDistribution(listOf(standardHitDist, standardHitDist));
+			}
+		}
+
+		if (isUsingMeleeStyle() && wearing("Gadderhammer") && mattrs.contains(MonsterAttribute.SHADE))
+		{
+			List<WeightedHit> hits = new ArrayList<>();
+			hits.addAll(standardHitDist.scaleProbability(0.95).scaleDamage(5, 4).hits);
+			hits.addAll(standardHitDist.scaleProbability(0.05).scaleDamage(2).hits);
+			dist = new AttackDistribution(listOf(new HitDistribution(hits)));
+		}
+
+		if (CombatStyle.RANGED.equals(style) && wearing("Dark bow"))
+		{
+			dist = new AttackDistribution(listOf(standardHitDist, standardHitDist));
+			if (opts.usingSpecialAttack)
+			{
+				dist = dist.transform(HitDist.flatLimitTransformer(48, min));
+			}
+		}
+
+		boolean accurateZeroApplicable = true;
+		if (opts.usingSpecialAttack)
+		{
+			if (wearing("Dragon claws"))
+			{
+				accurateZeroApplicable = false;
+				dist = ClawsDist.dClawDist(acc, max);
+			}
+			else if (wearing("Bone claws", "Burning claws"))
+			{
+				accurateZeroApplicable = false;
+				dist = ClawsDist.burningClawSpec(acc, max);
+			}
+		}
+
+		// simple multi-hit specs
+		if (opts.usingSpecialAttack)
+		{
+			int hitCount = 1;
+			if (wearing("Dragon dagger", "Dragon knife", "Rosewood blowpipe") || isWearingMsb())
+			{
+				hitCount = 2;
+			}
+			else if (wearing("Webweaver bow"))
+			{
+				hitCount = 4;
+			}
+
+			if (hitCount != 1)
+			{
+				List<HitDistribution> copies = new ArrayList<>(hitCount);
+				for (int i = 0; i < hitCount; i++)
+				{
+					copies.add(standardHitDist);
+				}
+				dist = new AttackDistribution(copies);
+			}
+		}
+
+		if (opts.usingSpecialAttack && wearing("Abyssal dagger"))
+		{
+			HitDistribution secondHit = HitDistribution.linear(1.0, min, max);
+			dist = dist.transform(
+				h -> new HitDistribution(weightedList(new WeightedHit(1.0, splats(h)))).zip(secondHit),
+				TI_FALSE);
+		}
+
+		if (opts.usingSpecialAttack && wearing("Saradomin sword"))
+		{
+			HitDistribution magicHit = HitDistribution.linear(1.0, 1, 16);
+			dist = dist.transform(h ->
+			{
+				if (h.accurate && !Constants.IMMUNE_TO_MAGIC_DAMAGE_NPC_IDS.contains(monster.getId()))
+				{
+					return new HitDistribution(weightedList(new WeightedHit(1.0, splats(h)))).zip(magicHit);
+				}
+				return new HitDistribution(weightedList(new WeightedHit(1.0, splats(h, Hitsplat.INACCURATE))));
+			});
+		}
+
+		if (opts.usingSpecialAttack && wearing("Granite hammer"))
+		{
+			dist = dist.transform(HitDist.flatAddTransformer(5), TI_TRUE);
+		}
+
+		if (isUsingMeleeStyle() && isWearingVeracs())
+		{
+			List<WeightedHit> hits = new ArrayList<>();
+			hits.addAll(standardHitDist.scaleProbability(0.75).hits);
+			hits.addAll(HitDistribution.linear(1.0, 1, max + 1).scaleProbability(0.25).hits);
+			dist = new AttackDistribution(listOf(new HitDistribution(hits)));
+		}
+
+		if (CombatStyle.RANGED.equals(style) && isWearingKarils())
+		{
+			// 25% chance to deal a second hitsplat at half the damage of the first (flat, not rolled)
+			dist = dist.transform(h -> new HitDistribution(weightedList(
+				new WeightedHit(0.75, splats(h)),
+				new WeightedHit(0.25, splats(h, new Hitsplat(h.damage / 2))))),
+				TI_FALSE);
+		}
+
+		if (isUsingMeleeStyle() && isWearingScythe())
+		{
+			List<HitDistribution> hits = new ArrayList<>();
+			int reps = Math.min(Math.max(monster.getSize(), 1), 3);
+			for (int i = 0; i < reps; i++)
+			{
+				int splatMax = (int) (max / pow2(i));
+				hits.add(HitDistribution.linear(acc, min, Math.max(min, splatMax)));
+			}
+			dist = new AttackDistribution(hits);
+		}
+
+		if (isUsingMeleeStyle() && wearing("Dual macuahuitl"))
+		{
+			int firstMax = max / 2;
+			int secondMax = max - firstMax;
+			AttackDistribution firstHit = new AttackDistribution(listOf(
+				HitDistribution.linear(acc, min, Math.max(min, firstMax))));
+			HitDistribution secondHit = HitDistribution.linear(acc, min, Math.max(min, secondMax));
+			dist = firstHit.transform(h ->
+			{
+				if (h.accurate)
+				{
+					return new HitDistribution(weightedList(new WeightedHit(1.0, splats(h)))).zip(secondHit);
+				}
+				return new HitDistribution(weightedList(new WeightedHit(1.0, splats(h, Hitsplat.INACCURATE))));
+			});
+		}
+
+		if (isUsingMeleeStyle() && isWearingTwoHitWeapon())
+		{
+			int firstMax = max / 2;
+			int secondMax = max - firstMax;
+			dist = new AttackDistribution(listOf(
+				HitDistribution.linear(acc, min, Math.max(min, firstMax)),
+				HitDistribution.linear(acc, min, Math.max(min, secondMax))));
+		}
+
+		if (isUsingMeleeStyle() && isWearingKeris() && mattrs.contains(MonsterAttribute.KALPHITE))
+		{
+			List<WeightedHit> hits = new ArrayList<>();
+			hits.addAll(standardHitDist.scaleProbability(50.0 / 51.0).hits);
+			hits.addAll(standardHitDist.scaleProbability(1.0 / 51.0).scaleDamage(3).hits);
+			dist = new AttackDistribution(listOf(new HitDistribution(hits)));
+		}
+
+		if (isUsingMeleeStyle() && Constants.GUARDIAN_IDS.contains(monster.getId())
+			&& weaponCategory == EquipmentCategory.PICKAXE)
+		{
+			int pickBonus = guardianPickaxeBonus(weapon == null ? null : weapon.getName());
+			int factor = 50 + player.getSkills().getMining() + pickBonus;
+			int divisor = 150;
+			dist = dist.transform(HitDist.multiplyTransformer(factor, divisor));
+		}
+
+		if (player.getBuffs().isMarkOfDarknessSpell()
+			&& player.getSpell() != null && player.getSpell().getName() != null
+			&& player.getSpell().getName().contains("Demonbane")
+			&& mattrs.contains(MonsterAttribute.DEMON))
+		{
+			int demonbaneFactor = wearing("Purging staff") ? 50 : 25;
+			dist = dist.transform(h -> HitDistribution.single(1.0, splats(new Hitsplat(
+				h.damage + (int) ((long) ((int) ((long) h.damage * demonbaneFactor / 100)) * demonbaneVulnerability() / 100),
+				h.accurate))));
+		}
+
+		if (CombatStyle.MAGIC.equals(style) && isWearingAhrims())
+		{
+			dist = dist.transform(h -> new HitDistribution(weightedList(
+				new WeightedHit(0.75, splats(h)),
+				new WeightedHit(0.25, splats(new Hitsplat((int) ((long) h.damage * 13 / 10), h.accurate))))));
+		}
+
+		if (tdUnshieldedBonusApplies())
+		{
+			int bonusDmg = Math.max(0, getAttackSpeed() * getAttackSpeed() - 16);
+			dist = dist.transform(HitDist.flatAddTransformer(bonusDmg), TI_FALSE);
+		}
+
+		if (isUsingMeleeStyle() && isWearingDharok())
+		{
+			int newMax = player.getSkills().getHp();
+			int curr = player.getSkills().getHp() + player.getBoosts().getHp();
+			dist = dist.scaleDamage(10000 + (newMax - curr) * newMax, 10000);
+		}
+
+		if (isUsingMeleeStyle() && isWearingBerserkerNecklace() && isWearingTzhaarWeapon())
+		{
+			dist = dist.scaleDamage(6, 5);
+		}
+
+		// vampyre damage bonuses (tested by @jmyaeger upstream)
+		if (MonsterAttribute.isVampyre(mattrs))
+		{
+			boolean efaritay = wearing("Efaritay's aid");
+			if (wearing("Blisterwood flail"))
+			{
+				if (efaritay)
+				{
+					dist = dist.scaleDamage(11, 10);
+				}
+				dist = dist.scaleDamage(5, 4);
+			}
+			else if (wearing("Blisterwood sickle"))
+			{
+				if (efaritay)
+				{
+					dist = dist.scaleDamage(11, 10);
+				}
+				dist = dist.scaleDamage(23, 20);
+			}
+			else if (wearing("Ivandis flail"))
+			{
+				if (efaritay)
+				{
+					dist = dist.scaleDamage(11, 10);
+				}
+				dist = dist.scaleDamage(6, 5);
+			}
+			else if (wearing("Rod of ivandis") && !mattrs.contains(MonsterAttribute.VAMPYRE3))
+			{
+				if (efaritay)
+				{
+					dist = dist.scaleDamage(11, 10);
+				}
+				dist = dist.scaleDamage(11, 10);
+			}
+			else if (isWearingSilverWeapon() && mattrs.contains(MonsterAttribute.VAMPYRE1))
+			{
+				if (efaritay)
+				{
+					dist = dist.scaleDamage(11, 10);
+				}
+				dist = dist.scaleDamage(11, 10);
+			}
+		}
+
+		// bolt effects
+		BoltContext boltContext = new BoltContext(
+			player.getSkills().getRanged() + player.getBoosts().getRanged(),
+			max,
+			false,
+			wearing("Zaryte crossbow"),
+			opts.usingSpecialAttack,
+			player.getBuffs().isKandarinDiary(),
+			monster);
+		if (CombatStyle.RANGED.equals(style) && weaponCategory == EquipmentCategory.CROSSBOW)
+		{
+			if (wearing("Opal bolts (e)", "Opal dragon bolts (e)"))
+			{
+				dist = dist.transform(BoltsDist.OPAL_BOLTS.apply(boltContext));
+			}
+			else if (wearing("Pearl bolts (e)", "Pearl dragon bolts (e)"))
+			{
+				dist = dist.transform(BoltsDist.PEARL_BOLTS.apply(boltContext));
+			}
+			else if (wearing("Diamond bolts (e)", "Diamond dragon bolts (e)"))
+			{
+				dist = dist.transform(BoltsDist.DIAMOND_BOLTS.apply(boltContext));
+			}
+			else if (wearing("Dragonstone bolts (e)", "Dragonstone dragon bolts (e)"))
+			{
+				dist = dist.transform(BoltsDist.DRAGONSTONE_BOLTS.apply(boltContext));
+			}
+			else if (wearing("Onyx bolts (e)", "Onyx dragon bolts (e)") && !mattrs.contains(MonsterAttribute.UNDEAD))
+			{
+				dist = dist.transform(BoltsDist.ONYX_BOLTS.apply(boltContext));
+			}
+		}
+
+		if (player.getSpell() != null && player.getSpell().getMaxHit() == 0)
+		{
+			// don't raise things like bind
+			accurateZeroApplicable = false;
+		}
+
+		// raise accurate 0s to 1
+		if (accurateZeroApplicable)
+		{
+			dist = dist.transform(h -> HitDistribution.single(1.0, splats(new Hitsplat(Math.max(h.damage, 1)))),
+				TI_FALSE);
+		}
+
+		if (CombatStyle.MAGIC.equals(style) && player.getSpell() != null
+			&& player.getSpell().getSpellbook() == Spell.Spellbook.STANDARD)
+		{
+			String spellName = player.getSpell().getName() == null ? "" : player.getSpell().getName();
+			boolean twinflameCompat = spellName.contains("Bolt") || spellName.contains("Blast") || spellName.contains("Wave");
+			boolean shadowflameCompat = player.getSpell().getElement() != null;
+			if ((wearing("Twinflame staff") && twinflameCompat) || (wearing("Shadowflame quadrant") && shadowflameCompat))
+			{
+				dist = dist.transform(h -> HitDistribution.single(1.0, splats(
+					new Hitsplat(h.damage),
+					new Hitsplat((int) ((long) h.damage * 4 / 10)))));
+			}
+		}
+
+		// corp earlier than other limiters; rubies later than other bolts
+		if ("Corporeal Beast".equals(monster.getName()) && !isWearingCorpbaneWeapon())
+		{
+			dist = dist.transform(HitDist.divisionTransformer(2));
+		}
+
+		if (CombatStyle.RANGED.equals(style) && weaponCategory == EquipmentCategory.CROSSBOW)
+		{
+			int currentHp = player.getSkills().getHp() + player.getBoosts().getHp();
+			if (wearing("Ruby bolts (e)", "Ruby dragon bolts (e)") && currentHp >= 10)
+			{
+				dist = dist.transform(BoltsDist.RUBY_BOLTS.apply(boltContext));
+			}
+		}
+
+		// monsters that are always max hit no matter what
+		if ((CombatStyle.MAGIC.equals(style) && Constants.ALWAYS_MAX_HIT_MONSTERS_MAGIC.contains(monster.getId()))
+			|| (isUsingMeleeStyle() && Constants.ALWAYS_MAX_HIT_MONSTERS_MELEE.contains(monster.getId()))
+			|| (CombatStyle.RANGED.equals(style) && Constants.ALWAYS_MAX_HIT_MONSTERS_RANGED.contains(monster.getId())))
+		{
+			if (Constants.YAMA_VOID_FLARE_IDS.contains(monster.getId())
+				&& player.getBuffs().isMarkOfDarknessSpell()
+				&& player.getSpell() != null && player.getSpell().getName() != null
+				&& player.getSpell().getName().contains("Demonbane"))
+			{
+				int demonbaneFactor = wearing("Purging staff") ? 50 : 25;
+				return new AttackDistribution(listOf(HitDistribution.single(1.0, splats(new Hitsplat(
+					max + (int) ((long) ((int) ((long) max * demonbaneFactor / 100)) * demonbaneVulnerability() / 100))))));
+			}
+
+			return new AttackDistribution(listOf(HitDistribution.single(1.0, splats(new Hitsplat(dist.getMax())))));
+		}
+
+		return dist;
+	}
+
+	/**
+	 * Port of {@code applyNpcTransforms} (PlayerVsNPCCalc.ts:1977-2106). Returns a {@link HitTransformer}
+	 * for the NPC-side transform chain (memoized per style): immunity collapse, monster-prayer
+	 * reduction (always 0 here — no leagues), the per-monster transforms (Zulrah, Fragment of Seren,
+	 * Kraken, Verzik P1, Tekton, glowing crystal, Olm hands/head, Ice demon, Slagilith, Nightmare
+	 * totem, Zogre/Slash Bash, BA attacker, Tormented Demon, vampyre tier-2, Hueycoatl tail/phase,
+	 * Abyssal Sire transition), the blisterwood/vampyrebane bonuses are an ATTACKER-side scaleDamage
+	 * (see {@link #getAttackerDist()}), and the flat-armour reduction (non-magic).
+	 *
+	 * <p>Deviations: the leagues {@code talent_prayer_pen_all} factor is dropped (treated as 0, so a
+	 * prayer-protected style collapses to inaccurate via {@link #isImmune(String)}).
+	 */
+	HitTransformer applyNpcTransforms(String styleType)
+	{
+		HitTransformer cached = npcTransformCache.get(styleType);
+		if (cached != null)
+		{
+			return cached;
+		}
+
+		if (isImmune(styleType))
+		{
+			HitTransformer t = h -> HitDistribution.single(1.0, splats(Hitsplat.INACCURATE));
+			npcTransformCache.put(styleType, t);
+			return t;
+		}
+
+		List<MonsterAttribute> mattrs = attributes();
+		List<HitTransformer> effects = new ArrayList<>();
+		List<TransformOpts> effectOpts = new ArrayList<>();
+
+		MonsterPrayers prayers = monsterPrayers();
+		boolean meleeStyle = CombatStyle.STAB.equals(styleType)
+			|| CombatStyle.SLASH.equals(styleType) || CombatStyle.CRUSH.equals(styleType);
+		if ((prayers != null && prayers.isMagic() && CombatStyle.MAGIC.equals(styleType))
+			|| (prayers != null && prayers.isRanged() && CombatStyle.RANGED.equals(styleType))
+			|| (prayers != null && prayers.isMelee() && meleeStyle))
+		{
+			// leagues talent_prayer_pen_all is always 0 in this model -> multiply by 0
+			addEffect(effects, effectOpts, HitDist.multiplyTransformer(0, 100), null);
+		}
+
+		if ("Zulrah".equals(monster.getName()))
+		{
+			// https://twitter.com/JagexAsh/status/1745852774607183888
+			addEffect(effects, effectOpts, HitDist.cappedRerollTransformer(50, 5, 45), null);
+		}
+		if ("Fragment of Seren".equals(monster.getName()))
+		{
+			addEffect(effects, effectOpts, HitDist.linearMinTransformer(2, 22), null);
+		}
+		if (("Kraken".equals(monster.getName()) || "Cave kraken".equals(monster.getName()))
+			&& CombatStyle.RANGED.equals(styleType))
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(7, 1), null);
+		}
+		if (Constants.VERZIK_P1_IDS_SET.contains(monster.getId()) && !wearing("Dawnbringer"))
+		{
+			int limit = isUsingMeleeStyle() ? 10 : 3;
+			addEffect(effects, effectOpts, HitDist.linearMinTransformer(limit), null);
+		}
+		if (Constants.TEKTON_IDS_SET.contains(monster.getId()) && CombatStyle.MAGIC.equals(styleType))
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(5, 1), null);
+		}
+		if (Constants.GLOWING_CRYSTAL_IDS_SET.contains(monster.getId()) && CombatStyle.MAGIC.equals(styleType))
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(3), null);
+		}
+		if ((Constants.OLM_MELEE_HAND_IDS.contains(monster.getId())
+			|| Constants.OLM_HEAD_IDS.contains(monster.getId())) && CombatStyle.MAGIC.equals(styleType))
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(3), null);
+		}
+		if ((Constants.OLM_MAGE_HAND_IDS.contains(monster.getId())
+			|| Constants.OLM_MELEE_HAND_IDS.contains(monster.getId())) && CombatStyle.RANGED.equals(styleType))
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(3), null);
+		}
+		if (Constants.ICE_DEMON_IDS_SET.contains(monster.getId())
+			&& getSpellement() != Spellement.FIRE && !isUsingDemonbane())
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(3), null);
+		}
+		if ("Slagilith".equals(monster.getName())
+			&& weaponCategory() != EquipmentCategory.PICKAXE)
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(3), null);
+		}
+		if (Constants.NIGHTMARE_TOTEM_IDS.contains(monster.getId()) && CombatStyle.MAGIC.equals(styleType))
+		{
+			addEffect(effects, effectOpts, HitDist.multiplyTransformer(2), null);
+		}
+		if ("Slash Bash".equals(monster.getName()) || "Zogre".equals(monster.getName())
+			|| "Skogre".equals(monster.getName()))
+		{
+			Spell spell = player.getSpell();
+			EquipmentPiece ammo = player.getEquipment().getAmmo();
+			String ammoName = ammo == null ? null : ammo.getName();
+			EquipmentPiece weapon = player.getEquipment().getWeapon();
+			String weaponName = weapon == null ? null : weapon.getName();
+			if (spell != null && "Crumble Undead".equals(spell.getName()))
+			{
+				addEffect(effects, effectOpts, HitDist.divisionTransformer(2), null);
+			}
+			else if (!CombatStyle.RANGED.equals(styleType())
+				|| ammoName == null || !ammoName.contains(" brutal")
+				|| !"Comp ogre bow".equals(weaponName))
+			{
+				addEffect(effects, effectOpts, HitDist.divisionTransformer(4), null);
+			}
+		}
+		if (Constants.BA_ATTACKER_MONSTERS.contains(monster.getId()) && baAttackerLevel() != 0)
+		{
+			addEffect(effects, effectOpts, HitDist.flatAddTransformer(baAttackerLevel()), TI_TRUE);
+		}
+		if ("Tormented Demon".equals(monster.getName()))
+		{
+			if (!"Unshielded".equals(phase()) && !isUsingDemonbane() && !isUsingAbyssal())
+			{
+				addEffect(effects, effectOpts, HitDist.multiplyTransformer(4, 5, 1), null);
+			}
+		}
+		if (mattrs.contains(MonsterAttribute.VAMPYRE2))
+		{
+			if (!wearingVampyrebane(MonsterAttribute.VAMPYRE2) && wearing("Efaritay's aid"))
+			{
+				addEffect(effects, effectOpts, HitDist.divisionTransformer(2), null);
+			}
+			else if (isWearingSilverWeapon())
+			{
+				addEffect(effects, effectOpts, HitDist.flatLimitTransformer(10), null);
+			}
+		}
+		if (Constants.HUEYCOATL_TAIL_IDS.contains(monster.getId()))
+		{
+			boolean crush = CombatStyle.CRUSH.equals(styleType)
+				&& player.getOffensive().getCrush() > player.getOffensive().getSlash()
+				&& player.getOffensive().getCrush() > player.getOffensive().getStab();
+			boolean earth = getSpellement() == Spellement.EARTH;
+
+			addEffect(effects, effectOpts, HitDist.linearMinTransformer((crush || earth) ? 9 : 4), null);
+
+			if (crush)
+			{
+				addEffect(effects, effectOpts, h ->
+				{
+					if (h.damage > 0)
+					{
+						return HitDistribution.single(1.0, splats(h));
+					}
+					return HitDistribution.single(1.0, splats(new Hitsplat(1)));
+				}, null);
+			}
+		}
+		if (Constants.HUEYCOATL_PHASE_IDS.contains(monster.getId()) && "With Pillar".equals(phase()))
+		{
+			addEffect(effects, effectOpts, HitDist.multiplyTransformer(13, 10), null);
+		}
+
+		if (Constants.ABYSSAL_SIRE_TRANSITION_IDS.contains(monster.getId()) && "Transition".equals(phase()))
+		{
+			addEffect(effects, effectOpts, HitDist.divisionTransformer(2), null);
+		}
+
+		int flatArmour = monster.getDefensive() == null ? 0 : monster.getDefensive().getFlatArmour();
+		if (flatArmour != 0 && !CombatStyle.MAGIC.equals(styleType))
+		{
+			addEffect(effects, effectOpts, HitDist.flatAddTransformer(-flatArmour), TI_FALSE);
+		}
+
+		HitTransformer transformer = hitsplat ->
+		{
+			HitDistribution d = HitDistribution.single(1.0, splats(hitsplat));
+			for (int i = 0; i < effects.size(); i++)
+			{
+				TransformOpts o = effectOpts.get(i);
+				d = d.wideTransform(effects.get(i), o != null ? o : HitDist.DEFAULT_TRANSFORM_OPTS);
+			}
+			return d.flatten();
+		};
+		npcTransformCache.put(styleType, transformer);
+		return transformer;
+	}
+
+	/**
+	 * Port of {@code isImmune} (PlayerVsNPCCalc.ts:2108-2177). Leagues talent branches are dropped, so a
+	 * prayer-protected matching style and the various per-attribute / per-id immunities collapse the
+	 * NPC distribution to a single inaccurate splat.
+	 */
+	boolean isImmune(String styleType)
+	{
+		int monsterId = monster.getId();
+		List<MonsterAttribute> mattrs = attributes();
+
+		MonsterPrayers prayers = monsterPrayers();
+		boolean meleeStyle = CombatStyle.STAB.equals(styleType)
+			|| CombatStyle.SLASH.equals(styleType) || CombatStyle.CRUSH.equals(styleType);
+		if ((prayers != null && prayers.isMagic() && CombatStyle.MAGIC.equals(styleType))
+			|| (prayers != null && prayers.isRanged() && CombatStyle.RANGED.equals(styleType))
+			|| (prayers != null && prayers.isMelee() && meleeStyle))
+		{
+			// no leagues talent_prayer_pen_all -> immune
+			return true;
+		}
+
+		if (Constants.IMMUNE_TO_MAGIC_DAMAGE_NPC_IDS.contains(monsterId) && CombatStyle.MAGIC.equals(styleType))
+		{
+			return true;
+		}
+		if (Constants.IMMUNE_TO_RANGED_DAMAGE_NPC_IDS.contains(monsterId) && CombatStyle.RANGED.equals(styleType))
+		{
+			return true;
+		}
+		EquipmentPiece weapon = player.getEquipment().getWeapon();
+		EquipmentCategory weaponCategory = weapon == null ? null : weapon.getCategory();
+		if (Constants.IMMUNE_TO_MELEE_DAMAGE_NPC_IDS.contains(monsterId) && isUsingMeleeStyle())
+		{
+			if (Constants.ZULRAH_IDS.contains(monsterId) && weaponCategory == EquipmentCategory.POLEARM)
+			{
+				return false;
+			}
+			return true;
+		}
+		if (mattrs.contains(MonsterAttribute.FLYING) && isUsingMeleeStyle())
+		{
+			// Vespula is immune to melee despite flying attribute.
+			if (Constants.VESPULA_IDS.contains(monsterId))
+			{
+				return true;
+			}
+			if (weaponCategory == EquipmentCategory.POLEARM || weaponCategory == EquipmentCategory.SALAMANDER)
+			{
+				return false;
+			}
+			return true;
+		}
+		if (Constants.IMMUNE_TO_NON_SALAMANDER_MELEE_DAMAGE_NPC_IDS.contains(monsterId)
+			&& isUsingMeleeStyle()
+			&& weaponCategory != EquipmentCategory.SALAMANDER)
+		{
+			return true;
+		}
+		if (mattrs.contains(MonsterAttribute.VAMPYRE3) && !wearingVampyrebane(MonsterAttribute.VAMPYRE3))
+		{
+			return true;
+		}
+		if (mattrs.contains(MonsterAttribute.VAMPYRE2) && !wearingVampyrebane(MonsterAttribute.VAMPYRE2)
+			&& !wearing("Efaritay's aid") && !isWearingSilverWeapon())
+		{
+			return true;
+		}
+		if (Constants.GUARDIAN_IDS.contains(monsterId)
+			&& (!isUsingMeleeStyle() || weaponCategory != EquipmentCategory.PICKAXE))
+		{
+			return true;
+		}
+		if (mattrs.contains(MonsterAttribute.LEAFY) && !isWearingLeafBladedWeapon())
+		{
+			return true;
+		}
+		if (Constants.DOOM_OF_MOKHAIOTL_IDS.contains(monsterId) && "Shielded".equals(phase())
+			&& !isUsingDemonbane())
+		{
+			return true;
+		}
+		if (!mattrs.contains(MonsterAttribute.RAT) && isWearingRatBoneWeapon())
+		{
+			return true;
+		}
+		EquipmentPiece ammo = player.getEquipment().getAmmo();
+		String ammoName = ammo == null ? null : ammo.getName();
+		if ("Fire Warrior of Lesarkus".equals(monster.getName())
+			&& (!CombatStyle.RANGED.equals(styleType) || !"Ice arrows".equals(ammoName)))
+		{
+			return true;
+		}
+		if ("Fareed".equals(monster.getName()))
+		{
+			if ((CombatStyle.MAGIC.equals(styleType) && getSpellement() != Spellement.WATER)
+				|| (CombatStyle.RANGED.equals(styleType) && (ammoName == null || !ammoName.contains("arrow"))))
+			{
+				return true;
+			}
+		}
+		// Eclipse moon clone is immune to non-melee attacks
+		if (Constants.ECLIPSE_MOON_IDS.contains(monsterId) && "Clone".equals(monster.getVersion())
+			&& !isUsingMeleeStyle())
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Port of {@code getAttackSpeed} (PlayerVsNPCCalc.ts:2319-2322): {@code player.attackSpeed ??
+	 * calculateAttackSpeed}. The model's {@code attackSpeed} is a primitive {@code int} (0 means
+	 * "unset"); a non-zero value short-circuits, else the equipment-derived speed is computed.
+	 */
+	public int getAttackSpeed()
+	{
+		if (player.getAttackSpeed() != 0)
+		{
+			return player.getAttackSpeed();
+		}
+		return new Equipment(equipmentRepository).calculateAttackSpeed(player, monster);
+	}
+
+	/**
+	 * Port of {@code getExpectedAttackSpeed} (PlayerVsNPCCalc.ts:2324-2342). The expected (mean) ticks
+	 * between attacks; differs from {@link #getAttackSpeed()} only for effects that probabilistically (or
+	 * conditionally) shorten the delay: the Blood moon set (Dual macuahuitl proc), the Tormented Demon
+	 * unshielded bonus, and the Eye of ayak spec.
+	 *
+	 * <p>Returns {@code double} (the Blood-moon branch subtracts a fractional proc chance).
+	 */
+	public double getExpectedAttackSpeed()
+	{
+		if (isWearingBloodMoonSet())
+		{
+			double acc = getHitChance();
+			double procChance = opts.usingSpecialAttack
+				? 1 - Math.pow(1 - acc, 2) // always if hit
+				: (acc / 3) + ((acc * acc) * 2 / 9); // 1/3 per hit;
+			return getAttackSpeed() - procChance;
+		}
+
+		if (tdUnshieldedBonusApplies())
+		{
+			return getAttackSpeed() - 1;
+		}
+
+		if (opts.usingSpecialAttack && wearing("Eye of ayak"))
+		{
+			return 5;
+		}
+
+		return getAttackSpeed();
+	}
+
+	/**
+	 * Port of {@code getDpt} (PlayerVsNPCCalc.ts:2347-2349): the expected damage per tick, based on the
+	 * player's (expected) attack speed.
+	 */
+	public double getDpt()
+	{
+		return getExpectedDamage() / getExpectedAttackSpeed();
+	}
+
+	// --- distribution helpers ---------------------------------------------------------------------
+
+	private MonsterPrayers monsterPrayers()
+	{
+		return monster.getInputs() == null ? null : monster.getInputs().getPrayers();
+	}
+
+	private int baAttackerLevel()
+	{
+		return player.getBuffs() == null ? 0 : player.getBuffs().getBaAttackerLevel();
+	}
+
+	private EquipmentCategory weaponCategory()
+	{
+		EquipmentPiece weapon = player.getEquipment().getWeapon();
+		return weapon == null ? null : weapon.getCategory();
+	}
+
+	/** Port of the pickaxe-required-level table in {@code getAttackerDist} (PlayerVsNPCCalc.ts:1731-1745). */
+	private static int guardianPickaxeBonus(String weaponName)
+	{
+		if (weaponName == null)
+		{
+			return 61;
+		}
+		switch (weaponName)
+		{
+			case "Bronze pickaxe":
+			case "Iron pickaxe":
+				return 1;
+			case "Steel pickaxe":
+				return 6;
+			case "Black pickaxe":
+				return 11;
+			case "Mithril pickaxe":
+				return 21;
+			case "Adamant pickaxe":
+				return 31;
+			case "Rune pickaxe":
+			case "Gilded pickaxe":
+				return 41;
+			default:
+				return 61; // dpick variants + crystal
+		}
+	}
+
+	/** {@code 2 ** exp} as a long (integer power via repeated multiplication, for determinism). */
+	private static long pow2(int exp)
+	{
+		long acc = 1;
+		for (int i = 0; i < exp; i++)
+		{
+			acc *= 2;
+		}
+		return acc;
+	}
+
+	private static void addEffect(List<HitTransformer> effects, List<TransformOpts> opts,
+		HitTransformer t, TransformOpts o)
+	{
+		effects.add(t);
+		opts.add(o);
+	}
+
+	private static List<HitDistribution> listOf(HitDistribution... dists)
+	{
+		List<HitDistribution> out = new ArrayList<>(dists.length);
+		for (HitDistribution d : dists)
+		{
+			out.add(d);
+		}
+		return out;
+	}
+
+	private static List<WeightedHit> weightedList(WeightedHit... hits)
+	{
+		List<WeightedHit> out = new ArrayList<>(hits.length);
+		for (WeightedHit h : hits)
+		{
+			out.add(h);
+		}
+		return out;
+	}
+
+	private static Hitsplat[] splats(Hitsplat... s)
+	{
+		return s;
 	}
 
 	/**
@@ -2228,19 +3179,68 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		return spell != null && spell.getElement() == Spellement.FIRE;
 	}
 
-	public Object getDistribution()
-	{
-		throw new UnsupportedOperationException(NOT_PORTED);
-	}
-
+	/**
+	 * Port of {@code getDps} (PlayerVsNPCCalc.ts:2354-2356): damage-per-second = {@link #getDpt()}
+	 * divided by {@link Constants#SECONDS_PER_TICK}.
+	 */
 	public double getDps()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		return getDpt() / Constants.SECONDS_PER_TICK;
 	}
 
+	/**
+	 * Port of {@code getHtk} (PlayerVsNPCCalc.ts:2385-2412): the average hits-to-kill, computed by the
+	 * order-dependent recurrence
+	 * {@code htk[hp] = (1 + Σ_{hit=1..min(hp,max)} hist[hit] * htk[hp-hit]) / (1 - hist[0])}, folded
+	 * forward from {@code hp = 1} to {@code startHp = monster.inputs.monsterCurrentHp}.
+	 *
+	 * <p>{@code hist} is {@link AttackDistribution#asHistogram()} (damage -> probability, indexed
+	 * 0..max); {@code hist[0]} is the miss/zero-damage probability. The division by
+	 * {@code (1 - hist[0])} replicates the upstream recurrence exactly (it accounts for the geometric
+	 * "retry on a zero" series).
+	 */
+	public double getHtk()
+	{
+		AttackDistribution dist = getDistribution();
+		List<HitDist.ChartEntry> hist = dist.asHistogram();
+		if (hist.isEmpty())
+		{
+			throw new IllegalStateException("empty hist1");
+		}
+		int startHp = currentHp();
+		int max = Math.min(startHp, dist.getMax());
+		if (max == 0)
+		{
+			return 0;
+		}
+
+		double[] htk = new double[startHp + 1]; // 0 hits left to do if hp = 0
+
+		for (int hp = 1; hp <= startHp; hp++)
+		{
+			double val = 1.0; // takes at least one hit
+			for (int hit = 1; hit <= Math.min(hp, max); hit++)
+			{
+				if (hit < hist.size())
+				{
+					double p = hist.get(hit).value;
+					val += p * htk[hp - hit];
+				}
+			}
+
+			htk[hp] = val / (1 - hist.get(0).value);
+		}
+
+		return htk[startHp];
+	}
+
+	/**
+	 * Port of {@code getTtk} (PlayerVsNPCCalc.ts:2417-2419): the average time-to-kill (seconds) =
+	 * {@link #getHtk()} {@code * getExpectedAttackSpeed() * SECONDS_PER_TICK}.
+	 */
 	public double getTtk()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		return getHtk() * getExpectedAttackSpeed() * Constants.SECONDS_PER_TICK;
 	}
 
 	public PlayerVsNpcCalc getSpecCalc()
