@@ -34,9 +34,10 @@ class ParityCorpusTest
 	/** Relative tolerance for floating outputs (§5.3). */
 	private static final double FLOAT_REL_TOL = 1e-9;
 
-	/** Integer-valued expected fields (asserted EXACT). */
+	/** Integer-valued expected fields (asserted EXACT) across both pvn and nvp kinds. */
 	private static final List<String> INTEGER_FIELDS = Arrays.asList(
-		"maxAttackRoll", "npcDefRoll", "maxHit");
+		"maxAttackRoll", "npcDefRoll", "maxHit",
+		"playerDefRoll", "npcMaxHit", "npcMaxAttackRoll");
 
 	private static final ScenarioPlayer BUILDER = new ScenarioPlayer(new Gson());
 
@@ -54,8 +55,12 @@ class ParityCorpusTest
 
 		Monster monster = BUILDER.monster(row);
 		Player player = BUILDER.player(row, monster);
-		PlayerVsNpcCalc calc = new PlayerVsNpcCalc(player, monster,
+
+		boolean nvp = "nvp".equals(row.kind());
+		PlayerVsNpcCalc pvnCalc = nvp ? null : new PlayerVsNpcCalc(player, monster,
 			BUILDER.equipmentRepository(), BUILDER.spellRepository());
+		NpcVsPlayerCalc nvpCalc = nvp ? new NpcVsPlayerCalc(player, monster,
+			BUILDER.equipmentRepository(), BUILDER.spellRepository()) : null;
 
 		assertThat(row.expected())
 			.as("row '%s' must carry at least one expected field", row.name())
@@ -65,7 +70,7 @@ class ParityCorpusTest
 		{
 			String field = e.getKey();
 			double expected = e.getValue();
-			double actual = compute(calc, field, row);
+			double actual = nvp ? computeNvp(nvpCalc, field, row) : compute(pvnCalc, field, row);
 
 			if (INTEGER_FIELDS.contains(field))
 			{
@@ -102,6 +107,29 @@ class ParityCorpusTest
 				return calc.getTtk();
 			default:
 				fail("row '%s': no calc getter mapped for expected field '%s'", row.name(), field);
+				return Double.NaN; // unreachable
+		}
+	}
+
+	/** Maps an nvp expected-field name to the matching {@link NpcVsPlayerCalc} getter. */
+	private static double computeNvp(NpcVsPlayerCalc calc, String field, CorpusRow row)
+	{
+		switch (field)
+		{
+			case "playerDefRoll":
+				return calc.getPlayerDefenceRoll();
+			case "npcMaxHit":
+				return calc.getNPCMaxHit();
+			case "npcMaxAttackRoll":
+				return calc.getNPCMaxAttackRoll();
+			case "npcAccuracy":
+				return calc.getHitChance();
+			case "npcDps":
+				return calc.getDps();
+			case "avgDmgTaken":
+				return calc.getAverageDamageTaken();
+			default:
+				fail("row '%s': no nvp calc getter mapped for expected field '%s'", row.name(), field);
 				return Double.NaN; // unreachable
 		}
 	}

@@ -9,14 +9,15 @@ import static org.assertj.core.api.Assertions.assertThat;
  * of rows is live.
  *
  * <p>It computes how many rows WOULD skip in {@link ParityCorpusTest} (i.e. exercise at least one
- * un-ported calc path). At v0.1.4 (Milestone 3) the {@code PlayerVsNpcCalc.dps} and
- * {@code PlayerVsNpcCalc.ttk} paths join the already-ported {@code distribution}, {@code accuracy},
- * {@code defenceRoll}, {@code maxMeleeHit}, {@code maxRangedHit}, and {@code maxMagicHit} paths.
+ * un-ported calc path). At v0.1.5 the {@code NpcVsPlayerCalc.dps} path (the full NPC-vs-player /
+ * damage-taken calc) joins the already-ported {@code PlayerVsNpcCalc.*} paths
+ * ({@code distribution}, {@code accuracy}, {@code defenceRoll}, {@code maxMeleeHit},
+ * {@code maxRangedHit}, {@code maxMagicHit}, {@code dps}, {@code ttk}).
  *
- * <p>The parity-sweep (v0.1.5) adds a broad matrix of generated rows (tools/gen-parity-sweep.ts,
- * tagged {@code PlayerVsNpcCalc.dps} since the dps chain exercises accuracy + defenceRoll +
- * distribution + dps + ttk in one row). Every corpus row — the 26 hand-transcribed rows plus the
- * generated sweep rows — exercises only ported paths, so NONE skip and every row asserts. This locks
+ * <p>The corpus carries the player-vs-npc parity-sweep rows (tools/gen-parity-sweep.ts, tagged
+ * {@code PlayerVsNpcCalc.dps}) AND the npc-vs-player sweep rows (tools/gen-nvp-sweep.ts, tagged
+ * {@code NpcVsPlayerCalc.dps}, {@code kind:"nvp"}). Every corpus row — the hand-transcribed rows plus
+ * both generated sweeps — exercises only ported paths, so NONE skip and every row asserts. This locks
  * both that every row has a live assertion and that no row runs un-gated.
  */
 class PortStatusTest

@@ -21,6 +21,7 @@ final class CorpusRow
 {
 	private String name;
 	private String source;
+	private String kind;
 	private List<String> exercises;
 	private Inputs inputs;
 	private Map<String, Double> expected;
@@ -29,6 +30,12 @@ final class CorpusRow
 	String name()
 	{
 		return name;
+	}
+
+	/** Discriminator: {@code "pvn"} (player-vs-npc, default) or {@code "nvp"} (npc-vs-player / damage taken). */
+	String kind()
+	{
+		return kind == null ? "pvn" : kind;
 	}
 
 	String source()

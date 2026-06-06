@@ -1,0 +1,48 @@
+{
+  "name": "nvp-infernal-mage-magic-torva-tank",
+  "source": "gen-nvp-sweep.ts: Torva tank (Avernic defender) defending vs infernal-mage-magic (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 26382,
+        "body": 26384,
+        "legs": 26386,
+        "shield": 22322
+      }
+    },
+    "monster": {
+      "id": 443,
+      "version": ""
+    }
+  },
+  "expected": {
+    "playerDefRoll": 3922,
+    "npcMaxHit": 8,
+    "npcMaxAttackRoll": 5376,
+    "npcAccuracy": 0.6351125162730147,
+    "npcDps": 1.0585208604550242,
+    "avgDmgTaken": 27.771805690701203
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

@@ -302,6 +302,30 @@ public final class Constants
 	/** Port of ABYSSAL_SIRE_TRANSITION_IDS (constants.ts:536). */
 	public static final Set<Integer> ABYSSAL_SIRE_TRANSITION_IDS = setOf(5886, 5889, 5891);
 
+	/**
+	 * Port of ALWAYS_ACCURATE_MONSTERS (constants.ts:489-494) — NPCs whose attacks always hit the player.
+	 * Used by {@link NpcVsPlayerCalc#getHitChance()}.
+	 */
+	public static final Set<Integer> ALWAYS_ACCURATE_MONSTERS = setOf(
+		931,    // Thrower Troll
+		4135,   // Thrower troll (Trollheim)
+		7691,   // Jal-Nib
+		12335   // Wighted Leech
+	);
+
+	/**
+	 * Port of NPC_HARDCODED_MAX_HIT (constants.ts:502-505) — NPCs whose max hit is hardcoded (the
+	 * standard formula doesn't apply). Used by {@link NpcVsPlayerCalc#getNPCMaxHit()}.
+	 */
+	public static final java.util.Map<Integer, Integer> NPC_HARDCODED_MAX_HIT;
+	static
+	{
+		java.util.Map<Integer, Integer> m = new java.util.HashMap<>();
+		m.put(5947, 10); // Spinolyp (1)
+		m.put(5961, 10); // Spinolyp (2)
+		NPC_HARDCODED_MAX_HIT = Collections.unmodifiableMap(m);
+	}
+
 	private static List<Integer> idList(int... ids)
 	{
 		List<Integer> out = new java.util.ArrayList<>(ids.length);

@@ -1,0 +1,48 @@
+{
+  "name": "nvp-abyssal-demon-stab-slayer-helm",
+  "source": "gen-nvp-sweep.ts: Slayer helmet (i) + tank defending vs abyssal-demon-stab (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 26674,
+        "body": 26384,
+        "legs": 26386,
+        "shield": 22322
+      }
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "playerDefRoll": 35096,
+    "npcMaxHit": 8,
+    "npcMaxAttackRoll": 6784,
+    "npcAccuracy": 0.0966464370174089,
+    "npcDps": 0.16107739502901483,
+    "avgDmgTaken": 15.233809410140722
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

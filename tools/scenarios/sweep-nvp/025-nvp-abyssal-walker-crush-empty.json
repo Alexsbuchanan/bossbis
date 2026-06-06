@@ -1,0 +1,43 @@
+{
+  "name": "nvp-abyssal-walker-crush-empty",
+  "source": "gen-nvp-sweep.ts: Empty player (no gear) defending vs abyssal-walker-crush (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {}
+    },
+    "monster": {
+      "id": 2586,
+      "version": ""
+    }
+  },
+  "expected": {
+    "playerDefRoll": 6848,
+    "npcMaxHit": 13,
+    "npcMaxAttackRoll": 966,
+    "npcAccuracy": 0.07052124397722295,
+    "npcDps": 0.1527960286173164,
+    "avgDmgTaken": 14.115281738163391
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

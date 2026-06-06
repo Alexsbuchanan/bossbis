@@ -1,0 +1,43 @@
+{
+  "name": "nvp-aberrant-spectre-magic-lowdef",
+  "source": "gen-nvp-sweep.ts: Low defence (L40) defending vs aberrant-spectre-magic (weirdgloop@5e313c1)",
+  "kind": "nvp",
+  "exercises": [
+    "NpcVsPlayerCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 40,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Punch",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {}
+    },
+    "monster": {
+      "id": 2,
+      "version": ""
+    }
+  },
+  "expected": {
+    "playerDefRoll": 5696,
+    "npcMaxHit": 8,
+    "npcMaxAttackRoll": 7296,
+    "npcAccuracy": 0.609565574893792,
+    "npcDps": 1.0159426248229866,
+    "avgDmgTaken": 96.25340906878269
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}
