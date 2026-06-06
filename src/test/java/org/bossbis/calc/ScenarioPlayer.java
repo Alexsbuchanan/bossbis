@@ -132,9 +132,15 @@ final class ScenarioPlayer
 		List<Prayer> prayers = prayers(in.prayers());
 		org.bossbis.calc.types.Spell spell = in.spell() == null ? null : spells.byName(in.spell());
 
-		// generateEmptyPlayer buffs defaults (the BasicRolls test relies on these).
+		// generateEmptyPlayer buffs defaults; the row's buffs block may override onSlayerTask
+		// (the sweep varies on-task vs off-task for the salve/black-mask multiplier paths).
+		boolean onSlayerTask = true;
+		if (in.buffs() != null && in.buffs().onSlayerTask() != null)
+		{
+			onSlayerTask = in.buffs().onSlayerTask();
+		}
 		Buffs buffs = new Buffs(
-			true,   // onSlayerTask
+			onSlayerTask,
 			false,  // inWilderness
 			false,  // forinthrySurge
 			0,      // soulreaperStacks
@@ -182,12 +188,23 @@ final class ScenarioPlayer
 		return v == null ? def : v;
 	}
 
-	/** Resolves potions, if the row carries any (current rows carry none -> zero boost deltas). */
+	/**
+	 * Resolves the row's potions (by {@link Potion} enum name) into a set fed to {@link BoostsCalculator}.
+	 * Empty when the row omits potions -> all-zero boost deltas, matching generateEmptyPlayer.
+	 */
 	private static Set<Potion> potions(CorpusRow.PlayerInput in)
 	{
-		// CorpusRow has no potions field yet; the ported rows use none. Return an empty set so
-		// BoostsCalculator yields all-zero deltas, matching generateEmptyPlayer.
-		return Collections.emptySet();
+		List<String> names = in.potions();
+		if (names.isEmpty())
+		{
+			return Collections.emptySet();
+		}
+		Set<Potion> out = java.util.EnumSet.noneOf(Potion.class);
+		for (String n : names)
+		{
+			out.add(Potion.valueOf(n));
+		}
+		return out;
 	}
 
 	private PlayerEquipment equipment(Map<String, Integer> bySlot)

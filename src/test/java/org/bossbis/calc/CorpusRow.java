@@ -104,6 +104,8 @@ final class CorpusRow
 		private Map<String, Integer> skills;
 		private List<String> prayers;
 		private String spell;
+		private List<String> potions;
+		private BuffsInput buffs;
 		private Map<String, Object> style;
 		private Map<String, Integer> equipment;
 
@@ -122,6 +124,18 @@ final class CorpusRow
 			return spell;
 		}
 
+		/** Potion enum names (e.g. {@code SUPER_COMBAT}); empty when the row omits potions. */
+		List<String> potions()
+		{
+			return potions == null ? Collections.emptyList() : potions;
+		}
+
+		/** Optional buff overrides; {@code null} when the row keeps generateEmptyPlayer defaults. */
+		BuffsInput buffs()
+		{
+			return buffs;
+		}
+
 		Map<String, Object> style()
 		{
 			return style == null ? Collections.emptyMap() : style;
@@ -130,6 +144,21 @@ final class CorpusRow
 		Map<String, Integer> equipment()
 		{
 			return equipment == null ? Collections.emptyMap() : equipment;
+		}
+	}
+
+	/**
+	 * Optional {@code player.buffs} block. Only {@code onSlayerTask} is varied by the sweep; the rest of
+	 * the buffs keep their {@code generateEmptyPlayer} defaults in {@link ScenarioPlayer}.
+	 */
+	static final class BuffsInput
+	{
+		private Boolean onSlayerTask;
+
+		/** {@code null} => keep the generateEmptyPlayer default (true). */
+		Boolean onSlayerTask()
+		{
+			return onSlayerTask;
 		}
 	}
 
