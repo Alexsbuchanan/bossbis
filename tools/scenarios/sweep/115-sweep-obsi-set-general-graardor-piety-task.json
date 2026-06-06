@@ -1,0 +1,57 @@
+{
+  "name": "sweep-obsi-set-general-graardor-piety-task",
+  "source": "gen-parity-sweep.ts: Obsidian armour + Tzhaar-ket-em (10% obsidian bonus) vs general-graardor [piety-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Pound",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 21298,
+        "body": 21301,
+        "legs": 21304,
+        "neck": 11128,
+        "weapon": 6527,
+        "cape": 21289,
+        "hands": 22981,
+        "feet": 13239,
+        "ring": 28307
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ]
+    },
+    "monster": {
+      "id": 2215,
+      "version": ""
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 23073,
+    "npcDefRoll": 39886,
+    "accuracy": 0.28922957354526535,
+    "maxHit": 54,
+    "dps": 2.5674364318329714,
+    "ttk": 65.26906003742202
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

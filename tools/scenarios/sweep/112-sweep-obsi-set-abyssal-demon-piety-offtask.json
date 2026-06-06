@@ -1,0 +1,60 @@
+{
+  "name": "sweep-obsi-set-abyssal-demon-piety-offtask",
+  "source": "gen-parity-sweep.ts: Obsidian armour + Tzhaar-ket-em (10% obsidian bonus) vs abyssal-demon [piety-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Pound",
+        "type": "crush",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 21298,
+        "body": 21301,
+        "legs": 21304,
+        "neck": 11128,
+        "weapon": 6527,
+        "cape": 21289,
+        "hands": 22981,
+        "feet": 13239,
+        "ring": 28307
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 23073,
+    "npcDefRoll": 12096,
+    "accuracy": 0.7378434601716217,
+    "maxHit": 54,
+    "dps": 6.549697381958236,
+    "ttk": 25.58502367959316
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

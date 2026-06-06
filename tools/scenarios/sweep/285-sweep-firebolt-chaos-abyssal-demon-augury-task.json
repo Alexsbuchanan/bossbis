@@ -1,0 +1,59 @@
+{
+  "name": "sweep-firebolt-chaos-abyssal-demon-augury-task",
+  "source": "gen-parity-sweep.ts: Fire bolt + chaos gauntlets vs abyssal-demon [augury-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "AUGURY"
+      ],
+      "style": {
+        "name": "Spell",
+        "type": "magic",
+        "stance": "Defensive Autocast"
+      },
+      "equipment": {
+        "head": 21018,
+        "cape": 24236,
+        "neck": 12002,
+        "body": 21021,
+        "legs": 21024,
+        "hands": 777,
+        "feet": 13235,
+        "ring": 28313,
+        "weapon": 21006,
+        "shield": 27251
+      },
+      "spell": "Fire Bolt",
+      "potions": [
+        "SUPER_MAGIC"
+      ]
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 36816,
+    "npcDefRoll": 640,
+    "accuracy": 0.9912812016188174,
+    "maxHit": 21,
+    "dps": 3.4845036178116016,
+    "ttk": 44.95272485988009
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

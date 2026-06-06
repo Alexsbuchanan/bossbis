@@ -1,0 +1,57 @@
+{
+  "name": "sweep-firebolt-chaos-zulrah-serpentine-noprayer-offtask",
+  "source": "gen-parity-sweep.ts: Fire bolt + chaos gauntlets vs zulrah-serpentine [noprayer-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Spell",
+        "type": "magic",
+        "stance": "Defensive Autocast"
+      },
+      "equipment": {
+        "head": 21018,
+        "cape": 24236,
+        "neck": 12002,
+        "body": 21021,
+        "legs": 21024,
+        "hands": 777,
+        "feet": 13235,
+        "ring": 28313,
+        "weapon": 21006,
+        "shield": 27251
+      },
+      "spell": "Fire Bolt",
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 2042,
+      "version": "Serpentine"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 38232,
+    "npcDefRoll": 5871,
+    "accuracy": 0.9231946224465776,
+    "maxHit": 27,
+    "dps": 4.165366213181583,
+    "ttk": 38.08640469939972
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

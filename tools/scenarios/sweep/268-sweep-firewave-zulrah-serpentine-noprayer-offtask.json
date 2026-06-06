@@ -1,0 +1,57 @@
+{
+  "name": "sweep-firewave-zulrah-serpentine-noprayer-offtask",
+  "source": "gen-parity-sweep.ts: Fire wave (Kodai + ancestral) vs zulrah-serpentine [noprayer-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Spell",
+        "type": "magic",
+        "stance": "Defensive Autocast"
+      },
+      "equipment": {
+        "head": 21018,
+        "cape": 24236,
+        "neck": 12002,
+        "body": 21021,
+        "shield": 27251,
+        "legs": 21024,
+        "hands": 19544,
+        "feet": 13235,
+        "ring": 28313,
+        "weapon": 21006
+      },
+      "spell": "Fire Wave",
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 2042,
+      "version": "Serpentine"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 39852,
+    "npcDefRoll": 5871,
+    "accuracy": 0.9263167139236694,
+    "maxHit": 38,
+    "dps": 5.8745897583877165,
+    "ttk": 27.630201392411234
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

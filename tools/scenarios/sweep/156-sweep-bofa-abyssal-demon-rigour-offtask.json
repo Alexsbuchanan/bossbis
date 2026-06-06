@@ -1,0 +1,60 @@
+{
+  "name": "sweep-bofa-abyssal-demon-rigour-offtask",
+  "source": "gen-parity-sweep.ts: Bow of faerdhinen (c) + crystal armour (rapid) vs abyssal-demon [rigour-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Rapid",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 23971,
+        "cape": 28951,
+        "neck": 19547,
+        "body": 23975,
+        "legs": 23979,
+        "hands": 26235,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 25867
+      },
+      "potions": [
+        "RANGING"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 59625,
+    "npcDefRoll": 12096,
+    "accuracy": 0.898550967698655,
+    "maxHit": 47,
+    "dps": 8.806111480310603,
+    "ttk": 18.77235784628319
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

@@ -1,0 +1,61 @@
+{
+  "name": "sweep-msb-vorkath-rigour-offtask",
+  "source": "gen-parity-sweep.ts: Magic shortbow + rune arrows (rapid) vs vorkath [rigour-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Rapid",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 27235,
+        "cape": 28951,
+        "neck": 19547,
+        "body": 27238,
+        "legs": 27241,
+        "hands": 26235,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 861,
+        "ammo": 892
+      },
+      "potions": [
+        "RANGING"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 8059,
+      "version": "Post-quest"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 42316,
+    "npcDefRoll": 20070,
+    "accuracy": 0.7628376302667959,
+    "maxHit": 30,
+    "dps": 6.370651177496897,
+    "ttk": 25.059569358577587
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

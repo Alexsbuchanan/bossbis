@@ -1,0 +1,57 @@
+{
+  "name": "sweep-firebolt-abyssal-demon-noprayer-offtask",
+  "source": "gen-parity-sweep.ts: Fire bolt (Kodai + ancestral) vs abyssal-demon [noprayer-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [],
+      "style": {
+        "name": "Spell",
+        "type": "magic",
+        "stance": "Defensive Autocast"
+      },
+      "equipment": {
+        "head": 21018,
+        "cape": 24236,
+        "neck": 12002,
+        "body": 21021,
+        "shield": 27251,
+        "legs": 21024,
+        "hands": 19544,
+        "feet": 13235,
+        "ring": 28313,
+        "weapon": 21006
+      },
+      "spell": "Fire Bolt",
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 26568,
+    "npcDefRoll": 640,
+    "accuracy": 0.9879182505927961,
+    "maxHit": 17,
+    "dps": 2.8173964924313073,
+    "ttk": 55.12135112493102
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

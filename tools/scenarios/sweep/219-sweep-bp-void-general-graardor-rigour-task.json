@@ -1,0 +1,58 @@
+{
+  "name": "sweep-bp-void-general-graardor-rigour-task",
+  "source": "gen-parity-sweep.ts: Toxic blowpipe + Void ranger set vs general-graardor [rigour-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Rapid",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 11664,
+        "body": 8839,
+        "legs": 8840,
+        "hands": 20475,
+        "cape": 22109,
+        "neck": 19547,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 12926,
+        "ammo": 11230
+      },
+      "potions": [
+        "RANGING"
+      ]
+    },
+    "monster": {
+      "id": 2215,
+      "version": ""
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 21684,
+    "npcDefRoll": 39886,
+    "accuracy": 0.2718178855266127,
+    "maxHit": 32,
+    "dps": 3.631102561706518,
+    "ttk": 44.15021342264244
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

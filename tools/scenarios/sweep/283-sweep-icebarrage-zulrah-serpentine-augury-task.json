@@ -1,0 +1,59 @@
+{
+  "name": "sweep-icebarrage-zulrah-serpentine-augury-task",
+  "source": "gen-parity-sweep.ts: Ice barrage (Kodai + ancestral) vs zulrah-serpentine [augury-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "AUGURY"
+      ],
+      "style": {
+        "name": "Spell",
+        "type": "magic",
+        "stance": "Defensive Autocast"
+      },
+      "equipment": {
+        "head": 21018,
+        "cape": 24236,
+        "neck": 12002,
+        "body": 21021,
+        "shield": 27251,
+        "legs": 21024,
+        "hands": 19544,
+        "feet": 13235,
+        "ring": 28313,
+        "weapon": 21006
+      },
+      "spell": "Ice Barrage",
+      "potions": [
+        "SUPER_MAGIC"
+      ]
+    },
+    "monster": {
+      "id": 2042,
+      "version": "Serpentine"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 38376,
+    "npcDefRoll": 5871,
+    "accuracy": 0.9234828152278709,
+    "maxHit": 44,
+    "dps": 6.779047925117187,
+    "ttk": 24.2389926771208
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

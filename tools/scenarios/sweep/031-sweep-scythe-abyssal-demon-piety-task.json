@@ -1,0 +1,57 @@
+{
+  "name": "sweep-scythe-abyssal-demon-piety-task",
+  "source": "gen-parity-sweep.ts: Scythe of vitur (slash) vs abyssal-demon [piety-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Chop",
+        "type": "slash",
+        "stance": "Aggressive"
+      },
+      "equipment": {
+        "head": 26382,
+        "cape": 21289,
+        "neck": 19553,
+        "body": 26384,
+        "legs": 26386,
+        "hands": 22981,
+        "feet": 13239,
+        "ring": 28307,
+        "weapon": 22325
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ]
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 33674,
+    "npcDefRoll": 12096,
+    "accuracy": 0.8203711952487008,
+    "maxHit": 50,
+    "dps": 6.841788530309427,
+    "ttk": 24.309873894226303
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

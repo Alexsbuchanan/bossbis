@@ -1,0 +1,61 @@
+{
+  "name": "sweep-dhcb-vorkath-rigour-offtask",
+  "source": "gen-parity-sweep.ts: Dragon hunter crossbow + dragon bolts (rapid) vs vorkath [rigour-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Rapid",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 27235,
+        "cape": 28951,
+        "neck": 19547,
+        "body": 27238,
+        "legs": 27241,
+        "hands": 26235,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 21012,
+        "ammo": 21905
+      },
+      "potions": [
+        "RANGING"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 8059,
+      "version": "Post-quest"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 59810,
+    "npcDefRoll": 20070,
+    "accuracy": 0.8322047783852469,
+    "maxHit": 58,
+    "dps": 8.049347912969168,
+    "ttk": 20.993571777437506
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

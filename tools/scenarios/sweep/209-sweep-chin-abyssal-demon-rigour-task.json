@@ -1,0 +1,57 @@
+{
+  "name": "sweep-chin-abyssal-demon-rigour-task",
+  "source": "gen-parity-sweep.ts: Black chinchompa (medium fuse) vs abyssal-demon [rigour-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Medium fuse",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 27235,
+        "cape": 28951,
+        "neck": 19547,
+        "body": 27238,
+        "legs": 27241,
+        "hands": 26235,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 11959
+      },
+      "potions": [
+        "RANGING"
+      ]
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 42458,
+    "npcDefRoll": 12096,
+    "accuracy": 0.8575331496266987,
+    "maxHit": 26,
+    "dps": 6.210939684539051,
+    "ttk": 25.488838406898502
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}
