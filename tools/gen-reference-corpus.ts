@@ -1,35 +1,149 @@
 // Reference corpus generator.
 //
-// v0.0 scaffold: writes an empty corpus and proves the Node/TS setup works.
-// In v0.1.0 this imports weirdgloop's calc (via the @/ path alias into tools/upstream/src)
-// and TestUtils.getTestPlayer to emit rows with the computed boosts delta + full Monster.inputs.
+// v0.1.0: reads every tools/scenarios/*.json, validates each is a well-formed
+// parity row, and writes them (sorted by name) into the Java test corpus at
+// src/test/resources/parity/parity-corpus.json.
+//
+// The rows are hand-transcribed from upstream's Jest tests (src/tests/calc/*),
+// so each carries a real, upstream-asserted expected value (e.g. maxHit, maxAttackRoll).
+//
+// Automated generation from the LIVE upstream calc is deferred to v0.1.1 — it
+// requires stubbing weirdgloop's PNG/asset imports the way their jest.config.ts
+// moduleNameMapper does. See tools/README.md.
 //
 // Usage: npm run gen-corpus
 
-import { writeFileSync, readdirSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { readFileSync, readdirSync, mkdirSync, writeFileSync } from "node:fs";
+import { resolve, dirname, join } from "node:path";
 
 const here = import.meta.dirname;
 const scenarioDir = resolve(here, "scenarios");
 const outPath = resolve(here, "..", "src", "test", "resources", "parity", "parity-corpus.json");
 
-function scenarioCount(): number {
-  try {
-    return readdirSync(scenarioDir).filter((f) => f.endsWith(".json")).length;
-  } catch {
-    return 0;
+interface CorpusRow {
+  name: string;
+  source?: string;
+  exercises: string[];
+  inputs: {
+    player: {
+      skills: Record<string, number>;
+      prayers: string[];
+      style: { name: string; type: string | null; stance: string | null };
+      spell?: string;
+      equipment: Record<string, number>;
+    };
+    monster: { id: number; version: string };
+  };
+  expected: Record<string, number>;
+  weirdgloopCommit: string;
+}
+
+function fail(file: string, msg: string): never {
+  throw new Error(`Invalid scenario ${file}: ${msg}`);
+}
+
+function validate(file: string, row: unknown): CorpusRow {
+  if (typeof row !== "object" || row === null) {
+    fail(file, "not a JSON object");
   }
+  const r = row as Record<string, unknown>;
+
+  if (typeof r.name !== "string" || r.name.length === 0) {
+    fail(file, "missing string 'name'");
+  }
+  if (!Array.isArray(r.exercises) || r.exercises.length === 0 || !r.exercises.every((e) => typeof e === "string")) {
+    fail(file, "'exercises' must be a non-empty string array");
+  }
+  if (typeof r.weirdgloopCommit !== "string" || r.weirdgloopCommit.length !== 40) {
+    fail(file, "'weirdgloopCommit' must be a 40-char commit hash");
+  }
+  if (typeof r.expected !== "object" || r.expected === null || Object.keys(r.expected as object).length === 0) {
+    fail(file, "'expected' must be a non-empty object");
+  }
+  for (const [k, v] of Object.entries(r.expected as object)) {
+    if (typeof v !== "number" || !Number.isFinite(v)) {
+      fail(file, `expected.${k} must be a finite number`);
+    }
+  }
+
+  const inputs = r.inputs as Record<string, unknown> | undefined;
+  if (typeof inputs !== "object" || inputs === null) {
+    fail(file, "missing 'inputs' object");
+  }
+
+  const monster = inputs.monster as Record<string, unknown> | undefined;
+  if (typeof monster !== "object" || monster === null || typeof monster.id !== "number" || typeof monster.version !== "string") {
+    fail(file, "'inputs.monster' must have numeric 'id' and string 'version'");
+  }
+
+  const player = inputs.player as Record<string, unknown> | undefined;
+  if (typeof player !== "object" || player === null) {
+    fail(file, "missing 'inputs.player'");
+  }
+  const skills = player.skills as Record<string, unknown> | undefined;
+  if (typeof skills !== "object" || skills === null) {
+    fail(file, "missing 'inputs.player.skills'");
+  }
+  for (const key of ["atk", "str", "def", "hp", "ranged", "magic", "prayer", "mining", "herblore"]) {
+    if (typeof skills[key] !== "number") {
+      fail(file, `skills.${key} must be a number (default 99 per getTestPlayer)`);
+    }
+  }
+  if (!Array.isArray(player.prayers) || !player.prayers.every((p) => typeof p === "string")) {
+    fail(file, "'player.prayers' must be a string array");
+  }
+  const style = player.style as Record<string, unknown> | undefined;
+  if (typeof style !== "object" || style === null || typeof style.name !== "string") {
+    fail(file, "'player.style' must have a string 'name'");
+  }
+  const equipment = player.equipment as Record<string, unknown> | undefined;
+  if (typeof equipment !== "object" || equipment === null) {
+    fail(file, "missing 'player.equipment'");
+  }
+  for (const [slot, id] of Object.entries(equipment)) {
+    if (typeof id !== "number" || !Number.isInteger(id)) {
+      fail(file, `equipment.${slot} must be an integer item id`);
+    }
+  }
+
+  return row as CorpusRow;
 }
 
 function main(): void {
-  const n = scenarioCount();
-  console.log(`Found ${n} scenario file(s) in ${scenarioDir}.`);
-  if (n === 0) {
-    console.log("(v0.0 scaffold: writing empty corpus.)");
+  let files: string[];
+  try {
+    files = readdirSync(scenarioDir)
+      .filter((f) => f.endsWith(".json"))
+      .sort();
+  } catch {
+    files = [];
   }
+
+  const rows: CorpusRow[] = [];
+  const seenNames = new Set<string>();
+  for (const f of files) {
+    const full = join(scenarioDir, f);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(readFileSync(full, "utf8"));
+    } catch (e) {
+      throw new Error(`Failed to parse ${f}: ${(e as Error).message}`);
+    }
+    const row = validate(f, parsed);
+    if (seenNames.has(row.name)) {
+      throw new Error(`Duplicate scenario name '${row.name}' in ${f}`);
+    }
+    seenNames.add(row.name);
+    rows.push(row);
+  }
+
+  // Deterministic order: sort by row name.
+  rows.sort((a, b) => a.name.localeCompare(b.name, "en"));
+
   mkdirSync(dirname(outPath), { recursive: true });
-  writeFileSync(outPath, JSON.stringify([], null, 2) + "\n", "utf8");
-  console.log(`Wrote 0 rows to ${outPath}`);
+  writeFileSync(outPath, JSON.stringify(rows, null, 2) + "\n", "utf8");
+  console.log(`Validated ${rows.length} scenario file(s) from ${scenarioDir}.`);
+  console.log(`Wrote ${rows.length} row(s) to ${outPath}`);
 }
 
 main();

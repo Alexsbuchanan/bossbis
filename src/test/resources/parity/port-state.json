@@ -1,0 +1,11 @@
+{
+  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.0 no PlayerVsNpcCalc.* path is ported, so every parity-corpus row skips.",
+  "ported": [],
+  "paths": {
+    "PlayerVsNpcCalc.maxMeleeHit": "not-ported",
+    "PlayerVsNpcCalc.maxRangedHit": "not-ported",
+    "PlayerVsNpcCalc.maxMagicHit": "not-ported",
+    "PlayerVsNpcCalc.accuracy": "not-ported",
+    "PlayerVsNpcCalc.dps": "not-ported"
+  }
+}

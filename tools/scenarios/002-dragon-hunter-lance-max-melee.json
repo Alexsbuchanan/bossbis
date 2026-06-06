@@ -1,0 +1,16 @@
+{
+  "name": "dragon-hunter-lance-max-melee",
+  "source": "GeneratedTests.test.ts: \"Dragon hunter lance in max melee\"",
+  "exercises": ["PlayerVsNpcCalc.maxMeleeHit"],
+  "inputs": {
+    "player": {
+      "skills": {"atk":118,"str":118,"def":99,"hp":99,"ranged":99,"magic":99,"prayer":99,"mining":99,"herblore":99},
+      "prayers": ["PIETY"],
+      "style": {"name":"Lunge","type":"stab","stance":"Controlled"},
+      "equipment": {"head":26382,"cape":21285,"neck":19553,"weapon":22978,"body":26384,"shield":22322,"legs":26386,"hands":22981,"feet":13239,"ring":11773}
+    },
+    "monster": {"id":8059,"version":"Post-quest"}
+  },
+  "expected": {"maxHit":58},
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

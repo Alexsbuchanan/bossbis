@@ -14,9 +14,13 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/Comparator.java | src/lib/Comparator.ts | — | not-ported | uses lodash.mergewith |
 | calc/MonsterScaling.java | src/lib/MonsterScaling.ts | — | not-ported | |
 | calc/CalcDetails.java | src/lib/CalcDetails.ts | — | not-ported | |
-| calc/CalcMath.java | src/lib/Math.ts | — | not-ported | iSqrt, iLerp, MinMax, Factor |
-| calc/Constants.java | src/lib/constants.ts | — | not-ported | monster-ID arrays, epsilons |
-| calc/EquipmentAliases.java | src/lib/EquipmentAliases.ts | — | not-ported | |
+| calc/CalcMath.java | src/lib/Math.ts | 5e313c1 | ported | iSqrt, iLerp, MinMax, Factor |
+| calc/Constants.java | src/lib/constants.ts | 5e313c1 | partial | scalars only; ID arrays deferred to v0.1.1 |
+| calc/data/EquipmentAliases.java | src/lib/EquipmentAliases.ts | 5e313c1 | ported | flat {variant:base} map; canonical(id)=getOrDefault(id,id) (O(1) equiv of getCanonicalItemId) |
+| calc/data/EquipmentRepository.java | src/lib/Equipment.ts:202-226 | 5e313c1 | ported | fromBundled(Gson) indexes equipment.json by id (putIfAbsent guards dup id 32640); canonicalId + resolve (canonical→literal→empty); loads all 5306 rows |
+| calc/data/SlotMapping.java | §6.4 (slot strings + 2H rule) | 5e313c1 | ported | Slot enum {HEAD,CAPE,NECK,AMMO,WEAPON,BODY,SHIELD,LEGS,HANDS,FEET,RING}; fromWeirdgloop(String); occupies(slot,2H)→{WEAPON,SHIELD} for 2H weapon else slot |
+| calc/data/MonsterRepository.java | src/lib/Monsters.ts | 5e313c1 | ported | fromBundled(Gson) indexes monsters.json by (id,version) and by id (first wins); resolve(id,version) prefers exact then id-fallback; loads all 2830 rows |
+| calc/data/SpellRepository.java | src/lib/spells.json | 5e313c1 | ported | fromBundled(Gson) indexes spells.json by name; byName(String) |
 | calc/dists/ClawsDist.java | src/lib/dists/claws.ts | — | not-ported | |
 | calc/dists/BoltsDist.java | src/lib/dists/bolts.ts | — | not-ported | |
 | calc/scaling/ChambersOfXericScaling.java | src/lib/scaling/ChambersOfXeric.ts | — | not-ported | |
@@ -25,10 +29,42 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/scaling/DefenceReduction.java | src/lib/scaling/DefenceReduction.ts | — | not-ported | |
 | calc/scaling/Phases.java | src/lib/scaling/Phases.ts | — | not-ported | |
 | calc/scaling/VardorvisScaling.java | src/lib/scaling/Vardorvis.ts | — | not-ported | |
-| calc/support/D3.java | (d3-array sum/max/min/some/range/cross) | — | not-ported | match left-to-right summation order |
-| calc/support/MergeWith.java | (lodash.mergewith default semantics) | — | not-ported | no custom customizer |
-| calc/support/Utils.java | src/utils.ts | — | not-ported | keys, isDefined, typedMerge, FeatureStatus |
-| calc/state/BoostsCalculator.java | src/utils.ts PotionMap + src/state.tsx recomputeBoosts | — | not-ported | per-skill boost deltas; max-combine |
+| calc/support/D3.java | (d3-array sum/max/min/some/range/cross) | 5e313c1 | ported | match left-to-right summation order |
+| calc/support/MergeWith.java | (lodash.mergewith default semantics) | 5e313c1 | ported | no custom customizer |
+| calc/support/Utils.java | src/utils.ts | 5e313c1 | partial | isDefined + FeatureStatus; getCombatStylesForCategory deferred to M3 |
+| calc/state/BoostsCalculator.java | src/utils.ts PotionMap + src/state.tsx recomputeBoosts | BoostsCalculatorTest | ported | per-skill boost deltas; max-combine; all 22 potions |
+| calc/types/Prayer.java | src/enums/Prayer.ts | 5e313c1 | ported | numeric enum 0..30; ordinal == upstream value; PrayerData + PrayerMap factors |
+| calc/types/Potion.java | src/enums/Potion.ts | 5e313c1 | ported | plain ordinal enum (22 members); no JSON |
+| calc/types/EquipmentCategory.java | src/enums/EquipmentCategory.ts | 5e313c1 | ported | string-valued (32 members) + fromValue |
+| calc/types/MonsterAttribute.java | src/enums/MonsterAttribute.ts | 5e313c1 | ported | string-valued (16 members incl. vampyre1/2/3) + fromValue + isVampyre |
+| calc/types/BurnImmunity.java | src/types/Monster.ts:9-13 | 5e313c1 | ported | string-valued (Weak/Normal/Strong) + fromValue |
+| calc/types/UserIssueType.java | src/enums/UserIssueType.ts | 5e313c1 | ported | string-valued (12 members) + fromValue |
+| calc/types/CombatStyle.java | src/types/PlayerCombatStyle.ts | 5e313c1 | ported | PlayerCombatStyle + CombatStyleType/Stance (nullable strings) + getRangedDamageType |
+| calc/types/Spell.java | src/types/Spell.ts | 5e313c1 | ported | Spell @Value (max_hit) + Spellbook + Spellement |
+| calc/types/Player model | src/types/Player.ts | 5e313c1 | ported | PlayerSkills(+mining/herblore)/PlayerBonuses(ranged_str,magic_str)/PlayerOffensive/PlayerDefensive/EquipmentStats/ItemVars/EquipmentPiece(inlined stats)/PlayerEquipment/Buffs(no potions)/Player |
+| calc/types/Monster model | src/types/Monster.ts + src/lib/Monsters.ts:32-58 | 5e313c1 | ported | Monster(is_slayer_monster, maxHit UI-only)/MonsterSkills/MonsterOffensive(magic_str,ranged_str)/MonsterDefensive(flat_armour,light/standard/heavy)/MonsterInputs.initial()=INITIAL_MONSTER_INPUTS/DefenceReductions/MonsterPrayers/Weakness/Immunities |
+| (test) parity harness | src/tests/calc/* (transcribed) | 5e313c1 | ported | CorpusRow/PortState + ParityCorpusTest (skips un-ported rows) + PortStatusTest gate; corpus seeded with 9 rows; runner asserts nothing until a calc path is ported |
+
+## Parity corpus harness (v0.1.0)
+
+The parity-corpus harness is in place and seeded with **9 rows transcribed from
+upstream's Jest tests** (`tools/upstream/src/tests/calc/`):
+
+- 6 `maxHit` rows from `GeneratedTests.test.ts` (Osmumten's fang =50, Dragon
+  hunter lance =58, Blisterwood flail =55, Obsidian sword =46, Tumeken's shadow
+  =65, Fire bolt =20).
+- 3 `maxAttackRoll` (accuracy) rows from `BasicRolls.test.ts` (Abyssal whip
+  =16060, Bow of faerdhinen =21120, Trident of the seas =8690).
+
+`tools/gen-reference-corpus.ts` validates `tools/scenarios/*.json` and writes
+them (sorted by name) to `src/test/resources/parity/parity-corpus.json`.
+`src/test/resources/parity/port-state.json` is the machine-readable companion to
+this file. At v0.1.0 **no `PlayerVsNpcCalc.*` calc path is ported**, so every row
+is SKIPPED by `ParityCorpusTest` (9 skipped) and `PortStatusTest` confirms the
+skip count equals the row count (no row runs un-gated). The `*Calc` / `HitDist` /
+`scaling/*` / `dists/*` rows above remain `not-ported`. Automated generation from
+the live upstream calc is deferred to v0.1.1 (requires stubbing weirdgloop's
+PNG/asset imports, per `tools/README.md`).
 
 ## Status values
 - `not-ported` — no Java equivalent yet.
