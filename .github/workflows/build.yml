@@ -1,0 +1,52 @@
+name: build
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  gradle:
+    name: Gradle build + tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (no submodules — data is committed)
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Determinism guard
+        run: bash tools/check-determinism.sh
+
+      - name: Build + test
+        run: ./gradlew build --no-daemon --stacktrace
+
+  tools:
+    name: corpus generator scaffold
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (no submodules — v0.0 scaffold does not import upstream)
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: tools/package-lock.json
+
+      - name: Install tools deps
+        run: npm ci
+        working-directory: tools
+
+      - name: Run corpus generator (scaffold)
+        run: npm run gen-corpus
+        working-directory: tools
