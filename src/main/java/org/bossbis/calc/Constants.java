@@ -70,6 +70,67 @@ public final class Constants
 	/** Port of KEPHRI_OVERLORD_IDS (constants.ts) — used by getNPCDefenceRoll's ToA invocation guard. */
 	public static final Set<Integer> KEPHRI_OVERLORD_IDS_SET = setOf(KEPHRI_OVERLORD_IDS);
 
+	// --- USES_DEFENCE_LEVEL_FOR_MAGIC_DEFENCE_NPC_IDS constituents (constants.ts:256-326) ----------
+
+	private static final List<Integer> ICE_DEMON_IDS = idList(7584, 7585);
+	private static final List<Integer> VERZIK_P1_IDS = idList(
+		10830, 10831, 10832,   // em
+		8369, 8370, 8371,      // norm
+		10847, 10848, 10849);  // hmt
+	private static final List<Integer> FRAGMENT_OF_SEREN_IDS = idList(8917, 8918, 8919, 8920);
+
+	/** Port of VERZIK_IDS (constants.ts:90-95) — also a defence-floor set. */
+	public static final Set<Integer> VERZIK_IDS = setOf(
+		VERZIK_P1_IDS,
+		idList(10833, 10834, 10835),   // verzik entry mode
+		idList(8372, 8373, 8374),      // verzik normal mode
+		idList(10850, 10851, 10852));  // verzik hard mode
+
+	/**
+	 * Port of USES_DEFENCE_LEVEL_FOR_MAGIC_DEFENCE_NPC_IDS (constants.ts:319-326) — NPCs whose magic
+	 * defence is rolled against the defence stat (not the magic stat). Used by getNPCDefenceRoll.
+	 */
+	public static final Set<Integer> USES_DEFENCE_LEVEL_FOR_MAGIC_DEFENCE_NPC_IDS = setOf(
+		ICE_DEMON_IDS,
+		new java.util.ArrayList<>(VERZIK_IDS),
+		FRAGMENT_OF_SEREN_IDS,
+		idList(11709, 11712),   // baboon brawler
+		idList(9118));          // rabbit (prifddinas)
+
+	// --- Defence-floor id sets (DefenceReduction.getDefenceFloor; constants.ts) --------------------
+
+	/** Port of VARDORVIS_IDS (constants.ts:493). */
+	public static final Set<Integer> VARDORVIS_IDS = setOf(12223, 12224, 12228, 12425, 12426, 13656);
+
+	/** Port of SOTETSEG_IDS (constants.ts). */
+	public static final Set<Integer> SOTETSEG_IDS = setOf(8387, 8388, 10867, 10868);
+
+	/** Port of NIGHTMARE_IDS (constants.ts) — Nightmare + Phosani's. */
+	public static final Set<Integer> NIGHTMARE_IDS = setOf(
+		378, 9425, 9426, 9427, 9428, 9429, 9430, 9431, 9432, 9433, 9460,            // nightmare
+		377, 9423, 9416, 9417, 9418, 9419, 9420, 9421, 9422, 9424, 11153, 11154, 11155); // phosani's
+
+	/** Port of NEX_IDS (constants.ts). */
+	public static final Set<Integer> NEX_IDS = setOf(11278, 11279, 11280, 11281, 11282);
+
+	/** Port of ARAXXOR_IDS (constants.ts). */
+	public static final Set<Integer> ARAXXOR_IDS = setOf(13668);
+
+	/** Port of HUEYCOATL_IDS (constants.ts:516-522) — head + body + tail. */
+	public static final Set<Integer> HUEYCOATL_IDS = setOf(
+		idList(14009, 14010, 14013),  // head
+		idList(14017),                // body
+		idList(14014));               // tail
+
+	/** Defence-floor id sets reusing the ToA constituents above. */
+	public static final Set<Integer> AKKHA_IDS_SET = setOf(AKKHA_IDS);
+	public static final Set<Integer> BABA_IDS_SET = setOf(BABA_IDS);
+	public static final Set<Integer> KEPHRI_SHIELDED_IDS_SET = setOf(KEPHRI_SHIELDED_IDS);
+	public static final Set<Integer> KEPHRI_UNSHIELDED_IDS_SET = setOf(KEPHRI_UNSHIELDED_IDS);
+	public static final Set<Integer> ZEBAK_IDS_SET = setOf(ZEBAK_IDS);
+	public static final Set<Integer> TOA_OBELISK_IDS_SET = setOf(TOA_OBELISK_IDS);
+	public static final Set<Integer> P3_WARDEN_IDS_SET = setOf(P3_WARDEN_IDS);
+
 	// --- Royal Titans boss ids (constants.ts:422-425) — used by the ranged attack roll ----------------
 
 	/** Port of TITAN_BOSS_IDS (constants.ts:422-425). */

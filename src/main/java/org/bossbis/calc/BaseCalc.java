@@ -126,8 +126,8 @@ public abstract strictfp class BaseCalc
 
 		this.player = player;
 		this.baseMonster = monster;
-		// TODO(M5): scaleMonster (defence reductions). Until then this is the identity — baseMonster
-		// stays unscaled and `monster` == baseMonster unless monster scaling is disabled anyway.
+		// scaleMonster (M5): applies defence reductions (raid stat-scaling deferred — see MonsterScaling).
+		// baseMonster stays unscaled; `monster` is the scaled view unless scaling is disabled.
 		this.monster = (this.opts.disableMonsterScaling || this.opts.noInit) ? monster : scaleMonster(monster);
 
 		if (!this.opts.noInit || this.opts.isBlindBag)
@@ -139,13 +139,13 @@ public abstract strictfp class BaseCalc
 	}
 
 	/**
-	 * Placeholder for {@code scaleMonster} (BaseCalc.ts:17,95). Milestone 5 replaces this with the real
-	 * defence-reduction scaling; for now it returns the monster unchanged.
+	 * Port of {@code scaleMonster} (BaseCalc.ts:17,95) — delegates to {@link MonsterScaling#scaleMonster}.
+	 * v0.1.1 applies only the defence-reduction transform; raid stat-scaling is deferred (see
+	 * {@link MonsterScaling}).
 	 */
 	private static Monster scaleMonster(Monster monster)
 	{
-		// TODO(M5): scaleMonster (defence reductions) — identity placeholder for v0.1.1.
-		return monster;
+		return MonsterScaling.scaleMonster(monster);
 	}
 
 	private static List<String> collectEquippedItemNames(PlayerEquipment eq)
