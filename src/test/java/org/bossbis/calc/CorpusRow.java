@@ -22,6 +22,7 @@ final class CorpusRow
 	private String name;
 	private String source;
 	private String kind;
+	private Boolean spec;
 	private List<String> exercises;
 	private Inputs inputs;
 	private Map<String, Double> expected;
@@ -36,6 +37,12 @@ final class CorpusRow
 	String kind()
 	{
 		return kind == null ? "pvn" : kind;
+	}
+
+	/** {@code true} for a special-attack row (asserts {@code getSpecCalc()}/{@code getSpecDps()}). */
+	boolean spec()
+	{
+		return spec != null && spec;
 	}
 
 	String source()
@@ -199,11 +206,59 @@ final class CorpusRow
 	static final class MonsterInputsInput
 	{
 		private Integer toaInvocationLevel;
+		private Integer toaPathLevel;
+		private Integer partyMaxCombatLevel;
+		private Integer partySumMiningLevel;
+		private Integer partyMaxHpLevel;
+		private Integer partySize;
+		private Integer monsterCurrentHp;
+		private Boolean isFromCoxCm;
+		private String phase;
 		private DefenceReductionsInput defenceReductions;
 
 		Integer toaInvocationLevel()
 		{
 			return toaInvocationLevel;
+		}
+
+		Integer toaPathLevel()
+		{
+			return toaPathLevel;
+		}
+
+		Integer partyMaxCombatLevel()
+		{
+			return partyMaxCombatLevel;
+		}
+
+		Integer partySumMiningLevel()
+		{
+			return partySumMiningLevel;
+		}
+
+		Integer partyMaxHpLevel()
+		{
+			return partyMaxHpLevel;
+		}
+
+		Integer partySize()
+		{
+			return partySize;
+		}
+
+		Integer monsterCurrentHp()
+		{
+			return monsterCurrentHp;
+		}
+
+		Boolean isFromCoxCm()
+		{
+			return isFromCoxCm;
+		}
+
+		String phase()
+		{
+			return phase;
 		}
 
 		DefenceReductionsInput defenceReductions()

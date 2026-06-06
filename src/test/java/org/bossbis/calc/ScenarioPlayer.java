@@ -104,7 +104,15 @@ final class ScenarioPlayer
 		{
 			return init;
 		}
+		boolean isFromCoxCm = in.isFromCoxCm() == null ? init.isFromCoxCm() : in.isFromCoxCm();
 		int toaInv = in.toaInvocationLevel() == null ? init.getToaInvocationLevel() : in.toaInvocationLevel();
+		int toaPath = in.toaPathLevel() == null ? init.getToaPathLevel() : in.toaPathLevel();
+		int partyMaxComb = in.partyMaxCombatLevel() == null ? init.getPartyMaxCombatLevel() : in.partyMaxCombatLevel();
+		int partySumMining = in.partySumMiningLevel() == null ? init.getPartySumMiningLevel() : in.partySumMiningLevel();
+		int partyMaxHp = in.partyMaxHpLevel() == null ? init.getPartyMaxHpLevel() : in.partyMaxHpLevel();
+		int partySize = in.partySize() == null ? init.getPartySize() : in.partySize();
+		int monsterCurrentHp = in.monsterCurrentHp() == null ? init.getMonsterCurrentHp() : in.monsterCurrentHp();
+		String phase = in.phase() == null ? init.getPhase() : in.phase();
 		DefenceReductions dr = init.getDefenceReductions();
 		CorpusRow.DefenceReductionsInput d = in.defenceReductions();
 		if (d != null)
@@ -114,10 +122,10 @@ final class ScenarioPlayer
 				d.emberlight(), d.bgs(), d.tonalztic(), d.seercull(), d.ayak());
 		}
 		return new MonsterInputs(
-			init.isFromCoxCm(), toaInv, init.getToaPathLevel(),
-			init.getPartyMaxCombatLevel(), init.getPartySumMiningLevel(), init.getPartyMaxHpLevel(),
-			init.getPartySize(), init.getMonsterCurrentHp(), dr,
-			init.getDemonbaneVulnerability(), init.getPhase(), init.getPrayers());
+			isFromCoxCm, toaInv, toaPath,
+			partyMaxComb, partySumMining, partyMaxHp,
+			partySize, monsterCurrentHp, dr,
+			init.getDemonbaneVulnerability(), phase, init.getPrayers());
 	}
 
 	/** Builds the calc-ready Player for the row against the given (already-resolved) monster. */

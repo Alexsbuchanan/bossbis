@@ -34,10 +34,11 @@ class ParityCorpusTest
 	/** Relative tolerance for floating outputs (§5.3). */
 	private static final double FLOAT_REL_TOL = 1e-9;
 
-	/** Integer-valued expected fields (asserted EXACT) across both pvn and nvp kinds. */
+	/** Integer-valued expected fields (asserted EXACT) across pvn, nvp, and spec kinds. */
 	private static final List<String> INTEGER_FIELDS = Arrays.asList(
 		"maxAttackRoll", "npcDefRoll", "maxHit",
-		"playerDefRoll", "npcMaxHit", "npcMaxAttackRoll");
+		"playerDefRoll", "npcMaxHit", "npcMaxAttackRoll",
+		"specMaxHit");
 
 	private static final ScenarioPlayer BUILDER = new ScenarioPlayer(new Gson());
 
@@ -57,10 +58,21 @@ class ParityCorpusTest
 		Player player = BUILDER.player(row, monster);
 
 		boolean nvp = "nvp".equals(row.kind());
+		boolean spec = row.spec();
 		PlayerVsNpcCalc pvnCalc = nvp ? null : new PlayerVsNpcCalc(player, monster,
 			BUILDER.equipmentRepository(), BUILDER.spellRepository());
 		NpcVsPlayerCalc nvpCalc = nvp ? new NpcVsPlayerCalc(player, monster,
 			BUILDER.equipmentRepository(), BUILDER.spellRepository()) : null;
+
+		// For a spec row, the base calc is the source of getSpecDps(); getSpecCalc() rebuilds the
+		// special-attack calc used for specMaxHit/specAccuracy.
+		PlayerVsNpcCalc specCalc = spec ? pvnCalc.getSpecCalc() : null;
+		if (spec)
+		{
+			assertThat(specCalc)
+				.as("row '%s' is a spec row but getSpecCalc() returned null (spec unsupported)", row.name())
+				.isNotNull();
+		}
 
 		assertThat(row.expected())
 			.as("row '%s' must carry at least one expected field", row.name())
@@ -70,7 +82,19 @@ class ParityCorpusTest
 		{
 			String field = e.getKey();
 			double expected = e.getValue();
-			double actual = nvp ? computeNvp(nvpCalc, field, row) : compute(pvnCalc, field, row);
+			double actual;
+			if (spec)
+			{
+				actual = computeSpec(pvnCalc, specCalc, field, row);
+			}
+			else if (nvp)
+			{
+				actual = computeNvp(nvpCalc, field, row);
+			}
+			else
+			{
+				actual = compute(pvnCalc, field, row);
+			}
 
 			if (INTEGER_FIELDS.contains(field))
 			{
@@ -107,6 +131,27 @@ class ParityCorpusTest
 				return calc.getTtk();
 			default:
 				fail("row '%s': no calc getter mapped for expected field '%s'", row.name(), field);
+				return Double.NaN; // unreachable
+		}
+	}
+
+	/**
+	 * Maps a spec expected-field name to the matching getter. {@code specMaxHit}/{@code specAccuracy}
+	 * come from {@link PlayerVsNpcCalc#getSpecCalc()}; {@code specDps} comes from the BASE calc's
+	 * {@link PlayerVsNpcCalc#getSpecDps()} (which itself drives the regen-aware spec rotation).
+	 */
+	private static double computeSpec(PlayerVsNpcCalc baseCalc, PlayerVsNpcCalc specCalc, String field, CorpusRow row)
+	{
+		switch (field)
+		{
+			case "specMaxHit":
+				return specCalc.getMax();
+			case "specAccuracy":
+				return specCalc.getHitChance();
+			case "specDps":
+				return baseCalc.getSpecDps();
+			default:
+				fail("row '%s': no spec calc getter mapped for expected field '%s'", row.name(), field);
 				return Double.NaN; // unreachable
 		}
 	}
