@@ -1,9 +1,9 @@
 {
-  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.2 the PlayerVsNpcCalc.accuracy (player attack rolls), PlayerVsNpcCalc.defenceRoll (getNPCDefenceRoll + defence reductions), and PlayerVsNpcCalc.maxMeleeHit (getPlayerMaxMeleeHit + getMinAndMax melee dispatch) paths are ported, so the 3 maxAttackRoll rows, the 3 npcDefRoll rows, the 2 accuracy rows, and the 6 plain melee maxHit rows (3 seeded + 3 v0.1.2 coverage) run; the 2 magic maxHit rows (maxMagicHit) and the blisterwood row (distribution) still skip.",
+  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.3 (Milestone 1) the PlayerVsNpcCalc.accuracy (player attack rolls), PlayerVsNpcCalc.defenceRoll (getNPCDefenceRoll + defence reductions), PlayerVsNpcCalc.maxMeleeHit (getPlayerMaxMeleeHit), and PlayerVsNpcCalc.maxRangedHit (getPlayerMaxRangedHit + getMinAndMax ranged dispatch) paths are ported, so the 3 maxAttackRoll rows, the 3 npcDefRoll rows, the 2 accuracy rows, the 6 plain melee maxHit rows, and the 3 ranged maxHit rows (bofa L99/L1, comp ogre bow) run; the 2 magic maxHit rows (maxMagicHit) and the blisterwood row (distribution) still skip.",
   "ported": [],
   "paths": {
     "PlayerVsNpcCalc.maxMeleeHit": "ported",
-    "PlayerVsNpcCalc.maxRangedHit": "not-ported",
+    "PlayerVsNpcCalc.maxRangedHit": "ported",
     "PlayerVsNpcCalc.maxMagicHit": "not-ported",
     "PlayerVsNpcCalc.accuracy": "ported",
     "PlayerVsNpcCalc.defenceRoll": "ported",

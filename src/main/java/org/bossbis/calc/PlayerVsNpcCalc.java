@@ -80,6 +80,7 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		static final String DAMAGE_LEVEL_SOULREAPER_BONUS = "Damage level (soulreaper bonus)";
 		static final String DAMAGE_LEVEL_SOULREAPER = "Damage level (soulreaper)";
 		static final String DAMAGE_EFFECTIVE_LEVEL = "Effective damage level";
+		static final String DAMAGE_EFFECTIVE_LEVEL_HOLY_WATER = "Damage effective level holy water";
 		static final String DAMAGE_EFFECTIVE_LEVEL_VOID = "Effective damage level (void)";
 		static final String DAMAGE_GEAR_BONUS = "Damage gear bonus";
 		static final String MAX_HIT_BASE = "Base max hit";
@@ -91,6 +92,12 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		static final String MAX_HIT_KERIS = "Max hit (keris)";
 		static final String MAX_HIT_GOLEMBANE = "Max hit (golembane)";
 		static final String MAX_HIT_REV_WEAPON = "Max hit (rev weapon)";
+		static final String MAX_HIT_NEZIKCHENED = "Max hit Nezikchened";
+		static final String MAX_HIT_TONALZTICS = "Max hit tonalztics";
+		static final String MAX_HIT_WARDENS = "Max hit wardens";
+		static final String MIN_HIT_WARDENS = "Min hit wardens";
+		static final String WARDENS_ACCURACY_DELTA = "Wardens accuracy delta";
+		static final String WARDENS_DMG_MODIFIER = "Wardens damage modifier";
 		static final String MAX_HIT_LEAFY = "Max hit (leafy)";
 		static final String MAX_HIT_COLOSSALBLADE = "Max hit (colossal blade)";
 		static final String MAX_HIT_RATBANE = "Max hit (ratbane)";
@@ -1508,9 +1515,270 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		return getMinAndMax().max();
 	}
 
+	/**
+	 * Port of {@code getPlayerMaxRangedHit} (PlayerVsNPCCalc.ts:656-847). Computes the player's ranged
+	 * {@code [min, max]} hit, applying — in upstream order — the str-scaling weapons (Eclipse atlatl /
+	 * Hunter's spear), the Holy-water early-return, the special-attack MSB/MLB/Seercull/Ogre-bow
+	 * early-return (+10, ammo-only str), the ranged strength prayers (Sharp Eye force-1 case), the
+	 * Accurate stance +3, ranged void ({@code 9/8} elite, {@code 11/10} normal), the base max from
+	 * effective strength, then the ordered ranged damage multipliers (Crystal armour+bow, the
+	 * don't-stack avarice/salve/imbued-black-mask group, Twisted bow scaling, rev weapon, dragon hunter
+	 * crossbow, Scorching bow demonbane, ratbane, Tonalztics, the spec multipliers, the P2-Warden
+	 * damage modifier, and the Respiratory-system min hit). Returns {@link MinMax}.
+	 *
+	 * <p>Deviations: the leagues talent branches (talent-buffed ranged prayers, crossbow-slow-big-hits,
+	 * percentage-ranged-damage, bow min/max-hit stacking) are dropped per the class-level leagues
+	 * deviation. Bolt-enchant proc damage (ruby/diamond/etc.) is NOT here — it lives in the distribution
+	 * pipeline ({@code dists/bolts.ts}, v0.1.4).
+	 */
 	private MinMax getPlayerMaxRangedHit()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		String stance = styleStance();
+
+		boolean scalesWithStr = wearing("Eclipse atlatl", "Hunter's spear");
+		int effectiveLevel = scalesWithStr
+			? player.getSkills().getStr() + player.getBoosts().getStr()
+			: player.getSkills().getRanged() + player.getBoosts().getRanged();
+		track(DetailKey.DAMAGE_LEVEL, effectiveLevel);
+
+		List<MonsterAttribute> mattrs = attributes();
+
+		if (wearing("Holy water"))
+		{
+			if (!mattrs.contains(MonsterAttribute.DEMON))
+			{
+				// can't be used against non-demons
+				return new MinMax(0, 0);
+			}
+
+			// similar to msb + mlb + seercull below
+			effectiveLevel = trackAdd(DetailKey.DAMAGE_EFFECTIVE_LEVEL_HOLY_WATER, effectiveLevel, 10);
+
+			EquipmentPiece weapon = player.getEquipment().getWeapon();
+			int str = 64 + (weapon == null ? 0 : weapon.getBonuses().getRangedStr());
+			int maxHit = trackMaxHitFromEffective(DetailKey.MAX_HIT_BASE, effectiveLevel, str);
+
+			if (mattrs.contains(MonsterAttribute.DEMON))
+			{
+				maxHit = applyDemonbane(DetailKey.MAX_HIT_DEMONBANE, maxHit, 60);
+			}
+			if ("Nezikchened".equals(monster.getName()))
+			{
+				maxHit = trackAdd(DetailKey.MAX_HIT_NEZIKCHENED, maxHit, 5);
+			}
+
+			return new MinMax(0, maxHit);
+		}
+
+		if ((opts.usingSpecialAttack && (isWearingMsb() || isWearingMlb() || wearing("Seercull")))
+			|| isWearingOgreBow())
+		{
+			// why +10 when that's not used anywhere else? who knows
+			effectiveLevel += 10;
+
+			// ignores other gear
+			EquipmentPiece ammo = player.getEquipment().getAmmo();
+			int bonusStr = ammo == null ? 0 : ammo.getBonuses().getRangedStr();
+			int maxHit = (int) (((long) effectiveLevel * (bonusStr + 64) + 320) / 640);
+
+			// end early, it ignores all other gear and bonuses
+			return new MinMax(0, maxHit);
+		}
+
+		for (PrayerData p : getCombatPrayers(PrayerFilter.STRENGTH))
+		{
+			int num = p.factorStrength().numerator();
+			int div = p.factorStrength().divisor();
+			if ("Sharp Eye".equals(p.name()) && (int) ((long) effectiveLevel * num / div) == effectiveLevel)
+			{
+				// force 1 level gain
+				effectiveLevel = trackAdd(DetailKey.DAMAGE_LEVEL_PRAYER, effectiveLevel, 1);
+			}
+			else
+			{
+				effectiveLevel = trackFactor(DetailKey.DAMAGE_LEVEL_PRAYER, effectiveLevel, num, div);
+			}
+		}
+
+		if (CombatStyle.ACCURATE.equals(stance))
+		{
+			effectiveLevel += 3;
+		}
+
+		effectiveLevel += 8;
+
+		if (isWearingEliteRangedVoid())
+		{
+			effectiveLevel = (int) ((long) effectiveLevel * 9 / 8);
+		}
+		else if (isWearingRangedVoid())
+		{
+			effectiveLevel = (int) ((long) effectiveLevel * 11 / 10);
+		}
+
+		int bonusStr = scalesWithStr ? player.getBonuses().getStr() : player.getBonuses().getRangedStr();
+		int baseMax = trackMaxHitFromEffective(DetailKey.MAX_HIT_BASE, effectiveLevel, 64 + bonusStr);
+		int minHit = 0;
+		int maxHit = baseMax;
+
+		// tested this in-game, slayer helmet (i) + crystal legs + crystal body + bowfa, on accurate, no rigour, 99 ranged
+		// max hit is 36, but would be 37 if placed after slayer helm
+		if (isWearingCrystalBow())
+		{
+			int crystalPieces = (wearing("Crystal helm") ? 1 : 0)
+				+ (wearing("Crystal legs") ? 2 : 0)
+				+ (wearing("Crystal body") ? 3 : 0);
+			maxHit = (int) ((long) maxHit * (40 + crystalPieces) / 40);
+		}
+
+		boolean needRevWeaponBonus = isRevWeaponBuffApplicable();
+		boolean needDragonbane = wearing("Dragon hunter crossbow") && mattrs.contains(MonsterAttribute.DRAGON);
+		boolean needDemonbane = wearing("Scorching bow") && mattrs.contains(MonsterAttribute.DEMON);
+
+		// Specific bonuses that are applied from equipment
+		Buffs buffs = player.getBuffs();
+		if (wearing("Amulet of avarice") && monster.getName() != null && monster.getName().startsWith("Revenant"))
+		{
+			int num = buffs.isForinthrySurge() ? 27 : 24;
+			maxHit = trackFactor(DetailKey.MAX_HIT_FORINTHRY_SURGE, maxHit, num, 20);
+		}
+		else if ((wearing("Salve amulet(ei)") || (scalesWithStr && wearing("Salve amulet (e)")))
+			&& mattrs.contains(MonsterAttribute.UNDEAD))
+		{
+			maxHit = (int) ((long) maxHit * 6 / 5);
+		}
+		else if ((wearing("Salve amulet(i)") || (scalesWithStr && wearing("Salve amulet")))
+			&& mattrs.contains(MonsterAttribute.UNDEAD))
+		{
+			maxHit = (int) ((long) maxHit * 7 / 6);
+		}
+		else if (scalesWithStr && isWearingBlackMask() && isSlayerMonster() && buffs.isOnSlayerTask())
+		{
+			maxHit = (int) ((long) maxHit * 7 / 6);
+		}
+		else if (isWearingImbuedBlackMask() && isSlayerMonster() && buffs.isOnSlayerTask())
+		{
+			int numerator = 23;
+			// these are additive with slayer only
+			if (needRevWeaponBonus)
+			{
+				needRevWeaponBonus = false;
+				numerator += 10;
+			}
+			if (needDragonbane)
+			{
+				needDragonbane = false;
+				numerator += 5;
+			}
+			if (needDemonbane)
+			{
+				needDemonbane = false;
+				numerator += 6;
+			}
+			maxHit = trackFactor(DetailKey.MAX_HIT_BLACK_MASK, maxHit, numerator, 20);
+		}
+
+		if (wearing("Twisted bow"))
+		{
+			int cap = mattrs.contains(MonsterAttribute.XERICIAN) ? 350 : 250;
+			int tbowMagic = Math.min(cap, Math.max(monster.getSkills().getMagic(), monster.getOffensive().getMagic()));
+			maxHit = tbowScaling(maxHit, tbowMagic, false);
+		}
+
+		// multiplicative if not with slayer helm
+		if (needRevWeaponBonus)
+		{
+			maxHit = (int) ((long) maxHit * 3 / 2);
+		}
+		if (needDragonbane)
+		{
+			maxHit = (int) ((long) maxHit * 5 / 4);
+		}
+		if (needDemonbane)
+		{
+			maxHit = applyDemonbane(DetailKey.MAX_HIT_DEMONBANE, maxHit, 30);
+		}
+
+		if (isWearingRatBoneWeapon() && mattrs.contains(MonsterAttribute.RAT))
+		{
+			maxHit = trackAdd(DetailKey.MAX_HIT_RATBANE, maxHit, 10);
+		}
+
+		if (wearing("Tonalztics of ralos"))
+		{
+			// rolls 75% of max hit, but can hit twice
+			// double hit is implemented in hit distribution
+			maxHit = trackFactor(DetailKey.MAX_HIT_TONALZTICS, maxHit, 3, 4);
+		}
+
+		if (opts.usingSpecialAttack)
+		{
+			if (isWearingBlowpipe())
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 3, 2);
+			}
+			else if (wearing("Webweaver bow"))
+			{
+				int maxReduction = (int) ((long) maxHit * 6 / 10);
+				maxHit = trackAdd(DetailKey.MAX_HIT_SPEC, maxHit, -maxReduction);
+			}
+			else if (wearing("Heavy ballista", "Light ballista"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 5, 4);
+			}
+			else if (wearing("Rosewood blowpipe"))
+			{
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, 11, 10);
+			}
+		}
+
+		if (opts.usingSpecialAttack)
+		{
+			if (wearing("Dark bow"))
+			{
+				boolean descentOfDragons = wearing("Dragon arrow");
+				minHit = track(DetailKey.MIN_HIT_SPEC, descentOfDragons ? 8 : 5);
+				int dmgFactor = descentOfDragons ? 15 : 13;
+				maxHit = trackFactor(DetailKey.MAX_HIT_SPEC, maxHit, dmgFactor, 10);
+			}
+		}
+
+		if (Constants.P2_WARDEN_IDS_SET.contains(monster.getId()))
+		{
+			MinMax warded = applyP2WardensDamageModifier(maxHit);
+			minHit = warded.min();
+			maxHit = warded.max();
+		}
+
+		if ("Respiratory system".equals(monster.getName()))
+		{
+			minHit = trackAdd(DetailKey.REPIRATORY_SYSTEM_MIN_HIT, minHit, (int) ((long) maxHit / 2));
+		}
+
+		return new MinMax(minHit, maxHit);
+	}
+
+	/**
+	 * Port of {@code applyP2WardensDamageModifier} (PlayerVsNPCCalc.ts:2709-2730). Takes only the max
+	 * hit (the destructured min is ignored upstream) and returns the lerp-scaled {@code [min, max]}.
+	 */
+	private MinMax applyP2WardensDamageModifier(int max)
+	{
+		// 1/3 of enemy defence is removed from accuracy
+		long reducedNpcDefence = getNPCDefenceRoll() / 3;
+		int accuracyDelta = track(DetailKey.WARDENS_ACCURACY_DELTA,
+			(int) Math.max(getMaxAttackRoll() - reducedNpcDefence, 0));
+
+		// remaining accuracy provides a % dmg modifier from 15% - 40% based on lerp from 0 to 42k MAR
+		int modifier = track(DetailKey.WARDENS_DMG_MODIFIER,
+			Math.max(Math.min(CalcMath.iLerp(15, 40, 0, 42_000, accuracyDelta), 40), 15));
+
+		int maxPctRange = 20;
+		return new MinMax(
+			// these apply the % separately
+			// in effect, we're dealing between [15-35, 40-60]% of normal damage
+			track(DetailKey.MIN_HIT_WARDENS, (int) ((long) max * modifier / 100)),
+			track(DetailKey.MAX_HIT_WARDENS, (int) ((long) max * (modifier + maxPctRange) / 100)));
 	}
 
 	private MinMax getPlayerMaxMagicHit()
