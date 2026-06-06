@@ -32,7 +32,27 @@ interface CorpusRow {
       spell?: string;
       equipment: Record<string, number>;
     };
-    monster: { id: number; version: string };
+    monster: {
+      id: number;
+      version: string;
+      // Optional per-encounter inputs. Absent -> the Java ScenarioPlayer applies
+      // MonsterInputs.initial(). Only the fields a row needs must be present.
+      inputs?: {
+        toaInvocationLevel?: number;
+        defenceReductions?: {
+          vulnerability?: boolean;
+          accursed?: boolean;
+          elderMaul?: number;
+          dwh?: number;
+          arclight?: number;
+          emberlight?: number;
+          bgs?: number;
+          tonalztic?: number;
+          seercull?: number;
+          ayak?: number;
+        };
+      };
+    };
   };
   expected: Record<string, number>;
   weirdgloopCommit: string;
@@ -74,6 +94,38 @@ function validate(file: string, row: unknown): CorpusRow {
   const monster = inputs.monster as Record<string, unknown> | undefined;
   if (typeof monster !== "object" || monster === null || typeof monster.id !== "number" || typeof monster.version !== "string") {
     fail(file, "'inputs.monster' must have numeric 'id' and string 'version'");
+  }
+
+  // Optional per-encounter monster inputs (defence reductions, ToA invocation level).
+  if (monster.inputs !== undefined) {
+    const mi = monster.inputs as Record<string, unknown>;
+    if (typeof mi !== "object" || mi === null) {
+      fail(file, "'inputs.monster.inputs' must be an object when present");
+    }
+    if (mi.toaInvocationLevel !== undefined && (typeof mi.toaInvocationLevel !== "number" || !Number.isInteger(mi.toaInvocationLevel))) {
+      fail(file, "'monster.inputs.toaInvocationLevel' must be an integer");
+    }
+    if (mi.defenceReductions !== undefined) {
+      const dr = mi.defenceReductions as Record<string, unknown>;
+      if (typeof dr !== "object" || dr === null) {
+        fail(file, "'monster.inputs.defenceReductions' must be an object");
+      }
+      const boolKeys = ["vulnerability", "accursed"];
+      const intKeys = ["elderMaul", "dwh", "arclight", "emberlight", "bgs", "tonalztic", "seercull", "ayak"];
+      for (const [k, v] of Object.entries(dr)) {
+        if (boolKeys.includes(k)) {
+          if (typeof v !== "boolean") {
+            fail(file, `defenceReductions.${k} must be a boolean`);
+          }
+        } else if (intKeys.includes(k)) {
+          if (typeof v !== "number" || !Number.isInteger(v)) {
+            fail(file, `defenceReductions.${k} must be an integer`);
+          }
+        } else {
+          fail(file, `unknown defenceReductions key '${k}'`);
+        }
+      }
+    }
   }
 
   const player = inputs.player as Record<string, unknown> | undefined;

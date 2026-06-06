@@ -1,11 +1,12 @@
 {
-  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.0 no PlayerVsNpcCalc.* path is ported, so every parity-corpus row skips.",
+  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.1 the PlayerVsNpcCalc.accuracy (player attack rolls) and PlayerVsNpcCalc.defenceRoll (getNPCDefenceRoll + defence reductions) paths are ported, so the 3 maxAttackRoll rows and the 3 npcDefRoll rows run; the 6 maxHit rows (maxMeleeHit/maxMagicHit) still skip.",
   "ported": [],
   "paths": {
     "PlayerVsNpcCalc.maxMeleeHit": "not-ported",
     "PlayerVsNpcCalc.maxRangedHit": "not-ported",
     "PlayerVsNpcCalc.maxMagicHit": "not-ported",
-    "PlayerVsNpcCalc.accuracy": "not-ported",
+    "PlayerVsNpcCalc.accuracy": "ported",
+    "PlayerVsNpcCalc.defenceRoll": "ported",
     "PlayerVsNpcCalc.dps": "not-ported"
   }
 }

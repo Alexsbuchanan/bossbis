@@ -1,0 +1,16 @@
+{
+  "name": "empty-player-abyssal-demon-accuracy",
+  "source": "CombatCalc.test.ts: 'Empty player against abyssal demon' (maxAttackRoll=7040, npcDefRoll=12096, accuracy*100~29.10)",
+  "exercises": ["PlayerVsNpcCalc.accuracy", "PlayerVsNpcCalc.defenceRoll"],
+  "inputs": {
+    "player": {
+      "skills": {"atk":99,"str":99,"def":99,"hp":99,"ranged":99,"magic":99,"prayer":99,"mining":99,"herblore":99},
+      "prayers": [],
+      "style": {"name":"Punch","type":"crush","stance":"Accurate"},
+      "equipment": {}
+    },
+    "monster": {"id":415,"version":"Standard"}
+  },
+  "expected": {"accuracy": 0.29098123501694634},
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

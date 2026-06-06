@@ -57,4 +57,24 @@ public enum MonsterAttribute
 	{
 		return this == VAMPYRE1 || this == VAMPYRE2 || this == VAMPYRE3;
 	}
+
+	/**
+	 * Port of the array overload of {@code isVampyre} (src/enums/MonsterAttribute.ts:20-24) — true if
+	 * any attribute in the collection is a vampyre tier.
+	 */
+	public static boolean isVampyre(Iterable<MonsterAttribute> attrs)
+	{
+		if (attrs == null)
+		{
+			return false;
+		}
+		for (MonsterAttribute a : attrs)
+		{
+			if (a != null && a.isVampyre())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
