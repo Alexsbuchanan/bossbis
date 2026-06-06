@@ -35,9 +35,12 @@ public final strictfp class CalcMath
 
 	public static int lerp(int curr, int srcStart, int srcEnd, int dstStart, int dstEnd)
 	{
-		long srcRange = srcEnd - srcStart;
-		long dstRange = dstEnd - dstStart;
-		long currNorm = curr - srcStart;
+		// Upstream (Math.ts:4-12) does Math.trunc(((currNorm * dstRange) / srcRange) + dstStart) in
+		// double-precision: the division is floating-point and the SINGLE truncation happens AFTER
+		// adding dstStart. Mirror that exactly — an early integer division here diverges (e.g. Vardorvis).
+		double srcRange = srcEnd - srcStart;
+		double dstRange = dstEnd - dstStart;
+		double currNorm = curr - srcStart;
 		return (int) (currNorm * dstRange / srcRange + dstStart);
 	}
 }
