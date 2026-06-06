@@ -1,0 +1,59 @@
+{
+  "name": "sweep-icebarrage-vorkath-augury-task",
+  "source": "gen-parity-sweep.ts: Ice barrage (Kodai + ancestral) vs vorkath [augury-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "AUGURY"
+      ],
+      "style": {
+        "name": "Spell",
+        "type": "magic",
+        "stance": "Defensive Autocast"
+      },
+      "equipment": {
+        "head": 21018,
+        "cape": 24236,
+        "neck": 12002,
+        "body": 21021,
+        "shield": 27251,
+        "legs": 21024,
+        "hands": 19544,
+        "feet": 13235,
+        "ring": 28313,
+        "weapon": 21006
+      },
+      "spell": "Ice Barrage",
+      "potions": [
+        "SUPER_MAGIC"
+      ]
+    },
+    "monster": {
+      "id": 8059,
+      "version": "Post-quest"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 38376,
+    "npcDefRoll": 48336,
+    "accuracy": 0.39696298901462646,
+    "maxHit": 44,
+    "dps": 2.9140023860258886,
+    "ttk": 56.388867010799565
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

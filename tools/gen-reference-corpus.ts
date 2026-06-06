@@ -144,6 +144,21 @@ function validate(file: string, row: unknown): CorpusRow {
   if (!Array.isArray(player.prayers) || !player.prayers.every((p) => typeof p === "string")) {
     fail(file, "'player.prayers' must be a string array");
   }
+  // Optional potions (Potion enum names) and buffs override block (sweep rows).
+  if (player.potions !== undefined) {
+    if (!Array.isArray(player.potions) || !player.potions.every((p) => typeof p === "string")) {
+      fail(file, "'player.potions' must be a string array of Potion enum names");
+    }
+  }
+  if (player.buffs !== undefined) {
+    const b = player.buffs as Record<string, unknown>;
+    if (typeof b !== "object" || b === null) {
+      fail(file, "'player.buffs' must be an object");
+    }
+    if (b.onSlayerTask !== undefined && typeof b.onSlayerTask !== "boolean") {
+      fail(file, "'player.buffs.onSlayerTask' must be a boolean");
+    }
+  }
   const style = player.style as Record<string, unknown> | undefined;
   if (typeof style !== "object" || style === null || typeof style.name !== "string") {
     fail(file, "'player.style' must have a string 'name'");
@@ -161,15 +176,31 @@ function validate(file: string, row: unknown): CorpusRow {
   return row as CorpusRow;
 }
 
-function main(): void {
-  let files: string[];
+// Collects every *.json under dir, recursing one level into subdirectories (so
+// the hand-transcribed rows in tools/scenarios/*.json AND the generated rows in
+// tools/scenarios/sweep/*.json are both folded in). Returns relative paths.
+function collectJson(dir: string): string[] {
+  const out: string[] = [];
+  let entries;
   try {
-    files = readdirSync(scenarioDir)
-      .filter((f) => f.endsWith(".json"))
-      .sort();
+    entries = readdirSync(dir, { withFileTypes: true });
   } catch {
-    files = [];
+    return out;
   }
+  for (const e of entries) {
+    if (e.isDirectory()) {
+      for (const sub of collectJson(join(dir, e.name))) {
+        out.push(join(e.name, sub));
+      }
+    } else if (e.isFile() && e.name.endsWith(".json")) {
+      out.push(e.name);
+    }
+  }
+  return out.sort();
+}
+
+function main(): void {
+  const files = collectJson(scenarioDir);
 
   const rows: CorpusRow[] = [];
   const seenNames = new Set<string>();

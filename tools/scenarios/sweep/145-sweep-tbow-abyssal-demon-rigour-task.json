@@ -1,0 +1,58 @@
+{
+  "name": "sweep-tbow-abyssal-demon-rigour-task",
+  "source": "gen-parity-sweep.ts: Twisted bow (rapid) + dragon arrows vs abyssal-demon [rigour-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Rapid",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 27235,
+        "cape": 28951,
+        "neck": 19547,
+        "body": 27238,
+        "legs": 27241,
+        "hands": 26235,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 20997,
+        "ammo": 11212
+      },
+      "potions": [
+        "RANGING"
+      ]
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 16983,
+    "npcDefRoll": 12096,
+    "accuracy": 0.6438412623645784,
+    "maxHit": 19,
+    "dps": 2.0495613518605746,
+    "ttk": 76.09852045523078
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

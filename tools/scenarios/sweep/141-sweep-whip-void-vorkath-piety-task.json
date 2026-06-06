@@ -1,0 +1,58 @@
+{
+  "name": "sweep-whip-void-vorkath-piety-task",
+  "source": "gen-parity-sweep.ts: Abyssal whip + Void melee set vs vorkath [piety-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Lash",
+        "type": "slash",
+        "stance": "Controlled"
+      },
+      "equipment": {
+        "head": 11665,
+        "body": 8839,
+        "legs": 8840,
+        "hands": 20475,
+        "cape": 21289,
+        "neck": 19553,
+        "shield": 22441,
+        "feet": 13239,
+        "ring": 28307,
+        "weapon": 4151
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ]
+    },
+    "monster": {
+      "id": 8059,
+      "version": "Post-quest"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 32340,
+    "npcDefRoll": 38356,
+    "accuracy": 0.42156581588758246,
+    "maxHit": 50,
+    "dps": 4.394754747324797,
+    "ttk": 37.845801630689685
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

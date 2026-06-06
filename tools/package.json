@@ -5,11 +5,16 @@
   "type": "module",
   "description": "Dev tooling: generates the parity reference corpus from weirdgloop's TS calc.",
   "scripts": {
-    "gen-corpus": "tsx gen-reference-corpus.ts"
+    "gen-corpus": "tsx gen-reference-corpus.ts",
+    "gen-sweep": "node run-with-upstream.mjs gen-parity-sweep.ts"
   },
   "devDependencies": {
+    "@types/d3-array": "^3.2.2",
+    "@types/lodash.mergewith": "^4.6.9",
+    "@types/node": "^20.11.0",
+    "d3-array": "^3.2.4",
+    "lodash.mergewith": "^4.6.2",
     "tsx": "^4.7.0",
-    "typescript": "^5.4.0",
-    "@types/node": "^20.11.0"
+    "typescript": "^5.4.0"
   }
 }

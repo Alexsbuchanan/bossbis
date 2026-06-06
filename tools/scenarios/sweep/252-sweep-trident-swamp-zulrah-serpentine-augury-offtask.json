@@ -1,0 +1,60 @@
+{
+  "name": "sweep-trident-swamp-zulrah-serpentine-augury-offtask",
+  "source": "gen-parity-sweep.ts: Trident of the swamp (accurate) vs zulrah-serpentine [augury-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "AUGURY"
+      ],
+      "style": {
+        "name": "Accurate",
+        "type": "magic",
+        "stance": "Accurate"
+      },
+      "equipment": {
+        "head": 21018,
+        "cape": 24236,
+        "neck": 12002,
+        "body": 21021,
+        "legs": 21024,
+        "hands": 19544,
+        "feet": 13235,
+        "ring": 28313,
+        "weapon": 12899
+      },
+      "potions": [
+        "SATURATED_HEART"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 2042,
+      "version": "Serpentine"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 32918,
+    "npcDefRoll": 5871,
+    "accuracy": 0.9107961967252954,
+    "maxHit": 44,
+    "dps": 8.35739843476637,
+    "ttk": 19.661297028895323
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

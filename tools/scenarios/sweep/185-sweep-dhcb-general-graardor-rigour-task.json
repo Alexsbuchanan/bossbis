@@ -1,0 +1,58 @@
+{
+  "name": "sweep-dhcb-general-graardor-rigour-task",
+  "source": "gen-parity-sweep.ts: Dragon hunter crossbow + dragon bolts (rapid) vs general-graardor [rigour-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Rapid",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 27235,
+        "cape": 28951,
+        "neck": 19547,
+        "body": 27238,
+        "legs": 27241,
+        "hands": 26235,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 21012,
+        "ammo": 21905
+      },
+      "potions": [
+        "RANGING"
+      ]
+    },
+    "monster": {
+      "id": 2215,
+      "version": ""
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 46008,
+    "npcDefRoll": 39886,
+    "accuracy": 0.5665195939924798,
+    "maxHit": 47,
+    "dps": 4.441670983454929,
+    "ttk": 37.21830737991013
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

@@ -1,0 +1,61 @@
+{
+  "name": "sweep-dhl-abyssal-demon-piety-offtask",
+  "source": "gen-parity-sweep.ts: Dragon hunter lance (stab) vs abyssal-demon [piety-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Lunge",
+        "type": "stab",
+        "stance": "Controlled"
+      },
+      "equipment": {
+        "head": 26382,
+        "cape": 21289,
+        "neck": 19553,
+        "body": 26384,
+        "shield": 22441,
+        "legs": 26386,
+        "hands": 22981,
+        "feet": 13239,
+        "ring": 28307,
+        "weapon": 22978
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 32400,
+    "npcDefRoll": 12096,
+    "accuracy": 0.8133082312274312,
+    "maxHit": 50,
+    "dps": 8.478605417044136,
+    "ttk": 19.61678934231741
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

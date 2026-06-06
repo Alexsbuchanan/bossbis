@@ -1,0 +1,60 @@
+{
+  "name": "sweep-dharok-vorkath-piety-offtask",
+  "source": "gen-parity-sweep.ts: Dharok's greataxe (slash) vs vorkath [piety-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Hack",
+        "type": "slash",
+        "stance": "Aggressive"
+      },
+      "equipment": {
+        "head": 4716,
+        "cape": 21289,
+        "neck": 19553,
+        "weapon": 4718,
+        "body": 4720,
+        "legs": 4722,
+        "hands": 22981,
+        "feet": 13239,
+        "ring": 28307
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 8059,
+      "version": "Post-quest"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 30396,
+    "npcDefRoll": 38356,
+    "accuracy": 0.3962249393852491,
+    "maxHit": 53,
+    "dps": 2.501737712520621,
+    "ttk": 66.89056638384618
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

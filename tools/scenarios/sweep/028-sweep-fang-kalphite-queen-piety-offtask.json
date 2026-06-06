@@ -1,0 +1,61 @@
+{
+  "name": "sweep-fang-kalphite-queen-piety-offtask",
+  "source": "gen-parity-sweep.ts: Osmumten's fang (stab) vs kalphite-queen [piety-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Lunge",
+        "type": "stab",
+        "stance": "Aggressive"
+      },
+      "equipment": {
+        "head": 26382,
+        "cape": 21289,
+        "neck": 19553,
+        "body": 26384,
+        "shield": 22441,
+        "legs": 26386,
+        "hands": 22981,
+        "feet": 13239,
+        "ring": 28307,
+        "weapon": 26219
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 963,
+      "version": "Crawling"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 35164,
+    "npcDefRoll": 35226,
+    "accuracy": 0.6654791304565751,
+    "maxHit": 51,
+    "dps": 6.543878116156322,
+    "ttk": 25.518249512061036
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

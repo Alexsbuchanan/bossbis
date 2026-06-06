@@ -1,0 +1,61 @@
+{
+  "name": "sweep-blisterwood-vorkath-piety-offtask",
+  "source": "gen-parity-sweep.ts: Blisterwood flail (crush) vs vorkath [piety-offtask] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "PIETY"
+      ],
+      "style": {
+        "name": "Pound",
+        "type": "crush",
+        "stance": "Aggressive"
+      },
+      "equipment": {
+        "head": 26382,
+        "cape": 21289,
+        "neck": 19553,
+        "body": 26384,
+        "shield": 22441,
+        "legs": 26386,
+        "hands": 22981,
+        "feet": 13239,
+        "ring": 28307,
+        "weapon": 24699
+      },
+      "potions": [
+        "SUPER_COMBAT"
+      ],
+      "buffs": {
+        "onSlayerTask": false
+      }
+    },
+    "monster": {
+      "id": 8059,
+      "version": "Post-quest"
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 29353,
+    "npcDefRoll": 38356,
+    "accuracy": 0.3826289855828141,
+    "maxHit": 45,
+    "dps": 2.872490065679677,
+    "ttk": 57.31895266530348
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

@@ -1,0 +1,57 @@
+{
+  "name": "sweep-bofa-cerberus-rigour-task",
+  "source": "gen-parity-sweep.ts: Bow of faerdhinen (c) + crystal armour (rapid) vs cerberus [rigour-task] (weirdgloop@5e313c1)",
+  "exercises": [
+    "PlayerVsNpcCalc.dps"
+  ],
+  "inputs": {
+    "player": {
+      "skills": {
+        "atk": 99,
+        "str": 99,
+        "def": 99,
+        "hp": 99,
+        "ranged": 99,
+        "magic": 99,
+        "prayer": 99,
+        "mining": 99,
+        "herblore": 99
+      },
+      "prayers": [
+        "RIGOUR"
+      ],
+      "style": {
+        "name": "Rapid",
+        "type": "ranged",
+        "stance": "Rapid"
+      },
+      "equipment": {
+        "head": 23971,
+        "cape": 28951,
+        "neck": 19547,
+        "body": 23975,
+        "legs": 23979,
+        "hands": 26235,
+        "feet": 13237,
+        "ring": 28310,
+        "weapon": 25867
+      },
+      "potions": [
+        "RANGING"
+      ]
+    },
+    "monster": {
+      "id": 5862,
+      "version": ""
+    }
+  },
+  "expected": {
+    "maxAttackRoll": 59625,
+    "npcDefRoll": 17876,
+    "accuracy": 0.8500821789152383,
+    "maxHit": 47,
+    "dps": 8.331100520792571,
+    "ttk": 19.842693714962696
+  },
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}
