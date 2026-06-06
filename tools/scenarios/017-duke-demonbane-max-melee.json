@@ -1,0 +1,16 @@
+{
+  "name": "duke-demonbane-max-melee",
+  "source": "DukeDemonbane.test.ts: \"max melee bellator\"",
+  "exercises": ["PlayerVsNpcCalc.maxMeleeHit"],
+  "inputs": {
+    "player": {
+      "skills": {"atk":118,"str":118,"def":99,"hp":99,"ranged":99,"magic":99,"prayer":99,"mining":99,"herblore":99},
+      "prayers": ["PIETY"],
+      "style": {"name":"Slash","type":"slash","stance":"Aggressive"},
+      "equipment": {"head":28254,"cape":21295,"neck":24780,"ammo":22947,"weapon":19675,"body":28256,"shield":27550,"legs":28258,"hands":22981,"feet":13239,"ring":28316}
+    },
+    "monster": {"id":12191,"version":"Awakened, Awake"}
+  },
+  "expected": {"maxHit":50},
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

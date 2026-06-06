@@ -1,5 +1,5 @@
 {
-  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.2 the PlayerVsNpcCalc.accuracy (player attack rolls), PlayerVsNpcCalc.defenceRoll (getNPCDefenceRoll + defence reductions), and PlayerVsNpcCalc.maxMeleeHit (getPlayerMaxMeleeHit + getMinAndMax melee dispatch) paths are ported, so the 3 maxAttackRoll rows, the 3 npcDefRoll rows, the 2 accuracy rows, and the 4 melee maxHit rows run; the 2 magic maxHit rows (maxMagicHit) still skip.",
+  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.2 the PlayerVsNpcCalc.accuracy (player attack rolls), PlayerVsNpcCalc.defenceRoll (getNPCDefenceRoll + defence reductions), and PlayerVsNpcCalc.maxMeleeHit (getPlayerMaxMeleeHit + getMinAndMax melee dispatch) paths are ported, so the 3 maxAttackRoll rows, the 3 npcDefRoll rows, the 2 accuracy rows, and the 6 plain melee maxHit rows (3 seeded + 3 v0.1.2 coverage) run; the 2 magic maxHit rows (maxMagicHit) and the blisterwood row (distribution) still skip.",
   "ported": [],
   "paths": {
     "PlayerVsNpcCalc.maxMeleeHit": "ported",

@@ -12,24 +12,25 @@ import static org.assertj.core.api.Assertions.assertThat;
  * un-ported calc path). At v0.1.2 the {@code PlayerVsNpcCalc.accuracy},
  * {@code PlayerVsNpcCalc.defenceRoll}, and {@code PlayerVsNpcCalc.maxMeleeHit} paths are ported, so the
  * 3 {@code maxAttackRoll} rows, the 3 {@code npcDefRoll} rows, the 2 {@code accuracy} (hit-chance) rows,
- * and 3 of the 4 melee {@code maxHit} rows RUN (assert). The 2 magic {@code maxHit} rows still SKIP
- * ({@code maxMagicHit} un-ported), and the {@code blisterwood-flail-max-melee} row also SKIPs: its
- * asserted {@code maxHit} (55) is a distribution output (the vampyre {@code scaleDamage(5,4)} bonus is
- * applied in {@code getDistribution}, NOT {@code getPlayerMaxMeleeHit}; {@code getMinAndMax().max()} is
- * 44), so it additionally exercises the un-ported {@code PlayerVsNpcCalc.distribution} path (v0.1.4).
- * Skip-count is exactly {@code total - 11}. This locks both that the attack-roll + defence-roll +
- * accuracy + melee-max-hit rows now have live assertions and that no other row leaked into the
- * asserting set prematurely.
+ * and the 6 plain melee {@code maxHit} rows RUN (assert): the 3 seeded (fang 50, dragon-hunter-lance 58,
+ * obsidian 46) plus the 3 v0.1.2 coverage rows (obsidian+salve 52, obsidian+avarice 53, Duke demonbane
+ * 50). The 2 magic {@code maxHit} rows still SKIP ({@code maxMagicHit} un-ported), and the
+ * {@code blisterwood-flail-max-melee} row also SKIPs: its asserted {@code maxHit} (55) is a distribution
+ * output (the vampyre {@code scaleDamage(5,4)} bonus is applied in {@code getDistribution}, NOT
+ * {@code getPlayerMaxMeleeHit}; {@code getMinAndMax().max()} is 44), so it additionally exercises the
+ * un-ported {@code PlayerVsNpcCalc.distribution} path (v0.1.4). Skip-count is exactly {@code total - 14}.
+ * This locks both that the attack-roll + defence-roll + accuracy + melee-max-hit rows now have live
+ * assertions and that no other row leaked into the asserting set prematurely.
  */
 class PortStatusTest
 {
 	/**
 	 * Number of corpus rows whose calc path is ported at v0.1.2: the 3 {@code maxAttackRoll} (accuracy)
 	 * rows + the 3 {@code npcDefRoll} (defenceRoll) rows + the 2 {@code accuracy} (hit-chance) rows +
-	 * 3 of the 4 melee {@code maxHit} (maxMeleeHit) rows (the blisterwood row needs the distribution
-	 * pipeline for its vampyre bonus and so skips until v0.1.4).
+	 * the 6 plain melee {@code maxHit} (maxMeleeHit) rows (3 seeded + 3 v0.1.2 coverage; the blisterwood
+	 * row needs the distribution pipeline for its vampyre bonus and so skips until v0.1.4).
 	 */
-	private static final long PORTED_ROWS = 11;
+	private static final long PORTED_ROWS = 14;
 
 	@Test
 	void onlyThePortedRowsRunTheRestSkip()
@@ -42,12 +43,12 @@ class PortStatusTest
 			.count();
 
 		assertThat(wouldSkip)
-			.as("at v0.1.2 the 3 maxAttackRoll + 3 npcDefRoll + 2 accuracy + 3 melee maxHit rows run; the 2 magic maxHit + blisterwood (distribution) rows skip")
+			.as("at v0.1.2 the 3 maxAttackRoll + 3 npcDefRoll + 2 accuracy + 6 melee maxHit rows run; the 2 magic maxHit + blisterwood (distribution) rows skip")
 			.isEqualTo(rows.size() - PORTED_ROWS);
 
 		long wouldRun = rows.size() - wouldSkip;
 		assertThat(wouldRun)
-			.as("exactly the 3 attack-roll + 3 defence-roll + 2 accuracy + 3 melee max-hit rows assert at v0.1.2")
+			.as("exactly the 3 attack-roll + 3 defence-roll + 2 accuracy + 6 melee max-hit rows assert at v0.1.2")
 			.isEqualTo(PORTED_ROWS);
 	}
 
