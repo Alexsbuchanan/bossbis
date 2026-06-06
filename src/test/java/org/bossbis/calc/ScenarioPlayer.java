@@ -14,6 +14,7 @@ import org.bossbis.calc.data.SpellRepository;
 import org.bossbis.calc.state.BoostsCalculator;
 import org.bossbis.calc.types.Buffs;
 import org.bossbis.calc.types.CombatStyle.PlayerCombatStyle;
+import org.bossbis.calc.types.DefenceReductions;
 import org.bossbis.calc.types.EquipmentPiece;
 import org.bossbis.calc.types.EquipmentStats;
 import org.bossbis.calc.types.Monster;
@@ -70,7 +71,11 @@ final class ScenarioPlayer
 		return equipment;
 	}
 
-	/** Resolves the row's monster with {@code INITIAL_MONSTER_INPUTS} attached. */
+	/**
+	 * Resolves the row's monster with {@code INITIAL_MONSTER_INPUTS} attached. If the row carries a
+	 * {@code monster.inputs} block, its defence reductions / ToA invocation level override the initial
+	 * inputs (absent fields keep their {@link MonsterInputs#initial()} defaults).
+	 */
 	Monster monster(CorpusRow row)
 	{
 		CorpusRow.MonsterInput m = row.inputs().monster();
@@ -83,7 +88,31 @@ final class ScenarioPlayer
 			base.getId(), base.getName(), base.getImage(), base.getVersion(), base.getSize(),
 			base.getSpeed(), base.getStyle(), base.getMaxHit(), base.getSkills(), base.getOffensive(),
 			base.getDefensive(), base.getAttributes(), base.getWeakness(), base.getImmunities(),
-			base.isSlayerMonster(), MonsterInputs.initial());
+			base.isSlayerMonster(), monsterInputs(m.inputs()));
+	}
+
+	/** Builds {@link MonsterInputs} from the row's optional inputs block (defaults to {@code initial()}). */
+	private static MonsterInputs monsterInputs(CorpusRow.MonsterInputsInput in)
+	{
+		MonsterInputs init = MonsterInputs.initial();
+		if (in == null)
+		{
+			return init;
+		}
+		int toaInv = in.toaInvocationLevel() == null ? init.getToaInvocationLevel() : in.toaInvocationLevel();
+		DefenceReductions dr = init.getDefenceReductions();
+		CorpusRow.DefenceReductionsInput d = in.defenceReductions();
+		if (d != null)
+		{
+			dr = new DefenceReductions(
+				d.vulnerability(), d.accursed(), d.elderMaul(), d.dwh(), d.arclight(),
+				d.emberlight(), d.bgs(), d.tonalztic(), d.seercull(), d.ayak());
+		}
+		return new MonsterInputs(
+			init.isFromCoxCm(), toaInv, init.getToaPathLevel(),
+			init.getPartyMaxCombatLevel(), init.getPartySumMiningLevel(), init.getPartyMaxHpLevel(),
+			init.getPartySize(), init.getMonsterCurrentHp(), dr,
+			init.getDemonbaneVulnerability(), init.getPhase(), init.getPrayers());
 	}
 
 	/** Builds the calc-ready Player for the row against the given (already-resolved) monster. */

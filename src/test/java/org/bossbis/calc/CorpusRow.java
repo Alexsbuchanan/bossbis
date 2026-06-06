@@ -137,6 +137,7 @@ final class CorpusRow
 	{
 		private int id;
 		private String version;
+		private MonsterInputsInput inputs;
 
 		int id()
 		{
@@ -146,6 +147,97 @@ final class CorpusRow
 		String version()
 		{
 			return version;
+		}
+
+		/** Optional per-encounter inputs; {@code null} when the row omits the block. */
+		MonsterInputsInput inputs()
+		{
+			return inputs;
+		}
+	}
+
+	/**
+	 * Optional {@code monster.inputs} block (ToA invocation level + defence reductions). Absent fields
+	 * fall back to {@link org.bossbis.calc.types.MonsterInputs#initial()} in {@link ScenarioPlayer}.
+	 */
+	static final class MonsterInputsInput
+	{
+		private Integer toaInvocationLevel;
+		private DefenceReductionsInput defenceReductions;
+
+		Integer toaInvocationLevel()
+		{
+			return toaInvocationLevel;
+		}
+
+		DefenceReductionsInput defenceReductions()
+		{
+			return defenceReductions;
+		}
+	}
+
+	/** Optional {@code monster.inputs.defenceReductions} block (defaults: all false/0). */
+	static final class DefenceReductionsInput
+	{
+		private boolean vulnerability;
+		private boolean accursed;
+		private int elderMaul;
+		private int dwh;
+		private int arclight;
+		private int emberlight;
+		private int bgs;
+		private int tonalztic;
+		private int seercull;
+		private int ayak;
+
+		boolean vulnerability()
+		{
+			return vulnerability;
+		}
+
+		boolean accursed()
+		{
+			return accursed;
+		}
+
+		int elderMaul()
+		{
+			return elderMaul;
+		}
+
+		int dwh()
+		{
+			return dwh;
+		}
+
+		int arclight()
+		{
+			return arclight;
+		}
+
+		int emberlight()
+		{
+			return emberlight;
+		}
+
+		int bgs()
+		{
+			return bgs;
+		}
+
+		int tonalztic()
+		{
+			return tonalztic;
+		}
+
+		int seercull()
+		{
+			return seercull;
+		}
+
+		int ayak()
+		{
+			return ayak;
 		}
 	}
 }

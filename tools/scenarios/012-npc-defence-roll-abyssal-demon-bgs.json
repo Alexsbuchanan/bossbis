@@ -1,0 +1,22 @@
+{
+  "name": "npc-defence-roll-abyssal-demon-bgs",
+  "source": "DefenceRolls.test.ts 'Abyssal demon' base + BGS flat 50 defence drain (applyDefenceReductions: def 135 - 50 = 85; npcDefRoll=(85+9)*(20+64)=7896)",
+  "exercises": ["PlayerVsNpcCalc.defenceRoll"],
+  "inputs": {
+    "player": {
+      "skills": {"atk":99,"str":99,"def":99,"hp":99,"ranged":99,"magic":99,"prayer":99,"mining":99,"herblore":99},
+      "prayers": [],
+      "style": {"name":"Punch","type":"crush","stance":"Accurate"},
+      "equipment": {}
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard",
+      "inputs": {
+        "defenceReductions": {"bgs": 50}
+      }
+    }
+  },
+  "expected": {"npcDefRoll":7896},
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

@@ -7,15 +7,15 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | Java class | TypeScript source | Synced @ | Status | Notes |
 |---|---|---|---|---|
 | calc/BaseCalc.java | src/lib/BaseCalc.ts | 5e313c1 | partial | accuracy machinery: constructor/init (canonicalize + allEquippedItems + sanitizeInputs), all 48 isWearingX/isUsingX predicates + wearing/wearingAll, pure track* helpers (CalcDetails dropped), and the 4 strictfp accuracy-roll statics (getNormalAccuracyRoll/getFangAccuracyRoll/getConflictionGauntletsAccuracyRoll/getMaxAccuracyHitChance, verbatim); max-hit/distribution pending (v0.1.2+). Reads pre-aggregated Player offensive/bonuses/defensive (no re-aggregation — matches upstream). scaleMonster deferred to M5 (identity placeholder, TODO(M5)). leagues disjuncts dropped (spec §4.2); spec-attack stance reset throws TODO(M3) (needs getCombatStylesForCategory; usingSpecialAttack defaults false) |
-| calc/PlayerVsNpcCalc.java | src/lib/PlayerVsNPCCalc.ts | 5e313c1 | partial: attack rolls + accuracy | getMaxAttackRoll dispatch + getPlayerMaxMeleeAttackRoll/getPlayerMaxRangedAttackRoll/getPlayerMaxMagicAttackRoll (with ordered accuracy-only special cases) + helpers (getCombatPrayers, demonbaneFactor via applyDemonbane, tbowScaling, isBindSpell, getSpellement, getMonsterWeakness). All max-hit/distribution/DPS/TTK/spec methods stubbed -> UnsupportedOperationException("not ported until v0.1.2+"). getNPCDefenceRoll/getHitChance also stubbed (M5/M6). leagues disjuncts dropped (spec §4.2). The 3 maxAttackRoll corpus rows (whip 16060 / bofa 21120 / trident 8690) assert exactly. |
+| calc/PlayerVsNpcCalc.java | src/lib/PlayerVsNPCCalc.ts | 5e313c1 | partial: attack rolls + accuracy + defence roll | getMaxAttackRoll dispatch + getPlayerMaxMeleeAttackRoll/getPlayerMaxRangedAttackRoll/getPlayerMaxMagicAttackRoll (with ordered accuracy-only special cases) + getNPCDefenceRoll (verbatim PlayerVsNPCCalc.ts:147-205: spec defenceStyle overrides kept, magic-vs-def level via USES_DEFENCE_LEVEL_FOR_MAGIC_DEFENCE_NPC_IDS, effectiveLevel=level+9, ranged light/standard/heavy split + mixed=avg, statBonus=bonus+64 (0 if styleless), defenceRoll=trackFactor(effLevel,[statBonus,1]) long, then ToA invocation factor [250+inv,250]; returns long) + helpers (getCombatPrayers, demonbaneFactor via applyDemonbane, tbowScaling, isBindSpell, getSpellement, getMonsterWeakness). getHitChance/getDisplayHitChance + max-hit/distribution/DPS/TTK/spec methods stubbed -> UnsupportedOperationException (M6 / v0.1.2+). leagues disjuncts dropped (spec §4.2). The 3 maxAttackRoll corpus rows (whip 16060 / bofa 21120 / trident 8690) and the 3 npcDefRoll rows (abyssal demon plain 12096 / +1 DWH 8736 / +50 BGS 7896) assert exactly. |
 | calc/NpcVsPlayerCalc.java | src/lib/NPCVsPlayerCalc.ts | — | not-ported | |
 | calc/HitDist.java | src/lib/HitDist.ts | — | not-ported | getHash via BigInteger; verbatim 0x8F000000 mask |
 | calc/Equipment.java | src/lib/Equipment.ts | 5e313c1 | ported | calculateEquipmentBonusesFromGear + calculateAttackSpeed + ammoApplicability/ammoForRangedWeapons + getCanonicalItem/Equipment (via injected EquipmentRepository); ordered special cases (blowpipe dart, Crystal blessing, Tumeken's ×3/×4 cap 1000, Keris penalty, Dinh's bulwark, Virtus, Void mage, Dizana's quiver); all leagues-talent branches dropped (model has no leagues, spec §4.2) |
 | calc/Comparator.java | src/lib/Comparator.ts | — | not-ported | uses lodash.mergewith |
-| calc/MonsterScaling.java | src/lib/MonsterScaling.ts | — | not-ported | |
+| calc/MonsterScaling.java | src/lib/MonsterScaling.ts | 5e313c1 | partial: defence reductions; raid stat-scaling deferred | scaleMonster order-of-operations shell; only the applyDefenceReductions transform is ported. The raid party/HP/level stat-scaling transforms (applyCoxScaling/applyTobScaling/applyToaScaling/applyVardScaling/applyMonsterPhases) are stubbed with TODO(later) markers (deferred to the raid-encounters phase). NB the ToA *defence* invocation factor is applied inline in PlayerVsNpcCalc.getNPCDefenceRoll, not here. scaleMonsterHpOnly stubbed (Vardorvis HP-scaling deferred). Wired into the BaseCalc constructor (replacing the M2 identity stub), guarded by !disableMonsterScaling; baseMonster stays unscaled. |
 | calc/CalcDetails.java | src/lib/CalcDetails.ts | — | not-ported | |
 | calc/CalcMath.java | src/lib/Math.ts | 5e313c1 | ported | iSqrt, iLerp, MinMax, Factor |
-| calc/Constants.java | src/lib/constants.ts | 5e313c1 | partial | scalars + BLOWPIPE_IDS, AUTOCAST/CAST_STANCES, TOMBS_OF_AMASCUT_(PATH_)MONSTER_IDS (ported with the Equipment consumer), YAMA_IDS/YAMA_VOID_FLARE_IDS + IMMUNE_TO_BURN_DAMAGE_NPC_IDS (ported with the BaseCalc consumer), P2_WARDEN_IDS_SET + KEPHRI_OVERLORD_IDS_SET + TITAN_BOSS_IDS (ported with the PlayerVsNpcCalc attack-roll consumer); remaining ID arrays deferred to later v0.1.1 milestones |
+| calc/Constants.java | src/lib/constants.ts | 5e313c1 | partial | scalars + BLOWPIPE_IDS, AUTOCAST/CAST_STANCES, TOMBS_OF_AMASCUT_(PATH_)MONSTER_IDS (ported with the Equipment consumer), YAMA_IDS/YAMA_VOID_FLARE_IDS + IMMUNE_TO_BURN_DAMAGE_NPC_IDS (ported with the BaseCalc consumer), P2_WARDEN_IDS_SET + KEPHRI_OVERLORD_IDS_SET + TITAN_BOSS_IDS (ported with the PlayerVsNpcCalc attack-roll consumer); USES_DEFENCE_LEVEL_FOR_MAGIC_DEFENCE_NPC_IDS (ICE_DEMON + VERZIK + FRAGMENT_OF_SEREN + baboon brawler + prifddinas rabbit) ported with getNPCDefenceRoll; VERZIK_IDS/VARDORVIS_IDS/SOTETSEG_IDS/NIGHTMARE_IDS/NEX_IDS/ARAXXOR_IDS/HUEYCOATL_IDS + AKKHA/BABA/KEPHRI/ZEBAK/TOA_OBELISK/P3_WARDEN _SET ported with DefenceReduction.getDefenceFloor; remaining ID arrays deferred to later v0.1.1 milestones |
 | calc/data/EquipmentAliases.java | src/lib/EquipmentAliases.ts | 5e313c1 | ported | flat {variant:base} map; canonical(id)=getOrDefault(id,id) (O(1) equiv of getCanonicalItemId) |
 | calc/data/EquipmentRepository.java | src/lib/Equipment.ts:202-226 | 5e313c1 | ported | fromBundled(Gson) indexes equipment.json by id (putIfAbsent guards dup id 32640); canonicalId + resolve (canonical→literal→empty); loads all 5306 rows |
 | calc/data/SlotMapping.java | §6.4 (slot strings + 2H rule) | 5e313c1 | ported | Slot enum {HEAD,CAPE,NECK,AMMO,WEAPON,BODY,SHIELD,LEGS,HANDS,FEET,RING}; fromWeirdgloop(String); occupies(slot,2H)→{WEAPON,SHIELD} for 2H weapon else slot |
@@ -26,7 +26,7 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/scaling/ChambersOfXericScaling.java | src/lib/scaling/ChambersOfXeric.ts | — | not-ported | |
 | calc/scaling/TheatreOfBloodScaling.java | src/lib/scaling/TheatreOfBlood.ts | — | not-ported | |
 | calc/scaling/TombsOfAmascutScaling.java | src/lib/scaling/TombsOfAmascut.ts | — | not-ported | |
-| calc/scaling/DefenceReduction.java | src/lib/scaling/DefenceReduction.ts | — | not-ported | |
+| calc/scaling/DefenceReduction.java | src/lib/scaling/DefenceReduction.ts | 5e313c1 | ported | applyDefenceReductions (verbatim order: accursed/vulnerability, elderMaul, dwh, arclight, emberlight, tonalztic, seercull, bgs cascading def->str->atk->magic->ranged, ayak) + getDefenceFloor; integer-truncating; the per-skill def floor honoured. Guards a null inputs/defenceReductions block (unassembled bundled rows) as identity. |
 | calc/scaling/Phases.java | src/lib/scaling/Phases.ts | — | not-ported | |
 | calc/scaling/VardorvisScaling.java | src/lib/scaling/Vardorvis.ts | — | not-ported | |
 | calc/support/D3.java | (d3-array sum/max/min/some/range/cross) | 5e313c1 | ported | match left-to-right summation order |
@@ -43,7 +43,7 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/types/Spell.java | src/types/Spell.ts | 5e313c1 | ported | Spell @Value (max_hit) + Spellbook + Spellement |
 | calc/types/Player model | src/types/Player.ts | 5e313c1 | ported | PlayerSkills(+mining/herblore)/PlayerBonuses(ranged_str,magic_str)/PlayerOffensive/PlayerDefensive/EquipmentStats/ItemVars/EquipmentPiece(inlined stats)/PlayerEquipment/Buffs(no potions)/Player |
 | calc/types/Monster model | src/types/Monster.ts + src/lib/Monsters.ts:32-58 | 5e313c1 | ported | Monster(is_slayer_monster, maxHit UI-only)/MonsterSkills/MonsterOffensive(magic_str,ranged_str)/MonsterDefensive(flat_armour,light/standard/heavy)/MonsterInputs.initial()=INITIAL_MONSTER_INPUTS/DefenceReductions/MonsterPrayers/Weakness/Immunities |
-| (test) parity harness | src/tests/calc/* (transcribed) | 5e313c1 | ported | CorpusRow/PortState + ScenarioPlayer (corpus row -> calc Player+Monster, mirrors getTestPlayer) + ParityCorpusTest (computes+asserts ported rows at §5.3 tolerance, skips un-ported) + PortStatusTest gate; corpus seeded with 9 rows; at v0.1.1 the PlayerVsNpcCalc.accuracy path is ported so the 3 maxAttackRoll rows assert exactly, the 6 maxHit rows skip |
+| (test) parity harness | src/tests/calc/* (transcribed) | 5e313c1 | ported | CorpusRow/PortState + ScenarioPlayer (corpus row -> calc Player+Monster, mirrors getTestPlayer) + ParityCorpusTest (computes+asserts ported rows at §5.3 tolerance, skips un-ported) + PortStatusTest gate; corpus seeded with 12 rows; at v0.1.1 the PlayerVsNpcCalc.accuracy + PlayerVsNpcCalc.defenceRoll paths are ported so the 3 maxAttackRoll rows + 3 npcDefRoll rows assert exactly, the 6 maxHit rows skip. ScenarioPlayer + CorpusRow extended so a row may carry an optional monster.inputs block (ToA invocation level + defence reductions; defaults to MonsterInputs.initial() when absent) |
 
 ## Parity corpus harness (v0.1.0)
 
@@ -59,12 +59,14 @@ upstream's Jest tests** (`tools/upstream/src/tests/calc/`):
 `tools/gen-reference-corpus.ts` validates `tools/scenarios/*.json` and writes
 them (sorted by name) to `src/test/resources/parity/parity-corpus.json`.
 `src/test/resources/parity/port-state.json` is the machine-readable companion to
-this file. At **v0.1.1** the `PlayerVsNpcCalc.accuracy` path (player attack rolls)
-is ported, so `ScenarioPlayer` builds each `accuracy` row into a calc-ready
-Player+Monster and `ParityCorpusTest` asserts its `maxAttackRoll` exactly: the 3
-attack-roll rows RUN and PASS (whip 16060, BOFA 21120, trident 8690); the 6
+this file. At **v0.1.1** the `PlayerVsNpcCalc.accuracy` (player attack rolls) and
+`PlayerVsNpcCalc.defenceRoll` (getNPCDefenceRoll + defence reductions) paths are
+ported, so `ScenarioPlayer` builds each such row into a calc-ready Player+Monster
+and `ParityCorpusTest` asserts its integer output exactly: the 3 attack-roll rows
+RUN and PASS (whip 16060, BOFA 21120, trident 8690) and the 3 defence-roll rows
+RUN and PASS (abyssal demon plain 12096, +1 DWH 8736, +50 BGS 7896); the 6
 `maxHit` rows still SKIP (their `maxMeleeHit`/`maxMagicHit` paths are
-`not-ported`). `PortStatusTest` locks that exactly 3 rows run and 6 skip. The
+`not-ported`). `PortStatusTest` locks that exactly 6 rows run and 6 skip. The
 remaining `*Calc` / `HitDist` / `scaling/*` / `dists/*` paths are still
 `not-ported`. Automated generation from the live upstream calc remains deferred
 (requires stubbing weirdgloop's PNG/asset imports, per `tools/README.md`).

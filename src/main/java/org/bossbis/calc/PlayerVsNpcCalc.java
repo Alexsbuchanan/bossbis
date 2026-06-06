@@ -102,6 +102,158 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		static final String PLAYER_ACCURACY_SPELLEMENT_BONUS = "Attack roll (spellement bonus)";
 		static final String PLAYER_DEMONBANE_FACTOR = "Demonbane factor";
 		static final String MAX_HIT_DRAGONHUNTER = "Max hit (dragon hunter)";
+
+		static final String NPC_DEFENCE_ROLL_LEVEL = "NPC defence roll (level)";
+		static final String NPC_DEFENCE_ROLL_EFFECTIVE_LEVEL = "NPC defence roll (effective level)";
+		static final String NPC_DEFENCE_STAT_BONUS = "NPC defence roll (stat bonus)";
+		static final String NPC_DEFENCE_ROLL_BASE = "NPC defence roll (base)";
+		static final String NPC_DEFENCE_ROLL_TOA = "NPC defence roll (toa)";
+		static final String NPC_DEFENCE_ROLL_FINAL = "NPC defence roll";
+	}
+
+	// =================================================================================================
+	// NPC defence roll
+	// =================================================================================================
+
+	/**
+	 * Port of {@code getNPCDefenceRoll} (PlayerVsNPCCalc.ts:147-205). Computes the monster's defence
+	 * roll against the player's current combat style.
+	 *
+	 * <p>Returns {@code long}: the roll uses long intermediates ({@link #trackFactorLong}) per the
+	 * {@code trackFactor} contract — the ToA invocation factor can push the product past 32 bits.
+	 *
+	 * <p>The {@code opts.overrides.defenceRoll} short-circuit is dropped (no overrides in this model).
+	 * The {@code usingSpecialAttack} defence-style overrides are ported verbatim (cheap and faithful),
+	 * though {@code usingSpecialAttack} defaults to {@code false} in v0.1.1.
+	 */
+	public long getNPCDefenceRoll()
+	{
+		String defenceStyle = styleType();
+		if (opts.usingSpecialAttack)
+		{
+			if (wearing(
+				"Dragon claws",
+				"Dragon dagger",
+				"Dragon halberd",
+				"Dragon longsword",
+				"Dragon scimitar",
+				"Crystal halberd",
+				"Abyssal dagger",
+				"Saradomin sword",
+				"Arkan blade") || isWearingGodsword())
+			{
+				defenceStyle = CombatStyle.SLASH;
+			}
+			else if (wearing("Arclight", "Emberlight", "Dragon sword"))
+			{
+				defenceStyle = CombatStyle.STAB;
+			}
+			else if (wearing("Voidwaker", "Saradomin's blessed sword"))
+			{
+				// doesn't really matter for voidwaker since it's 100% accuracy but eh
+				defenceStyle = CombatStyle.MAGIC;
+			}
+			else if (wearing("Dragon mace"))
+			{
+				defenceStyle = CombatStyle.CRUSH;
+			}
+		}
+
+		int level = track(DetailKey.NPC_DEFENCE_ROLL_LEVEL,
+			CombatStyle.MAGIC.equals(defenceStyle)
+				&& !Constants.USES_DEFENCE_LEVEL_FOR_MAGIC_DEFENCE_NPC_IDS.contains(monster.getId())
+				? monster.getSkills().getMagic()
+				: monster.getSkills().getDef());
+		int effectiveLevel = trackAdd(DetailKey.NPC_DEFENCE_ROLL_EFFECTIVE_LEVEL, level, 9);
+
+		int bonus;
+		if (CombatStyle.RANGED.equals(defenceStyle))
+		{
+			EquipmentPiece weapon = player.getEquipment().getWeapon();
+			String rangedType = CombatStyle.getRangedDamageType(weapon == null ? null : weapon.getCategory());
+			if (CombatStyle.MIXED.equals(rangedType))
+			{
+				bonus = (monster.getDefensive().getLight()
+					+ monster.getDefensive().getStandard()
+					+ monster.getDefensive().getHeavy()) / 3;
+			}
+			else
+			{
+				bonus = monsterRangedDefensiveFor(rangedType);
+			}
+		}
+		else
+		{
+			bonus = monsterDefensiveFor(defenceStyle != null ? defenceStyle : CombatStyle.CRUSH);
+		}
+
+		int statBonus = trackAdd(DetailKey.NPC_DEFENCE_STAT_BONUS, defenceStyle != null ? bonus : 0, 64);
+		long defenceRoll = trackFactorLong(DetailKey.NPC_DEFENCE_ROLL_BASE, effectiveLevel, statBonus, 1);
+
+		boolean isCustomMonster = monster.getId() == -1;
+
+		if (((Constants.TOMBS_OF_AMASCUT_MONSTER_IDS.contains(monster.getId())
+				&& !Constants.KEPHRI_OVERLORD_IDS_SET.contains(monster.getId())) || isCustomMonster)
+			&& toaInvocationLevel() != 0)
+		{
+			defenceRoll = trackFactorLong(DetailKey.NPC_DEFENCE_ROLL_TOA, defenceRoll,
+				250 + toaInvocationLevel(), 250);
+		}
+
+		return track(DetailKey.NPC_DEFENCE_ROLL_FINAL, defenceRoll);
+	}
+
+	/** Long-intermediate {@code trackFactor} for the defence roll (the ToA factor can exceed 32 bits). */
+	private long trackFactorLong(String label, long base, int n, int d)
+	{
+		return track(label, base * n / d);
+	}
+
+	/** Reads {@code monster.defensive[style]} for a melee/magic style (the ranged split is handled inline). */
+	private int monsterDefensiveFor(String style)
+	{
+		if (style == null)
+		{
+			return 0;
+		}
+		switch (style)
+		{
+			case CombatStyle.STAB:
+				return monster.getDefensive().getStab();
+			case CombatStyle.SLASH:
+				return monster.getDefensive().getSlash();
+			case CombatStyle.CRUSH:
+				return monster.getDefensive().getCrush();
+			case CombatStyle.MAGIC:
+				return monster.getDefensive().getMagic();
+			default:
+				return 0;
+		}
+	}
+
+	/** Reads {@code monster.defensive[rangedType]} for a ranged damage subtype (light/standard/heavy). */
+	private int monsterRangedDefensiveFor(String rangedType)
+	{
+		if (rangedType == null)
+		{
+			return 0;
+		}
+		switch (rangedType)
+		{
+			case CombatStyle.LIGHT:
+				return monster.getDefensive().getLight();
+			case CombatStyle.STANDARD:
+				return monster.getDefensive().getStandard();
+			case CombatStyle.HEAVY:
+				return monster.getDefensive().getHeavy();
+			default:
+				return 0;
+		}
+	}
+
+	private int toaInvocationLevel()
+	{
+		return monster.getInputs() == null ? 0 : monster.getInputs().getToaInvocationLevel();
 	}
 
 	// =================================================================================================
@@ -808,11 +960,6 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 	// =================================================================================================
 
 	private static final String NOT_PORTED = "not ported until v0.1.2+";
-
-	public int getNPCDefenceRoll()
-	{
-		throw new UnsupportedOperationException(NOT_PORTED);
-	}
 
 	public double getHitChance()
 	{

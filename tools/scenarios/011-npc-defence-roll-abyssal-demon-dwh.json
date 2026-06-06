@@ -1,0 +1,22 @@
+{
+  "name": "npc-defence-roll-abyssal-demon-dwh",
+  "source": "DefenceRolls.test.ts 'Abyssal demon' base + 1x DWH defence reduction (applyDefenceReductions: def 135 -> trunc(135*3/10)=40 -> 95; npcDefRoll=(95+9)*(20+64)=8736)",
+  "exercises": ["PlayerVsNpcCalc.defenceRoll"],
+  "inputs": {
+    "player": {
+      "skills": {"atk":99,"str":99,"def":99,"hp":99,"ranged":99,"magic":99,"prayer":99,"mining":99,"herblore":99},
+      "prayers": [],
+      "style": {"name":"Punch","type":"crush","stance":"Accurate"},
+      "equipment": {}
+    },
+    "monster": {
+      "id": 415,
+      "version": "Standard",
+      "inputs": {
+        "defenceReductions": {"dwh": 1}
+      }
+    }
+  },
+  "expected": {"npcDefRoll":8736},
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}
