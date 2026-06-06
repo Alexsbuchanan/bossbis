@@ -70,6 +70,9 @@ public final class Constants
 	/** Port of KEPHRI_OVERLORD_IDS (constants.ts) — used by getNPCDefenceRoll's ToA invocation guard. */
 	public static final Set<Integer> KEPHRI_OVERLORD_IDS_SET = setOf(KEPHRI_OVERLORD_IDS);
 
+	/** Port of TOA_WARDEN_CORE_EJECTED_IDS (constants.ts:57-60) — ToA scaling hp=4500 override. */
+	public static final Set<Integer> TOA_WARDEN_CORE_EJECTED_IDS_SET = setOf(TOA_WARDEN_CORE_EJECTED_IDS);
+
 	// --- USES_DEFENCE_LEVEL_FOR_MAGIC_DEFENCE_NPC_IDS constituents (constants.ts:256-326) ----------
 
 	private static final List<Integer> ICE_DEMON_IDS = idList(7584, 7585);
@@ -102,8 +105,10 @@ public final class Constants
 	/** Port of VARDORVIS_IDS (constants.ts:493). */
 	public static final Set<Integer> VARDORVIS_IDS = setOf(12223, 12224, 12228, 12425, 12426, 13656);
 
+	private static final List<Integer> SOTETSEG_IDS_LIST = idList(8387, 8388, 10867, 10868);
+
 	/** Port of SOTETSEG_IDS (constants.ts). */
-	public static final Set<Integer> SOTETSEG_IDS = setOf(8387, 8388, 10867, 10868);
+	public static final Set<Integer> SOTETSEG_IDS = setOf(SOTETSEG_IDS_LIST);
 
 	/** Port of NIGHTMARE_IDS (constants.ts) — Nightmare + Phosani's. */
 	public static final Set<Integer> NIGHTMARE_IDS = setOf(
@@ -146,6 +151,9 @@ public final class Constants
 
 	/** Port of YAMA_VOID_FLARE_IDS (constants.ts:436). */
 	public static final Set<Integer> YAMA_VOID_FLARE_IDS = setOf(14179);
+
+	/** Port of UNDERWATER_MONSTERS (constants.ts:432-434) — Brine sabre spec gate. */
+	public static final Set<Integer> UNDERWATER_MONSTERS = setOf(7796); // lobstrosity
 
 	// --- Hit-chance guard id sets (constants.ts) — used by getHitChance ----------------------------
 
@@ -261,6 +269,63 @@ public final class Constants
 
 	/** Port of VESPULA_IDS (constants.ts:269-271). */
 	public static final Set<Integer> VESPULA_IDS = setOf(7530, 7531, 7532);
+
+	// --- CoX / ToB stat-scaling id sets (constants.ts; consumed by scaling/*) ------------------------
+
+	private static final List<Integer> VESPULA_IDS_LIST = idList(7530, 7531, 7532);
+	private static final List<Integer> SCAVENGER_BEAST_IDS_LIST = idList(7548, 7549);
+	private static final List<Integer> VESPINE_SOLDIER_IDS_LIST = idList(7538, 7539);
+	private static final List<Integer> DEATHLY_RANGER_IDS_LIST = idList(7559);
+
+	/** Port of OLM_IDS (constants.ts:223-227) — head + melee hand + mage hand. */
+	public static final Set<Integer> OLM_IDS = setOf(
+		OLM_HEAD_IDS_LIST, OLM_MELEE_HAND_IDS_LIST, OLM_MAGE_HAND_IDS_LIST);
+
+	/** Port of COX_MAGIC_IS_DEFENSIVE_IDS (constants.ts:273-281). */
+	public static final Set<Integer> COX_MAGIC_IS_DEFENSIVE_IDS = setOf(
+		DEATHLY_RANGER_IDS_LIST, TEKTON_IDS, ABYSSAL_PORTAL_IDS, VESPULA_IDS_LIST,
+		VESPINE_SOLDIER_IDS_LIST, OLM_MELEE_HAND_IDS_LIST, OLM_MAGE_HAND_IDS_LIST);
+
+	/** Port of COX_USE_SINGLES_SCALING_IDS (constants.ts:283-286). */
+	public static final Set<Integer> COX_USE_SINGLES_SCALING_IDS = setOf(
+		SCAVENGER_BEAST_IDS_LIST, VESPINE_SOLDIER_IDS_LIST);
+
+	/** Port of TOB_MONSTER_IDS (constants.ts:103-129) — Theatre of Blood normal + hard mode (hp scaling). */
+	public static final Set<Integer> TOB_MONSTER_IDS = setOf(
+		VERZIK_P1_IDS,
+		// normal
+		idList(8360, 8361, 8362, 8363, 8364, 8365),  // maiden
+		idList(8366, 8367),                          // maiden crab + blood spawn
+		idList(8359),                                // bloat
+		idList(8342, 8343, 8344, 8345, 8346, 8347, 8348, 8349, 8350, 8351, 8352, 8353), // nylos
+		idList(8355, 8356, 8357),                    // nylo boss
+		SOTETSEG_IDS_LIST,
+		idList(8339, 8340),                          // xarpus
+		idList(8372, 8373, 8374),                    // verzik
+		idList(8376, 8381, 8382, 8383, 8384, 8385),  // verzik web + nylos
+		// hmt
+		idList(10822, 10823, 10824, 10825, 10826, 10827), // maiden
+		idList(10828, 10829),                        // maiden crab + blood spawn
+		idList(10813),                               // bloat
+		idList(10791, 10792, 10793, 10794, 10795, 10796, 10797, 10798, 10799, 10800, 10801, 10802), // nylos
+		idList(10804, 10805, 10806),                 // nylo demi-boss
+		idList(10808, 10809, 10810),                 // nylo boss
+		idList(10770, 10771, 10772),                 // xarpus
+		idList(10850, 10851, 10852),                 // verzik
+		idList(10854, 10858, 10859, 10860, 10861, 10862)); // verzik web + nylos
+
+	/** Port of TOB_EM_MONSTER_IDS (constants.ts:131-145) — Theatre of Blood Entry Mode (hp scaling). */
+	public static final Set<Integer> TOB_EM_MONSTER_IDS = setOf(
+		idList(10814, 10815, 10816, 10817, 10818, 10819), // maiden
+		idList(10820, 10821),                        // maiden crab + blood spawn
+		idList(10812),                               // bloat
+		idList(10774, 10775, 10776,
+			10777, 10778, 10779, 10780, 10781, 10782, 10783, 10784, 10785), // nylos
+		idList(10787, 10788, 10789),                 // nylo boss
+		idList(10864, 10865),                        // sote
+		idList(10767, 10768),                        // xarpus
+		idList(10833, 10834, 10835),                 // verzik
+		idList(10837, 10841, 10842, 10843, 10844, 10845)); // verzik web + nylos
 
 	/** Port of IMMUNE_TO_MELEE_DAMAGE_NPC_IDS (constants.ts:348-355). */
 	public static final Set<Integer> IMMUNE_TO_MELEE_DAMAGE_NPC_IDS = setOf(

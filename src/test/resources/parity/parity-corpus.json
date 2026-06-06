@@ -5080,6 +5080,2677 @@
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
   {
+    "name": "scaling-akkha-inv0-p1",
+    "source": "gen-scaling-sweep.ts: Akkha [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 26219
+        }
+      },
+      "monster": {
+        "id": 11789,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 1
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.9655549767340869,
+      "dps": 8.046291472784057
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-akkha-inv150-p1",
+    "source": "gen-scaling-sweep.ts: Akkha [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 26219
+        }
+      },
+      "monster": {
+        "id": 11789,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 150,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 1
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.9118387140960221,
+      "dps": 7.598655950800186
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-akkha-inv300-p1",
+    "source": "gen-scaling-sweep.ts: Akkha [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 26219
+        }
+      },
+      "monster": {
+        "id": 11789,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 300,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 1
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.8333217849804966,
+      "dps": 6.944348208170805
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-akkha-inv300-p3",
+    "source": "gen-scaling-sweep.ts: Akkha [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 26219
+        }
+      },
+      "monster": {
+        "id": 11789,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 300,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.8333217849804966,
+      "dps": 6.944348208170805
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-akkha-inv300-p4",
+    "source": "gen-scaling-sweep.ts: Akkha [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 26219
+        }
+      },
+      "monster": {
+        "id": 11789,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 300,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 4
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.8333217849804966,
+      "dps": 6.944348208170805
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-akkha-inv300-path3-p2",
+    "source": "gen-scaling-sweep.ts: Akkha [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 26219
+        }
+      },
+      "monster": {
+        "id": 11789,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 300,
+          "toaPathLevel": 3,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 2
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.8333217849804966,
+      "dps": 6.944348208170805
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-akkha-inv500-p8",
+    "source": "gen-scaling-sweep.ts: Akkha [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 26219
+        }
+      },
+      "monster": {
+        "id": 11789,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 500,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 8
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.6964675278913233,
+      "dps": 5.803896065761029
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-baba-inv300-p4",
+    "source": "gen-scaling-sweep.ts: Ba-Ba [] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "RIGOUR"
+        ],
+        "style": {
+          "name": "Rapid",
+          "type": "ranged",
+          "stance": "Rapid"
+        },
+        "equipment": {
+          "head": 27235,
+          "cape": 28951,
+          "neck": 19547,
+          "body": 27238,
+          "legs": 27241,
+          "hands": 26235,
+          "feet": 13237,
+          "ring": 28310,
+          "weapon": 20997,
+          "ammo": 11212
+        }
+      },
+      "monster": {
+        "id": 11778,
+        "version": "",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 300,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 4
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 43,
+      "accuracy": 0.3388918981660605,
+      "dps": 2.431292633054995
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-cox-guardian-p3-mine200",
+    "source": "gen-scaling-sweep.ts: Guardian (Chambers of Xeric) [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Smash",
+          "type": "crush",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 11920
+        }
+      },
+      "monster": {
+        "id": 7569,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 200,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 51,
+      "accuracy": 0.852220633903485,
+      "dps": 7.251351007775268
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-glowing-crystal-p4-cm",
+    "source": "gen-scaling-sweep.ts: Glowing crystal [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "RIGOUR"
+        ],
+        "style": {
+          "name": "Rapid",
+          "type": "ranged",
+          "stance": "Rapid"
+        },
+        "equipment": {
+          "head": 27235,
+          "cape": 28951,
+          "neck": 19547,
+          "body": 27238,
+          "legs": 27241,
+          "hands": 26235,
+          "feet": 13237,
+          "ring": 28310,
+          "weapon": 20997,
+          "ammo": 11212
+        }
+      },
+      "monster": {
+        "id": 7568,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": true,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 4
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 0,
+      "accuracy": 0.9193584667986323,
+      "dps": 0
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-ice-demon-p3-cm",
+    "source": "gen-scaling-sweep.ts: Ice demon [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "AUGURY"
+        ],
+        "style": {
+          "name": "Accurate",
+          "type": "magic",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 21018,
+          "cape": 24236,
+          "neck": 12002,
+          "body": 21021,
+          "legs": 21024,
+          "hands": 19544,
+          "feet": 13235,
+          "ring": 28313,
+          "weapon": 27275
+        }
+      },
+      "monster": {
+        "id": 7584,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": true,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 19,
+      "accuracy": 0.8234078249781893,
+      "dps": 2.6074581124309324
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-kephri-inv300-path4-p2",
+    "source": "gen-scaling-sweep.ts: Kephri [Shielded] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "RIGOUR"
+        ],
+        "style": {
+          "name": "Rapid",
+          "type": "ranged",
+          "stance": "Rapid"
+        },
+        "equipment": {
+          "head": 27235,
+          "cape": 28951,
+          "neck": 19547,
+          "body": 27238,
+          "legs": 27241,
+          "hands": 26235,
+          "feet": 13237,
+          "ring": 28310,
+          "weapon": 20997,
+          "ammo": 11212
+        }
+      },
+      "monster": {
+        "id": 11719,
+        "version": "Shielded",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 300,
+          "toaPathLevel": 4,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 2
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 48,
+      "accuracy": 0.27486249859692446,
+      "dps": 2.2007698016910213
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-maiden-p3",
+    "source": "gen-scaling-sweep.ts: The Maiden of Sugadinti [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Chop",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 22325
+        }
+      },
+      "monster": {
+        "id": 8360,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 73,
+      "accuracy": 0.7651086842012853,
+      "dps": 9.349531066983994
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-maiden-p5",
+    "source": "gen-scaling-sweep.ts: The Maiden of Sugadinti [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Chop",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 22325
+        }
+      },
+      "monster": {
+        "id": 8360,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 5
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 73,
+      "accuracy": 0.7651086842012853,
+      "dps": 9.349531066983994
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-olm-head-p5",
+    "source": "gen-scaling-sweep.ts: Great Olm [Head (Normal)] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "RIGOUR"
+        ],
+        "style": {
+          "name": "Rapid",
+          "type": "ranged",
+          "stance": "Rapid"
+        },
+        "equipment": {
+          "head": 27235,
+          "cape": 28951,
+          "neck": 19547,
+          "body": 27238,
+          "legs": 27241,
+          "hands": 26235,
+          "feet": 13237,
+          "ring": 28310,
+          "weapon": 20997,
+          "ammo": 11212
+        }
+      },
+      "monster": {
+        "id": 7551,
+        "version": "Head (Normal)",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 5
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 76,
+      "accuracy": 0.8301583575594518,
+      "dps": 10.518932954876695
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-scavenger-p1-comb100",
+    "source": "gen-scaling-sweep.ts: Scavenger beast [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Controlled"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 4587
+        }
+      },
+      "monster": {
+        "id": 7548,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 100,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 90,
+          "partySize": 1
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 42,
+      "accuracy": 0.9111249575167101,
+      "dps": 7.981172108479708
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-sotetseg-p4",
+    "source": "gen-scaling-sweep.ts: Sotetseg [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "RIGOUR"
+        ],
+        "style": {
+          "name": "Rapid",
+          "type": "ranged",
+          "stance": "Rapid"
+        },
+        "equipment": {
+          "head": 27235,
+          "cape": 28951,
+          "neck": 19547,
+          "body": 27238,
+          "legs": 27241,
+          "hands": 26235,
+          "feet": 13237,
+          "ring": 28310,
+          "weapon": 20997,
+          "ammo": 11212
+        }
+      },
+      "monster": {
+        "id": 8387,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 4
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 70,
+      "accuracy": 0.5789988893281377,
+      "dps": 6.7577053468063415
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-tekton-p1",
+    "source": "gen-scaling-sweep.ts: Tekton [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 7540,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 1
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 45,
+      "accuracy": 0.3994801891226809,
+      "dps": 2.4991635019993814
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-tekton-p3",
+    "source": "gen-scaling-sweep.ts: Tekton [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 7540,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 45,
+      "accuracy": 0.3921504763455745,
+      "dps": 2.4533085355918782
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-tekton-p3-cm",
+    "source": "gen-scaling-sweep.ts: Tekton [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 7540,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": true,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 45,
+      "accuracy": 0.33007401992141094,
+      "dps": 2.0649558251122087
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-tekton-p5",
+    "source": "gen-scaling-sweep.ts: Tekton [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 7540,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 5
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 45,
+      "accuracy": 0.38508489032223675,
+      "dps": 2.409105956363752
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-tekton-p8-cm",
+    "source": "gen-scaling-sweep.ts: Tekton [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 7540,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": true,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 8
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 45,
+      "accuracy": 0.28401808531551015,
+      "dps": 1.776828118278192
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-vardorvis-hp100",
+    "source": "gen-scaling-sweep.ts: Vardorvis [Awakened] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Hack",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 28338
+        }
+      },
+      "monster": {
+        "id": 12223,
+        "version": "Awakened",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 1,
+          "monsterCurrentHp": 100
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 54,
+      "accuracy": 0.6199308582594318,
+      "dps": 5.58313488105161
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-vardorvis-hp1400",
+    "source": "gen-scaling-sweep.ts: Vardorvis [Awakened] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Hack",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 28338
+        }
+      },
+      "monster": {
+        "id": 12223,
+        "version": "Awakened",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 1,
+          "monsterCurrentHp": 1400
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 54,
+      "accuracy": 0.4654390776291487,
+      "dps": 4.191772541557061
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-vardorvis-hp700",
+    "source": "gen-scaling-sweep.ts: Vardorvis [Awakened] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Hack",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 28338
+        }
+      },
+      "monster": {
+        "id": 12223,
+        "version": "Awakened",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 1,
+          "monsterCurrentHp": 700
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 54,
+      "accuracy": 0.5481887870133775,
+      "dps": 4.937021439405327
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-verzik-p1-p3",
+    "source": "gen-scaling-sweep.ts: Verzik Vitur [Normal mode, Phase 1] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Chop",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 22325
+        }
+      },
+      "monster": {
+        "id": 8369,
+        "version": "Normal mode, Phase 1",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 0,
+          "toaPathLevel": 0,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 30,
+      "accuracy": 0.957193524598799,
+      "dps": 3.8136885959894493
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "scaling-zebak-inv400-p3",
+    "source": "gen-scaling-sweep.ts: Zebak [Normal] scaling (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps",
+      "scaling/MonsterScaling"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "AUGURY"
+        ],
+        "style": {
+          "name": "Accurate",
+          "type": "magic",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 21018,
+          "cape": 24236,
+          "neck": 12002,
+          "body": 21021,
+          "legs": 21024,
+          "hands": 19544,
+          "feet": 13235,
+          "ring": 28313,
+          "weapon": 27275
+        }
+      },
+      "monster": {
+        "id": 11730,
+        "version": "Normal",
+        "inputs": {
+          "isFromCoxCm": false,
+          "toaInvocationLevel": 400,
+          "toaPathLevel": 2,
+          "partyMaxCombatLevel": 126,
+          "partySumMiningLevel": 99,
+          "partyMaxHpLevel": 99,
+          "partySize": 3
+        }
+      }
+    },
+    "expected": {
+      "maxHit": 68,
+      "accuracy": 0.612260445061722,
+      "dps": 6.941909490627351
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-abyssaldagger-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Abyssal dagger spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13265
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 74,
+      "specAccuracy": 0.8135671577390124,
+      "specDps": 0.22520239883910567
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-ags-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Armadyl godsword spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 11802
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 73,
+      "specAccuracy": 0.8969804315615579,
+      "specDps": 0.14300982508074034
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-bgs-graardor",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Bandos godsword spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 11804
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 64,
+      "specAccuracy": 0.6603368700716998,
+      "specDps": 0.0662872432804491
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-bgs-graardor-lightbearer",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Bandos godsword spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 25975,
+          "weapon": 11804
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 62,
+      "specAccuracy": 0.6603368700716998,
+      "specDps": 0.12767099130515405
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-dclaws-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon claws spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13652
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 76,
+      "specAccuracy": 0.6961675624089607,
+      "specDps": 0.09061781104023305
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-dclaws-graardor",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon claws spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13652
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 76,
+      "specAccuracy": 0.24955499285481486,
+      "specDps": 0.03248374156993507
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-ddagger-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon dagger spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Lunge",
+          "type": "stab",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 1215
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 84,
+      "specAccuracy": 0.7558721446444426,
+      "specDps": 0.17767103980771534
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-dlong-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon longsword spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 1305
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 53,
+      "specAccuracy": 0.7587637088733798,
+      "specDps": 0.2177421916069972
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-dmace-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon mace spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pummel",
+          "type": "crush",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 1434
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 60,
+      "specAccuracy": 0.7967952163396936,
+      "specDps": 0.19917604707014952
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-dwh-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon warhammer spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 67,
+      "specAccuracy": 0.7906703117970724,
+      "specDps": 0.11871513666982134
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-dwh-ademon-lightbearer",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon warhammer spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 25975,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 64,
+      "specAccuracy": 0.7906703117970724,
+      "specDps": 0.2268984197793417
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-dwh-graardor",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Dragon warhammer spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 13576
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 67,
+      "specAccuracy": 0.36222328076817006,
+      "specDps": 0.054385988242873086
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-eldermaul-graardor",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Elder maul spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 21003
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 58,
+      "specAccuracy": 0.5315120622019684,
+      "specDps": 0.08258339979934842
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-granitehammer-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Granite hammer spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Pound",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 21742
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 44,
+      "specAccuracy": 0.831934874416537,
+      "specDps": 0.0811270056261721
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-saradominsword-graardor",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Saradomin sword spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 11838
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 64,
+      "specAccuracy": 0.28904154235715895,
+      "specDps": 0.021217790257477376
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-sgs-graardor",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Saradomin godsword spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 11806
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 59,
+      "specAccuracy": 0.6603368700716998,
+      "specDps": 0.0662872432804491
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-voidwaker-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Voidwaker spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 27690
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 67,
+      "specAccuracy": 1,
+      "specDps": 0.1158217097188151
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-voidwaker-graardor",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Voidwaker spec vs General Graardor (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "shield": 22441,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 27690
+        }
+      },
+      "monster": {
+        "id": 2215,
+        "version": ""
+      }
+    },
+    "expected": {
+      "specMaxHit": 67,
+      "specAccuracy": 1,
+      "specDps": 0.04980112295495644
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "spec-zgs-ademon",
+    "spec": true,
+    "source": "gen-spec-sweep.ts: Zamorak godsword spec vs Abyssal demon (weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.spec"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [
+          "PIETY"
+        ],
+        "style": {
+          "name": "Slash",
+          "type": "slash",
+          "stance": "Aggressive"
+        },
+        "equipment": {
+          "head": 26382,
+          "cape": 21289,
+          "neck": 19553,
+          "body": 26384,
+          "legs": 26386,
+          "hands": 22981,
+          "feet": 13239,
+          "ring": 28307,
+          "weapon": 11808
+        }
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "specMaxHit": 59,
+      "specAccuracy": 0.8969804315615579,
+      "specDps": 0.14300982508074034
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
     "name": "sweep-acb-abyssal-demon-rigour-offtask",
     "source": "gen-parity-sweep.ts: Armadyl crossbow + dragon bolts (rapid) vs abyssal-demon [rigour-offtask] (weirdgloop@5e313c1)",
     "exercises": [

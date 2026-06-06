@@ -1,5 +1,5 @@
 {
-  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.5 the NpcVsPlayerCalc.dps path (the full NPC-vs-player / damage-taken calc: getPlayerDefenceRoll + getNPCMaxHit + getNPCMaxAttackRoll + getHitChance + getDistribution + getDps + getAverageDamageTaken) is ported in addition to all the v0.1.4 PlayerVsNpcCalc paths. The kind:\"nvp\" corpus rows assert playerDefRoll/npcMaxHit/npcMaxAttackRoll (integer exact) and npcAccuracy/npcDps/avgDmgTaken (relative <= 1e-9) via NpcVsPlayerCalc; the kind:\"pvn\" (default) rows are unchanged.",
+  "_comment": "Machine-readable companion to PORT_STATE.md, consumed by PortState.java. A calc path is considered ported iff it appears in 'ported' OR its 'paths' entry equals \"ported\". At v0.1.6 the full MonsterScaling raid stat-scaling chain (scaling/MonsterScaling: CoX/ToB/ToA/Vardorvis/phases + defence reductions) and the PlayerVsNpcCalc.spec path (getSpecCalc/getSpecCost/isSpecSupported/getSpecDps + the sanitizeInputs spec-stance reset) are ported, completing the calc. Scaling rows (exercises 'scaling/MonsterScaling') assert the SCALED maxHit/accuracy/dps; spec rows (spec:true, exercises 'PlayerVsNpcCalc.spec') assert specMaxHit (integer exact) and specAccuracy/specDps (relative <= 1e-9) via getSpecCalc()/getSpecDps(). The kind:\"nvp\" rows (NpcVsPlayerCalc.dps) and kind:\"pvn\" rows are unchanged.",
   "ported": [],
   "paths": {
     "PlayerVsNpcCalc.maxMeleeHit": "ported",
@@ -10,6 +10,8 @@
     "PlayerVsNpcCalc.distribution": "ported",
     "PlayerVsNpcCalc.dps": "ported",
     "PlayerVsNpcCalc.ttk": "ported",
-    "NpcVsPlayerCalc.dps": "ported"
+    "PlayerVsNpcCalc.spec": "ported",
+    "NpcVsPlayerCalc.dps": "ported",
+    "scaling/MonsterScaling": "ported"
   }
 }

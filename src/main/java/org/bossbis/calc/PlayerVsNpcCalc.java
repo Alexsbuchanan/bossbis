@@ -1,6 +1,7 @@
 package org.bossbis.calc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.bossbis.calc.CalcMath.MinMax;
 import org.bossbis.calc.HitDist.AttackDistribution;
@@ -14,6 +15,7 @@ import org.bossbis.calc.dists.BoltsDist.BoltContext;
 import org.bossbis.calc.dists.ClawsDist;
 import org.bossbis.calc.data.EquipmentRepository;
 import org.bossbis.calc.data.SpellRepository;
+import org.bossbis.calc.support.Utils.FeatureStatus;
 import org.bossbis.calc.types.Buffs;
 import org.bossbis.calc.types.CombatStyle;
 import org.bossbis.calc.types.EquipmentCategory;
@@ -24,6 +26,7 @@ import org.bossbis.calc.types.MonsterPrayers;
 import org.bossbis.calc.types.Player;
 import org.bossbis.calc.types.Prayer;
 import org.bossbis.calc.types.Prayer.PrayerData;
+import org.bossbis.calc.types.UserIssueType;
 import org.bossbis.calc.types.Spell;
 import org.bossbis.calc.types.Spell.Spellement;
 import org.bossbis.calc.types.Weakness;
@@ -97,7 +100,33 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 	{
 		super(player, monster, opts, equipmentRepository);
 		this.spellRepository = spellRepository;
+
+		// Port of the PlayerVsNPCCalc constructor (PlayerVsNPCCalc.ts:135-141): flag unsupported specs.
+		if (!this.opts.noInit && isSpecSupported() == FeatureStatus.UNIMPLEMENTED)
+		{
+			addIssue(UserIssueType.EQUIPMENT_SPEC_UNSUPPORTED,
+				"This loadout's weapon special attack is not yet supported in the calculator.");
+		}
 	}
+
+	/**
+	 * Port of {@code UNIMPLEMENTED_SPECS} (PlayerVsNPCCalc.ts:100-126) — weapons whose spec is known but
+	 * not implemented (so a loadout using one emits a user issue).
+	 */
+	private static final java.util.Set<String> UNIMPLEMENTED_SPECS = new java.util.HashSet<>(Arrays.asList(
+		"Abyssal tentacle", "Ancient mace", "Armadyl crossbow", "Blue moon spear", "Bone dagger",
+		"Brine sabre", "Darklight", "Dinh's bulwark", "Dorgeshuun crossbow", "Dragon 2h sword",
+		"Dragon crossbow", "Dragon hasta", "Dragon spear", "Dragon thrownaxe", "Eclipse atlatl",
+		"Excalibur", "Granite maul", "Rune claws", "Staff of balance", "Staff of light",
+		"Staff of the dead", "Toxic staff of the dead", "Ursine chainmace", "Zamorakian hasta",
+		"Zamorakian spear"));
+
+	/**
+	 * Port of {@code PARTIALLY_IMPLEMENTED_SPECS} (PlayerVsNPCCalc.ts:93-96) — weapons whose spec is
+	 * partially modeled.
+	 */
+	private static final java.util.Set<String> PARTIALLY_IMPLEMENTED_SPECS = new java.util.HashSet<>(Arrays.asList(
+		"Ancient godsword", "Fang of the hound"));
 
 	/**
 	 * Subset of upstream {@code DetailKey} (src/lib/CalcDetails.ts) used by the ported attack rolls.
@@ -3243,8 +3272,130 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		return getHtk() * getExpectedAttackSpeed() * Constants.SECONDS_PER_TICK;
 	}
 
+	/**
+	 * Port of {@code getSpecCost} (PlayerVsNPCCalc.ts:2650-2657): the special-attack energy cost of the
+	 * equipped weapon, or {@code null} when the weapon has no known/supported spec cost.
+	 */
+	public Integer getSpecCost()
+	{
+		EquipmentPiece weapon = player.getEquipment().getWeapon();
+		String weaponName = weapon == null ? null : weapon.getName();
+		if (weaponName == null)
+		{
+			return null;
+		}
+		return Equipment.WEAPON_SPEC_COSTS.get(weaponName);
+	}
+
+	/**
+	 * Port of {@code isSpecSupported} (PlayerVsNPCCalc.ts:2659-2692): classifies whether the equipped
+	 * weapon's special attack is implemented in the calc.
+	 */
+	public FeatureStatus isSpecSupported()
+	{
+		EquipmentPiece weapon = player.getEquipment().getWeapon();
+		String weaponName = weapon == null ? null : weapon.getName();
+		if (weaponName == null)
+		{
+			return FeatureStatus.NOT_APPLICABLE;
+		}
+
+		if (wearing("Dual macuahuitl") && !isWearingBloodMoonSet())
+		{
+			return FeatureStatus.NOT_APPLICABLE;
+		}
+		if (wearing("Soulreaper axe"))
+		{
+			return player.getBuffs().getSoulreaperStacks() == 0
+				? FeatureStatus.NOT_APPLICABLE
+				: FeatureStatus.IMPLEMENTED;
+		}
+		if (wearing("Brine sabre"))
+		{
+			return Constants.UNDERWATER_MONSTERS.contains(monster.getId())
+				? FeatureStatus.IMPLEMENTED
+				: FeatureStatus.NOT_APPLICABLE;
+		}
+
+		if (PARTIALLY_IMPLEMENTED_SPECS.contains(weaponName))
+		{
+			return FeatureStatus.PARTIALLY_IMPLEMENTED;
+		}
+
+		if (getSpecCost() != null)
+		{
+			return FeatureStatus.IMPLEMENTED;
+		}
+
+		if (UNIMPLEMENTED_SPECS.contains(weaponName))
+		{
+			return FeatureStatus.UNIMPLEMENTED;
+		}
+
+		return FeatureStatus.NOT_APPLICABLE;
+	}
+
+	/**
+	 * Port of {@code getSpecCalc} (PlayerVsNPCCalc.ts:2694-2706): rebuilds a calc from the UNSCALED
+	 * {@code baseMonster} with {@code usingSpecialAttack=true}. Returns {@code null} when the weapon's
+	 * spec is not (partially-)implemented.
+	 */
 	public PlayerVsNpcCalc getSpecCalc()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		switch (isSpecSupported())
+		{
+			case IMPLEMENTED:
+			case PARTIALLY_IMPLEMENTED:
+				CalcOpts specOpts = copyOpts(opts);
+				specOpts.loadoutName = opts.loadoutName + "/spec";
+				specOpts.usingSpecialAttack = true;
+				return new PlayerVsNpcCalc(player, baseMonster, specOpts, equipmentRepository, spellRepository);
+			default:
+				return null;
+		}
+	}
+
+	/** Shallow-copies {@link CalcOpts} (no spread operator in Java) for {@link #getSpecCalc()}. */
+	private static CalcOpts copyOpts(CalcOpts src)
+	{
+		CalcOpts dst = new CalcOpts();
+		dst.loadoutName = src.loadoutName;
+		dst.detailedOutput = src.detailedOutput;
+		dst.disableMonsterScaling = src.disableMonsterScaling;
+		dst.usingSpecialAttack = src.usingSpecialAttack;
+		dst.isBlindBag = src.isBlindBag;
+		dst.blindBagDistance = src.blindBagDistance;
+		dst.blindBagUniques = src.blindBagUniques;
+		dst.isEcho = src.isEcho;
+		dst.noInit = src.noInit;
+		return dst;
+	}
+
+	/**
+	 * Port of {@code getSpecDps} (PlayerVsNPCCalc.ts:2421-2436): the damage-per-second contribution of
+	 * the special attack, accounting for spec-energy regeneration (Lightbearer halves the regen time).
+	 * The Soulreaper-axe path assumes a spec at every stack count.
+	 *
+	 * <p>{@code console.warn} on a missing spec cost is dropped (no UI logger); the {@code 0} return is
+	 * kept.
+	 */
+	public double getSpecDps()
+	{
+		if (wearing("Soulreaper axe"))
+		{
+			// assumes using spec every time you reach the current stack count
+			double ticksPerSpec = (double) getAttackSpeed() * player.getBuffs().getSoulreaperStacks();
+			return getDps() * getExpectedAttackSpeed() / ticksPerSpec;
+		}
+
+		Integer specCost = getSpecCost();
+		if (specCost == null || specCost == 0)
+		{
+			return 0;
+		}
+
+		int ticksToRegen = wearing("Lightbearer") ? 25 : 50;
+		double ticksPerSpec = (double) specCost * ((double) ticksToRegen / 10);
+		return getDps() * getExpectedAttackSpeed() / ticksPerSpec;
 	}
 }

@@ -3,9 +3,11 @@ package org.bossbis.calc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bossbis.calc.support.Utils;
 import org.bossbis.calc.types.BurnImmunity;
 import org.bossbis.calc.types.CombatStyle;
 import org.bossbis.calc.types.DefenceReductions;
+import org.bossbis.calc.types.EquipmentCategory;
 import org.bossbis.calc.types.EquipmentPiece;
 import org.bossbis.calc.types.Monster;
 import org.bossbis.calc.types.MonsterAttribute;
@@ -126,7 +128,7 @@ public abstract strictfp class BaseCalc
 
 		this.player = player;
 		this.baseMonster = monster;
-		// scaleMonster (M5): applies defence reductions (raid stat-scaling deferred — see MonsterScaling).
+		// scaleMonster: applies the full CoX/ToB/ToA/Vardorvis/phases/defence-reduction chain.
 		// baseMonster stays unscaled; `monster` is the scaled view unless scaling is disabled.
 		this.monster = (this.opts.disableMonsterScaling || this.opts.noInit) ? monster : scaleMonster(monster);
 
@@ -139,9 +141,8 @@ public abstract strictfp class BaseCalc
 	}
 
 	/**
-	 * Port of {@code scaleMonster} (BaseCalc.ts:17,95) — delegates to {@link MonsterScaling#scaleMonster}.
-	 * v0.1.1 applies only the defence-reduction transform; raid stat-scaling is deferred (see
-	 * {@link MonsterScaling}).
+	 * Port of {@code scaleMonster} (BaseCalc.ts:17,95) — delegates to {@link MonsterScaling#scaleMonster}
+	 * (the full CoX/ToB/ToA/Vardorvis/phases/defence-reduction chain).
 	 */
 	private static Monster scaleMonster(Monster monster)
 	{
@@ -959,13 +960,24 @@ public abstract strictfp class BaseCalc
 		}
 
 		// specs are never manual cast, although the base loadout can be at the same time
+		// (BaseCalc.ts:742-758)
 		if (opts.usingSpecialAttack)
 		{
-			// TODO(M3): this branch needs getCombatStylesForCategory (deferred to Milestone 3) to reset
-			// the player's style/spell for spec attacks. opts.usingSpecialAttack defaults to false, so
-			// normal v0.1.1 construction never reaches here; spec is out of scope for v0.1.1.
-			throw new UnsupportedOperationException(
-				"not ported: spec-attack stance reset needs getCombatStylesForCategory (M3)");
+			if ("Manual Cast".equals(player.getStyle() == null ? null : player.getStyle().getStance()))
+			{
+				EquipmentCategory cat = eq.getWeapon() == null || eq.getWeapon().getCategory() == null
+					? EquipmentCategory.UNARMED : eq.getWeapon().getCategory();
+				player = withStyleAndSpell(player, Utils.getCombatStylesForCategory(cat).get(0), null);
+			}
+
+			// these staves use a built-in spell for their spec
+			String wname = eq.getWeapon() == null ? null : eq.getWeapon().getName();
+			if ("Accursed sceptre (a)".equals(wname) || "Eldritch nightmare staff".equals(wname)
+				|| "Volatile nightmare staff".equals(wname))
+			{
+				player = withStyleAndSpell(player,
+					Utils.getCombatStylesForCategory(EquipmentCategory.POWERED_STAFF).get(0), null);
+			}
 		}
 
 		// we should do clone-edits here to prevent affecting ui state
@@ -1078,6 +1090,14 @@ public abstract strictfp class BaseCalc
 	{
 		return new Player(
 			p.getName(), p.getStyle(), p.getSkills(), p.getBoosts(), p.getEquipment(), p.getAttackSpeed(),
+			p.getPrayers(), p.getBuffs(), spell,
+			p.getBonuses(), p.getOffensive(), p.getDefensive());
+	}
+
+	private static Player withStyleAndSpell(Player p, CombatStyle.PlayerCombatStyle style, Spell spell)
+	{
+		return new Player(
+			p.getName(), style, p.getSkills(), p.getBoosts(), p.getEquipment(), p.getAttackSpeed(),
 			p.getPrayers(), p.getBuffs(), spell,
 			p.getBonuses(), p.getOffensive(), p.getDefensive());
 	}

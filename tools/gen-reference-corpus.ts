@@ -26,6 +26,8 @@ interface CorpusRow {
   // Discriminator: "pvn" (player-vs-npc, default) or "nvp" (npc-vs-player / damage taken).
   // Selects which calc ParityCorpusTest builds and which expected fields are valid.
   kind?: 'pvn' | 'nvp';
+  // v0.1.6 spec discriminator: assert getSpecCalc()/getSpecDps() rather than the base loadout.
+  spec?: boolean;
   exercises: string[];
   inputs: {
     player: {
@@ -42,6 +44,14 @@ interface CorpusRow {
       // MonsterInputs.initial(). Only the fields a row needs must be present.
       inputs?: {
         toaInvocationLevel?: number;
+        toaPathLevel?: number;
+        partyMaxCombatLevel?: number;
+        partySumMiningLevel?: number;
+        partyMaxHpLevel?: number;
+        partySize?: number;
+        monsterCurrentHp?: number;
+        isFromCoxCm?: boolean;
+        phase?: string | null;
         defenceReductions?: {
           vulnerability?: boolean;
           accursed?: boolean;
@@ -86,13 +96,24 @@ function validate(file: string, row: unknown): CorpusRow {
   }
   const kind = (r.kind as string | undefined) ?? "pvn";
 
+  // Optional spec discriminator (v0.1.6): a spec row asserts the special-attack calc
+  // (getSpecCalc()/getSpecDps()) rather than the base loadout.
+  if (r.spec !== undefined && typeof r.spec !== "boolean") {
+    fail(file, `'spec' must be a boolean when present (got ${JSON.stringify(r.spec)})`);
+  }
+  const isSpec = r.spec === true;
+  if (isSpec && kind === "nvp") {
+    fail(file, "'spec' rows must be kind 'pvn'");
+  }
+
   if (typeof r.expected !== "object" || r.expected === null || Object.keys(r.expected as object).length === 0) {
     fail(file, "'expected' must be a non-empty object");
   }
   // Valid expected field names per kind (catches typos / unmapped fields early).
   const PVN_FIELDS = new Set(["maxAttackRoll", "npcDefRoll", "accuracy", "hitChance", "maxHit", "dps", "ttk"]);
   const NVP_FIELDS = new Set(["playerDefRoll", "npcMaxHit", "npcMaxAttackRoll", "npcAccuracy", "npcDps", "avgDmgTaken"]);
-  const validFields = kind === "nvp" ? NVP_FIELDS : PVN_FIELDS;
+  const SPEC_FIELDS = new Set(["specMaxHit", "specAccuracy", "specDps"]);
+  const validFields = isSpec ? SPEC_FIELDS : (kind === "nvp" ? NVP_FIELDS : PVN_FIELDS);
   for (const [k, v] of Object.entries(r.expected as object)) {
     if (typeof v !== "number" || !Number.isFinite(v)) {
       fail(file, `expected.${k} must be a finite number`);
@@ -118,8 +139,21 @@ function validate(file: string, row: unknown): CorpusRow {
     if (typeof mi !== "object" || mi === null) {
       fail(file, "'inputs.monster.inputs' must be an object when present");
     }
-    if (mi.toaInvocationLevel !== undefined && (typeof mi.toaInvocationLevel !== "number" || !Number.isInteger(mi.toaInvocationLevel))) {
-      fail(file, "'monster.inputs.toaInvocationLevel' must be an integer");
+    // Integer-valued per-encounter inputs (ToA invocation/path + CoX/ToB party scaling + currentHp).
+    const intInputKeys = [
+      "toaInvocationLevel", "toaPathLevel", "partyMaxCombatLevel", "partySumMiningLevel",
+      "partyMaxHpLevel", "partySize", "monsterCurrentHp",
+    ];
+    for (const k of intInputKeys) {
+      if (mi[k] !== undefined && (typeof mi[k] !== "number" || !Number.isInteger(mi[k]))) {
+        fail(file, `'monster.inputs.${k}' must be an integer`);
+      }
+    }
+    if (mi.isFromCoxCm !== undefined && typeof mi.isFromCoxCm !== "boolean") {
+      fail(file, "'monster.inputs.isFromCoxCm' must be a boolean");
+    }
+    if (mi.phase !== undefined && mi.phase !== null && typeof mi.phase !== "string") {
+      fail(file, "'monster.inputs.phase' must be a string or null");
     }
     if (mi.defenceReductions !== undefined) {
       const dr = mi.defenceReductions as Record<string, unknown>;

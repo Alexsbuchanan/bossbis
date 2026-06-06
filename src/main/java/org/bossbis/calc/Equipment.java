@@ -108,6 +108,81 @@ public final class Equipment
 	 */
 	private static final Map<Integer, List<Integer>> AMMO_FOR_RANGED_WEAPONS = buildAmmoForRangedWeapons();
 
+	/**
+	 * Port of {@code WEAPON_SPEC_COSTS} (Equipment.ts:480-543) — canonical weapon name &rarr; special
+	 * attack energy cost (percent). A weapon absent from this map has no supported/known spec cost.
+	 */
+	public static final Map<String, Integer> WEAPON_SPEC_COSTS = buildWeaponSpecCosts();
+
+	private static Map<String, Integer> buildWeaponSpecCosts()
+	{
+		Map<String, Integer> m = new HashMap<>();
+		m.put("Abyssal dagger", 25);
+		m.put("Dragon dagger", 25);
+		m.put("Dragon longsword", 25);
+		m.put("Dragon mace", 25);
+		m.put("Osmumten's fang", 25);
+		m.put("Osmumten's fang (or)", 25);
+		m.put("Dual macuahuitl", 25);
+		m.put("Scorching bow", 25);
+		m.put("Dragon knife", 25);
+		m.put("Purging staff", 25);
+		m.put("Rosewood blowpipe", 25);
+
+		m.put("Dawnbringer", 30);
+		m.put("Dragon halberd", 30);
+		m.put("Crystal halberd", 30);
+		m.put("Burning claws", 30);
+		m.put("Arkan blade", 30);
+
+		m.put("Magic longbow", 35);
+		m.put("Magic comp bow", 35);
+
+		m.put("Dragon sword", 40);
+
+		m.put("Elder maul", 50);
+		m.put("Dragon warhammer", 50);
+		m.put("Bandos godsword", 50);
+		m.put("Saradomin godsword", 50);
+		m.put("Accursed sceptre", 50);
+		m.put("Accursed sceptre (a)", 50);
+		m.put("Arclight", 50);
+		m.put("Emberlight", 50);
+		m.put("Tonalztics of ralos", 50);
+		m.put("Dragon claws", 50);
+		m.put("Voidwaker", 50);
+		m.put("Toxic blowpipe", 50);
+		m.put("Blazing blowpipe", 50);
+		m.put("Webweaver bow", 50);
+		m.put("Magic shortbow (i)", 50);
+		m.put("Ancient godsword", 50);
+		m.put("Armadyl godsword", 50);
+		m.put("Zamorak godsword", 50);
+		m.put("Abyssal bludgeon", 50);
+		m.put("Abyssal whip", 50);
+		m.put("Barrelchest anchor", 50);
+		m.put("Eye of ayak", 50);
+
+		m.put("Magic shortbow", 55);
+		m.put("Dark bow", 55);
+		m.put("Eldritch nightmare staff", 55);
+		m.put("Volatile nightmare staff", 55);
+		m.put("Dragon scimitar", 55);
+
+		m.put("Granite hammer", 60);
+
+		m.put("Heavy ballista", 65);
+		m.put("Light ballista", 65);
+		m.put("Saradomin's blessed sword", 65);
+
+		m.put("Brine sabre", 75);
+		m.put("Zaryte crossbow", 75);
+
+		m.put("Saradomin sword", 100);
+		m.put("Seercull", 100);
+		return Collections.unmodifiableMap(m);
+	}
+
 	private static Map<Integer, List<Integer>> buildAmmoForRangedWeapons()
 	{
 		Map<String, List<Integer>> c = commonAmmoCategories();

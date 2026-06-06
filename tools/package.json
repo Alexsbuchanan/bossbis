@@ -7,7 +7,9 @@
   "scripts": {
     "gen-corpus": "tsx gen-reference-corpus.ts",
     "gen-sweep": "node run-with-upstream.mjs gen-parity-sweep.ts",
-    "gen-nvp-sweep": "node run-with-upstream.mjs gen-nvp-sweep.ts"
+    "gen-nvp-sweep": "node run-with-upstream.mjs gen-nvp-sweep.ts",
+    "gen-scaling-sweep": "node run-with-upstream.mjs gen-scaling-sweep.ts",
+    "gen-spec-sweep": "node run-with-upstream.mjs gen-spec-sweep.ts"
   },
   "devDependencies": {
     "@types/d3-array": "^3.2.2",
