@@ -1,0 +1,17 @@
+{
+  "name": "fire-bolt-chaos-gauntlets-tome-of-fire",
+  "source": "GeneratedTests.test.ts: \"Fire bolt with chaos gauntlets and tome of fire\"",
+  "exercises": ["PlayerVsNpcCalc.maxMagicHit"],
+  "inputs": {
+    "player": {
+      "skills": {"atk":99,"str":99,"def":99,"hp":99,"ranged":99,"magic":112,"prayer":99,"mining":99,"herblore":99},
+      "prayers": [],
+      "spell": "Fire Bolt",
+      "style": {"name":"Spell","type":"magic","stance":"Autocast"},
+      "equipment": {"head":21018,"cape":21780,"neck":12002,"weapon":11791,"body":21021,"shield":20714,"legs":21024,"hands":777,"feet":13235,"ring":28313}
+    },
+    "monster": {"id":415,"version":"Standard"}
+  },
+  "expected": {"maxHit":22},
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

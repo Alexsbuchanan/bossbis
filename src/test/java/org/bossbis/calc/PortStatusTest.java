@@ -34,7 +34,7 @@ class PortStatusTest
 	 * (maxMagicHit) rows (2 seeded + 2 Milestone-2 coverage). The blisterwood row needs the distribution
 	 * pipeline for its vampyre bonus and so skips until v0.1.4.
 	 */
-	private static final long PORTED_ROWS = 19;
+	private static final long PORTED_ROWS = 21;
 
 	@Test
 	void onlyThePortedRowsRunTheRestSkip()
