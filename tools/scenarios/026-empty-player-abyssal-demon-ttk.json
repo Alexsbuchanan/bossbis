@@ -1,0 +1,16 @@
+{
+  "name": "empty-player-abyssal-demon-ttk",
+  "source": "CombatCalc.test.ts \"Empty player against abyssal demon\" (dps 0.677, maxHit 11, acc 29.10%); ttk computed via the same getTtk() pipeline (tools/probe-dps.ts against weirdgloop@5e313c1)",
+  "exercises": ["PlayerVsNpcCalc.ttk"],
+  "inputs": {
+    "player": {
+      "skills": {"atk":99,"str":99,"def":99,"hp":99,"ranged":99,"magic":99,"prayer":99,"mining":99,"herblore":99},
+      "prayers": [],
+      "style": {"name":"Punch","type":"crush","stance":"Accurate"},
+      "equipment": {}
+    },
+    "monster": {"id":415, "version":"Standard"}
+  },
+  "expected": {"ttk":226.43749569655577},
+  "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+}

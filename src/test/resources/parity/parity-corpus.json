@@ -39,6 +39,45 @@
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
   {
+    "name": "basic-magic-trident-l99-dps",
+    "source": "CombatCalc.test.ts-style basic-magic Trident of the seas L99 vs Abyssal demon (Catacombs of Kourend); dps computed via the same getDps() pipeline (tools/probe-dps.ts against weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Accurate",
+          "type": "magic",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "weapon": 11905
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "dps": 5.6317177103543505
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
     "name": "basic-melee-whip-l99-accuracy",
     "source": "BasicRolls.test.ts: melee \"L99 accuracy\" (Abyssal whip, maxAttackRoll)",
     "exercises": [
@@ -78,6 +117,45 @@
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
   {
+    "name": "basic-melee-whip-l99-dps",
+    "source": "CombatCalc.test.ts-style basic-melee whip L99 vs Abyssal demon (Catacombs of Kourend); dps computed via the same getDps() pipeline (tools/probe-dps.ts against weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Flick",
+          "type": "slash",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "weapon": 4151
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "dps": 3.1272565012556295
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
     "name": "basic-ranged-bofa-l99-accuracy",
     "source": "BasicRolls.test.ts: ranged \"L99 accuracy\" (Bow of faerdhinen, maxAttackRoll)",
     "exercises": [
@@ -113,6 +191,45 @@
     },
     "expected": {
       "maxAttackRoll": 21120
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "basic-ranged-bofa-l99-dps",
+    "source": "CombatCalc.test.ts-style basic-ranged bow-of-faerdhinen (c) L99 vs Abyssal demon (Catacombs of Kourend); dps computed via the same getDps() pipeline (tools/probe-dps.ts against weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.dps"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Accurate",
+          "type": "ranged",
+          "stance": "Accurate"
+        },
+        "equipment": {
+          "weapon": 25865
+        }
+      },
+      "monster": {
+        "id": 7241,
+        "version": "Catacombs of Kourend"
+      }
+    },
+    "expected": {
+      "dps": 3.4570080330792416
     },
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },
@@ -422,6 +539,43 @@
     },
     "expected": {
       "accuracy": 0.29098123501694634
+    },
+    "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
+  },
+  {
+    "name": "empty-player-abyssal-demon-ttk",
+    "source": "CombatCalc.test.ts \"Empty player against abyssal demon\" (dps 0.677, maxHit 11, acc 29.10%); ttk computed via the same getTtk() pipeline (tools/probe-dps.ts against weirdgloop@5e313c1)",
+    "exercises": [
+      "PlayerVsNpcCalc.ttk"
+    ],
+    "inputs": {
+      "player": {
+        "skills": {
+          "atk": 99,
+          "str": 99,
+          "def": 99,
+          "hp": 99,
+          "ranged": 99,
+          "magic": 99,
+          "prayer": 99,
+          "mining": 99,
+          "herblore": 99
+        },
+        "prayers": [],
+        "style": {
+          "name": "Punch",
+          "type": "crush",
+          "stance": "Accurate"
+        },
+        "equipment": {}
+      },
+      "monster": {
+        "id": 415,
+        "version": "Standard"
+      }
+    },
+    "expected": {
+      "ttk": 226.43749569655577
     },
     "weirdgloopCommit": "5e313c1b6cfba51d11a98c612243570a84772f44"
   },

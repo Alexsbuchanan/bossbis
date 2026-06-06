@@ -2383,6 +2383,47 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		return new Equipment(equipmentRepository).calculateAttackSpeed(player, monster);
 	}
 
+	/**
+	 * Port of {@code getExpectedAttackSpeed} (PlayerVsNPCCalc.ts:2324-2342). The expected (mean) ticks
+	 * between attacks; differs from {@link #getAttackSpeed()} only for effects that probabilistically (or
+	 * conditionally) shorten the delay: the Blood moon set (Dual macuahuitl proc), the Tormented Demon
+	 * unshielded bonus, and the Eye of ayak spec.
+	 *
+	 * <p>Returns {@code double} (the Blood-moon branch subtracts a fractional proc chance).
+	 */
+	public double getExpectedAttackSpeed()
+	{
+		if (isWearingBloodMoonSet())
+		{
+			double acc = getHitChance();
+			double procChance = opts.usingSpecialAttack
+				? 1 - Math.pow(1 - acc, 2) // always if hit
+				: (acc / 3) + ((acc * acc) * 2 / 9); // 1/3 per hit;
+			return getAttackSpeed() - procChance;
+		}
+
+		if (tdUnshieldedBonusApplies())
+		{
+			return getAttackSpeed() - 1;
+		}
+
+		if (opts.usingSpecialAttack && wearing("Eye of ayak"))
+		{
+			return 5;
+		}
+
+		return getAttackSpeed();
+	}
+
+	/**
+	 * Port of {@code getDpt} (PlayerVsNPCCalc.ts:2347-2349): the expected damage per tick, based on the
+	 * player's (expected) attack speed.
+	 */
+	public double getDpt()
+	{
+		return getExpectedDamage() / getExpectedAttackSpeed();
+	}
+
 	// --- distribution helpers ---------------------------------------------------------------------
 
 	private MonsterPrayers monsterPrayers()
@@ -3138,14 +3179,68 @@ public strictfp class PlayerVsNpcCalc extends BaseCalc
 		return spell != null && spell.getElement() == Spellement.FIRE;
 	}
 
+	/**
+	 * Port of {@code getDps} (PlayerVsNPCCalc.ts:2354-2356): damage-per-second = {@link #getDpt()}
+	 * divided by {@link Constants#SECONDS_PER_TICK}.
+	 */
 	public double getDps()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		return getDpt() / Constants.SECONDS_PER_TICK;
 	}
 
+	/**
+	 * Port of {@code getHtk} (PlayerVsNPCCalc.ts:2385-2412): the average hits-to-kill, computed by the
+	 * order-dependent recurrence
+	 * {@code htk[hp] = (1 + Σ_{hit=1..min(hp,max)} hist[hit] * htk[hp-hit]) / (1 - hist[0])}, folded
+	 * forward from {@code hp = 1} to {@code startHp = monster.inputs.monsterCurrentHp}.
+	 *
+	 * <p>{@code hist} is {@link AttackDistribution#asHistogram()} (damage -> probability, indexed
+	 * 0..max); {@code hist[0]} is the miss/zero-damage probability. The division by
+	 * {@code (1 - hist[0])} replicates the upstream recurrence exactly (it accounts for the geometric
+	 * "retry on a zero" series).
+	 */
+	public double getHtk()
+	{
+		AttackDistribution dist = getDistribution();
+		List<HitDist.ChartEntry> hist = dist.asHistogram();
+		if (hist.isEmpty())
+		{
+			throw new IllegalStateException("empty hist1");
+		}
+		int startHp = currentHp();
+		int max = Math.min(startHp, dist.getMax());
+		if (max == 0)
+		{
+			return 0;
+		}
+
+		double[] htk = new double[startHp + 1]; // 0 hits left to do if hp = 0
+
+		for (int hp = 1; hp <= startHp; hp++)
+		{
+			double val = 1.0; // takes at least one hit
+			for (int hit = 1; hit <= Math.min(hp, max); hit++)
+			{
+				if (hit < hist.size())
+				{
+					double p = hist.get(hit).value;
+					val += p * htk[hp - hit];
+				}
+			}
+
+			htk[hp] = val / (1 - hist.get(0).value);
+		}
+
+		return htk[startHp];
+	}
+
+	/**
+	 * Port of {@code getTtk} (PlayerVsNPCCalc.ts:2417-2419): the average time-to-kill (seconds) =
+	 * {@link #getHtk()} {@code * getExpectedAttackSpeed() * SECONDS_PER_TICK}.
+	 */
 	public double getTtk()
 	{
-		throw new UnsupportedOperationException(NOT_PORTED);
+		return getHtk() * getExpectedAttackSpeed() * Constants.SECONDS_PER_TICK;
 	}
 
 	public PlayerVsNpcCalc getSpecCalc()
