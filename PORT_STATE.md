@@ -15,7 +15,7 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/MonsterScaling.java | src/lib/MonsterScaling.ts | — | not-ported | |
 | calc/CalcDetails.java | src/lib/CalcDetails.ts | — | not-ported | |
 | calc/CalcMath.java | src/lib/Math.ts | 5e313c1 | ported | iSqrt, iLerp, MinMax, Factor |
-| calc/Constants.java | src/lib/constants.ts | — | not-ported | monster-ID arrays, epsilons |
+| calc/Constants.java | src/lib/constants.ts | 5e313c1 | partial | scalars only; ID arrays deferred to v0.1.1 |
 | calc/EquipmentAliases.java | src/lib/EquipmentAliases.ts | — | not-ported | |
 | calc/dists/ClawsDist.java | src/lib/dists/claws.ts | — | not-ported | |
 | calc/dists/BoltsDist.java | src/lib/dists/bolts.ts | — | not-ported | |
