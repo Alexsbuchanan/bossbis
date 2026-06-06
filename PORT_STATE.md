@@ -35,6 +35,8 @@ Tracks which TypeScript sources from `weirdgloop/osrs-dps-calc` are ported to Ja
 | calc/types/MonsterAttribute.java | src/enums/MonsterAttribute.ts | 5e313c1 | ported | string-valued (16 members incl. vampyre1/2/3) + fromValue + isVampyre |
 | calc/types/BurnImmunity.java | src/types/Monster.ts:9-13 | 5e313c1 | ported | string-valued (Weak/Normal/Strong) + fromValue |
 | calc/types/UserIssueType.java | src/enums/UserIssueType.ts | 5e313c1 | ported | string-valued (12 members) + fromValue |
+| calc/types/CombatStyle.java | src/types/PlayerCombatStyle.ts | 5e313c1 | ported | PlayerCombatStyle + CombatStyleType/Stance (nullable strings) + getRangedDamageType |
+| calc/types/Spell.java | src/types/Spell.ts | 5e313c1 | ported | Spell @Value (max_hit) + Spellbook + Spellement |
 
 ## Status values
 - `not-ported` — no Java equivalent yet.
